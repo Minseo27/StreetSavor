@@ -10,8 +10,8 @@ import { NavigationContainer } from "@react-navigation/native";
 //create a stack navigator
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from '@react-navigation/stack';
-import AccessApp from '../components/home/continue/AccessApp'
-
+import AccessApp from '../components/home/continue/AccessApp';
+import LoginView from '../components/home/login/LoginView';
 
 // Creating Navigator
 const Stack = createNativeStackNavigator()
@@ -36,7 +36,7 @@ function App() {
     return ( 
 
 
-        <SafeAreaView style = { {flex:1 , backgroundColor : '#FAFAFC '} }>
+        <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
 
         <NavigationContainer independent={true} >
 
@@ -47,7 +47,7 @@ function App() {
                 // Initial Screen is the Greeting Page
                     options = { {
                         //Background color # F2F2F2
-                        headerStyle: {backgroundColor: 'white'},
+                        headerStyle: {backgroundColor: '#efcb4e'},
                         // Removing the Shadow
                         headerShadowVisible: false, 
                         headerTitle:"",
@@ -57,11 +57,21 @@ function App() {
                
                 <Stack.Screen name='AppAccess' component={AccessApp} 
                     options = { {
-                        headerStyle:{backgroundColor:'#F2F2F2'},
+                        headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible: false,
                         headerTitle:'',
+                        headerTintColor: 'black'
                     }
                     }                
+                />
+
+                <Stack.Screen name='LoginView' component={LoginView}
+                    options = {{
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible: false,
+                        headerTitle:'',
+                        headerTintColor: 'black'
+                    }}
                 />
 
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}

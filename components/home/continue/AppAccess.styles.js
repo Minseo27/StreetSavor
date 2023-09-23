@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
    // Button IOS
    button: {
     //backgroundColor: '#007AFF', // Button background color switch
-    backgroundColor:'#4B95E7',
+    backgroundColor:'black',
     borderRadius: 10, // Button border radius
-    paddingVertical: 12, // Vertical padding
+    paddingVertical: 15, // Vertical padding
     paddingHorizontal: 40, // Horizontal padding
     borderWidth: 1, // Button border width
     borderColor: 'white', // Button border color (iOS blue) Switch
-    width:415,
+    width:350,
     // Width:200
     //justifyContent:'center'
     alignSelf:'center'
@@ -103,14 +103,17 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      backgroundColor: '#efcb4e',
     },
     welcomemessage: {
       fontSize: 50,
       fontWeight: 'bold',
       marginBottom: 20,
       textAlign: 'center',
-      marginTop: 250
+      marginTop: 250,
+      
     },
 });
 
 export default styles;
+

@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet} from 'react-native';
 import { TouchableOpacity} from 'react-native';
@@ -13,18 +12,16 @@ const AppAcccess = ({navigation}) => {
 
     return (
 
-        <View styles = {styles.container}> 
+        <View style = {styles.container}> 
 
             <Text style={styles.welcomeMessage}>
                 How would you like to use Street Savor? 
             </Text>
             <View style = {styles.buttonContainer}>
 
-
-            
             <TouchableOpacity style={styles.button} 
                 onPress = { () => {
-                    navigation.navigate('HomeMapScreen', {name:'HomeMapScreen'})
+                    navigation.navigate('LoginView', {name:'LoginView'})
                 } }>
                 <Text style= {styles.buttonText}>I am a Customer</Text>
 
@@ -32,11 +29,11 @@ const AppAcccess = ({navigation}) => {
         
 
             <View  style = {styles.buttonContainerRight}>
-            <TouchableOpacity style = {styles.button} 
+            <TouchableOpacity style = {[styles.button, { marginTop: 15 }]} 
                 onPress ={ () => {
                     navigation.navigate('Initial', {name: 'Initial'})
                 }}>
-                        <Text style = {styles.buttonText}> I am a vendor</Text>
+                        <Text style = {styles.buttonText}> I am a Vendor</Text>
 
             </TouchableOpacity>
 
@@ -53,5 +50,3 @@ const AppAcccess = ({navigation}) => {
 
 
 export default AppAcccess;
-
-
