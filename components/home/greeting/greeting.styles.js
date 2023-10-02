@@ -41,18 +41,21 @@ const styles = StyleSheet.create({
 
   // Button IOS
     button: {
-      backgroundColor: '#007AFF', // Button background color switch
-      borderRadius: 20, // Button border radius
-      paddingVertical: 12, // Vertical padding
+      backgroundColor: 'black', // Button background color switch
+      borderRadius: 10, // Button border radius
+      paddingVertical: 15, // Vertical padding
       paddingHorizontal: 40, // Horizontal padding
       borderWidth: 1, // Button border width
       borderColor: 'white', // Button border color (iOS blue) Switch
-      width:300
+      width:250,
+      height: 65,
+      justifyContent: 'center'
     },
     text: {
-      fontSize: 16, // Button text size
+      fontSize: 20, // Button text size
       color: '#007AFF', // Button text color (iOS blue)
       textAlign: 'center', // Text alignment
+      fontFamily: FONT.bold
     },
     
     // changing margin from the top of whatver is above
@@ -60,23 +63,26 @@ const styles = StyleSheet.create({
         marginTop:200
     },
     buttonText:{
-        fontSize:16,
+        fontSize:20,
         color:'white',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily: FONT.bold
     },
 
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:'white'
+        backgroundColor: '#efcb4e',
+        width: '100%'
       },
       welcomemessage: {
-        fontSize: 70,
+        fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
-        marginTop: 180
+        marginTop: 180,
+        fontStyle: 'italic'
       }    
 
 
