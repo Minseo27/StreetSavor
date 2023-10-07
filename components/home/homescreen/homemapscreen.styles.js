@@ -5,9 +5,7 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SIZES } from "../../../constants";
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
+ 
   userName: {
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
@@ -23,23 +21,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginTop: SIZES.large,
+    borderRadius: SIZES.medium,
     height: 50,
+    zIndex:1,
+    position:'absolute',   
   },
   searchWrapper: {
-    flex: 1,
-    backgroundColor: COLORS.white,
+    //position:'absolute',
+
+    borderColor:'black',
+    width:'89%',
+    backgroundColor:'white',
     marginRight: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
     height: "100%",
+    zIndex: 1,
+    opacity:0.8,
+    borderColor:'black',
+    borderWidth:2
   },
   searchInput: {
     fontFamily: FONT.regular,
     width: "100%",
     height: 30,
     paddingHorizontal: SIZES.medium,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingLeft: 10,
   },
   searchBtn: {
     width: 50,
@@ -57,7 +67,16 @@ const styles = StyleSheet.create({
   tabsContainer: {
     width: "100%",
     marginTop: SIZES.medium,
-  }
+  },
+  container: {
+    flex:1,
+    flexDirection:'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#efcb4e',
+    width:'100%'
+
+  },
 });
 
 export default styles;

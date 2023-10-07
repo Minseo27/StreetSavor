@@ -76,9 +76,10 @@ function App() {
 
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
                     options ={ {
-                        headerStyle:{backgroundColor:'#F2F2F2'},
+                        headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle:''
+                        headerTitle:'',
+                        headerTintColor:'black'
                     }}
                 />
 

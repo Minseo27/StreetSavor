@@ -31,7 +31,7 @@ const AppAcccess = ({navigation}) => {
             <View  style = {styles.buttonContainerRight}>
             <TouchableOpacity style = {[styles.button, { marginTop: 15 }]} 
                 onPress ={ () => {
-                    navigation.navigate('Initial', {name: 'Initial'})
+                    navigation.navigate('HomeMapScreen', {name: 'HomeMapScreen'})
                 }}>
                         <Text style = {styles.buttonText}> I am a Vendor</Text>
 
