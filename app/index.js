@@ -3,8 +3,6 @@ import { StyleSheet } from '@bacons/react-views';
 import GreetingPage from '../components/home/greeting/GreetingPage';
 import { View, Text, SafeAreaView } from 'react-native';
 import { useRouter } from 'expo-router';
-
-
 //tell React that we will implement a navigator
 import { NavigationContainer } from "@react-navigation/native";
 //create a stack navigator
@@ -12,6 +10,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from '@react-navigation/stack';
 import AccessApp from '../components/home/continue/AccessApp';
 import LoginView from '../components/home/login/LoginView';
+import SignupView from '../components/home/signup/SignupView';
+import firebase from '@react-native-firebase/app';
+import '@react-native-firebase/auth';
+
 
 // Creating Navigator
 const Stack = createNativeStackNavigator()
@@ -66,6 +68,15 @@ function App() {
                 />
 
                 <Stack.Screen name='LoginView' component={LoginView}
+                    options = {{
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible: false,
+                        headerTitle:'',
+                        headerTintColor: 'black'
+                    }}
+                />
+
+                <Stack.Screen name='SignupView' component={SignupView}
                     options = {{
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible: false,

@@ -2,10 +2,24 @@ import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TextInput} fro
 import React, { useState } from 'react';
 import { TouchableOpacity} from 'react-native';
 import styles from './loginView.styles';
+import auth from '@react-native-firebase/auth';
 
 const LoginView = ({navigation}) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    handleLogin = () => {
+        auth()
+     .signInWithEmailAndPassword(email, password)
+     .then(() => navigation.navigate('HomeMapScreen', {name:'HomeMapScreen'}))
+     .catch(error => {
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+    
+        console.error(error);
+      });
+    }
 
     return (
 
@@ -17,24 +31,29 @@ const LoginView = ({navigation}) => {
         <View>    
             <TextInput
                 style={[styles.input, {marginTop:30}]}
-                placeholder="Username"
-                onChangeText={(text) => setUsername(text)}/>
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter email address"
+                autoCapitalize="none"/>
             <TextInput
                 style={[styles.input, {marginTop:10}]}
-                placeholder="Password"
-                secureTextEntry
-                onChangeText={(text) => setPassword(text)}/>
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Enter password"
+                autoCapitalize="none"
+                secureTextEntry/>
 
             <TouchableOpacity style={[styles.button, {marginTop:20}]}
-                onPress = { () => {
-                    navigation.navigate('LoginView', {name:'LoginView'})
-                } }>
+                onPress={handleLogin}>
                 <Text style= {styles.buttonText}>Login</Text>
             </TouchableOpacity>
             
             <View style={[styles.textContainer, {marginTop:20}]}>
             <Text style={styles.text}>Don't have an account? </Text>
-            <Text style={styles.text2}> Sign Up</Text>
+            <TouchableOpacity
+                onPress = { () => navigation.navigate('SignupView', {name:'SignupView'}) }>
+                <Text style= {styles.text2}>Sign Up</Text>
+            </TouchableOpacity>
             </View>
         </View>
         </View>
