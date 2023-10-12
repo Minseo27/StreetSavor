@@ -5,7 +5,9 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
     ],
     "name": "CapstoneProj",
     "slug": "CapstoneProj",
