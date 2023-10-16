@@ -27,6 +27,7 @@ const HomeMapScreen =  ({navigation}) => {
             />  
             </View> 
 
+            <
         </View>
 
 

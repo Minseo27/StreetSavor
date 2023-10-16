@@ -58,6 +58,9 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: SIZES.medium,
   }
+  mapProperty: {
+    
+  }
 });
 
 export default styles;
