@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet} from 'react-native';
+import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, Alert, Pressable, TouchableOpacity } from 'react-native';
 import { useRouter , Stack} from 'expo-router';
 
 import { COLORS, SIZES, } from '../constants';
-import { Alert, Pressable, TouchableOpacity } from 'react-native';
 import  GreetingPage  from '../components/home/greeting/GreetingPage.jsx'
 
 

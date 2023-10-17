@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet} from 'react-native';
-import { TouchableOpacity} from 'react-native';
+import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import GreetingPage from '../greeting/GreetingPage';
 import { NavigationActions } from 'react-navigation';

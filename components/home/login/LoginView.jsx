@@ -1,6 +1,5 @@
-import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TextInput} from 'react-native';
+import { View, Text, ScrollView, Button, SafeAreaView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { TouchableOpacity} from 'react-native';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
 

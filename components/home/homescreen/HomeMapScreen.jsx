@@ -1,7 +1,6 @@
 
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
-import  {TextInput, TouchableOpacity}  from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import styles from './homemapscreen.styles';
 import Image from 'react-native';
