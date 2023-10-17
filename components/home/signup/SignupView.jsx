@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity} from 'react-native';
 import styles from './signupView.styles';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const SignupView = ({navigation}) => {
     const [username, setUsername] = useState('');
@@ -10,12 +11,28 @@ const SignupView = ({navigation}) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
-
     handleSignUp = () => {
+        const userData = {
+            name: username,
+            email: email,
+            password: password,
+        }
         auth()
   .createUserWithEmailAndPassword(email, password)
-  .then(() => {
+  .then((userCredential) => {
+    const user = userCredential.user;
     console.log('User account created & signed in!');
+
+    firestore()
+    .collection('Users')
+    .doc(user.uid)
+    .set(userData)
+    .then(() => {
+        console.log('User data stored in Firestore.');
+    })
+    .catch((error) => {
+        console.error('Error storing user data in Firestore: ', error);
+    });
   })
   .catch(error => {
     if (error.code === 'auth/email-already-in-use') {
