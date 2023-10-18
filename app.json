@@ -13,6 +13,9 @@
     "slug": "CapstoneProj",
     "ios": {
       "bundleIdentifier": "com.capstone.streetsavor"
+    },
+    "android": {
+      "package": "com.capstone.streetsavor"
     }
   }
 }
