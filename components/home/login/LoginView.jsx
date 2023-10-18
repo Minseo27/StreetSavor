@@ -7,6 +7,22 @@ const LoginView = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+<<<<<<< Updated upstream
+=======
+    handleLogin = () => {
+        auth()
+     .signInWithEmailAndPassword(email, password)
+     .then(() => navigation.navigate('TabScreen', {name:'TabScreen'}))
+     .catch(error => {
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+    
+        console.error(error);
+      });
+    }
+
+>>>>>>> Stashed changes
     return (
 
         <View style = {styles.container}> 

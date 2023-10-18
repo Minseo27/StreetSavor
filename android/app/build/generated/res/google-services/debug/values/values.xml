@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">109136530915</string>
+    <string name="google_api_key" translatable="false">AIzaSyDjvkLU1O6C3X3B3hykel4srHD1_vixf-o</string>
+    <string name="google_app_id" translatable="false">1:109136530915:android:4a324cb641317a0b37a4d6</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDjvkLU1O6C3X3B3hykel4srHD1_vixf-o</string>
+    <string name="google_storage_bucket" translatable="false">streetsavor-c90a7.appspot.com</string>
+    <string name="project_id" translatable="false">streetsavor-c90a7</string>
+</resources>
