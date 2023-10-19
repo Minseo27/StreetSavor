@@ -8,6 +8,9 @@
       "expo-router"
     ],
     "name": "CapstoneProj",
-    "slug": "CapstoneProj"
+    "slug": "CapstoneProj",
+    "android": {
+      "package": "com.capstone.streetsavor"
+    }
   }
 }

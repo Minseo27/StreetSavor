@@ -23,23 +23,34 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginTop: SIZES.large,
+    marginTop: SIZES.medium,
     height: 50,
+    zIndex:1,
+    position:'absolute'
   },
   searchWrapper: {
-    flex: 1,
-    backgroundColor: COLORS.white,
+
+    borderColor:'black',
+    width:'89%',
+    backgroundColor:'white',
     marginRight: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
     height: "100%",
+    zIndex: 1,
+    opacity:0.8,
+    borderColor:'black',
+    borderWidth:2
   },
   searchInput: {
     fontFamily: FONT.regular,
     width: "100%",
     height: 30,
     paddingHorizontal: SIZES.medium,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingLeft: 10,
   },
   searchBtn: {
     width: 50,
@@ -57,7 +68,7 @@ const styles = StyleSheet.create({
   tabsContainer: {
     width: "100%",
     marginTop: SIZES.medium,
-  }
+  },
   mapProperty: {
     
   }

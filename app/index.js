@@ -21,6 +21,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
 import TabScreen from '../components/home/homescreen/TabScreen';
+import { SIZES } from '../constants';
 
 const Example = ( ) =>   {
     return (
@@ -76,9 +77,14 @@ function App() {
 
                 <Stack.Screen name='TabScreen' component={TabScreen}
                     options ={ {
-                        headerStyle:{backgroundColor:'#F2F2F2'},
+                        headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle:''
+                        headerTitle:'Street Savor',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                            fontSize: SIZES.large,
+                        },
+                        headerTitleAlign: 'center',
                     }}
                 />
 
