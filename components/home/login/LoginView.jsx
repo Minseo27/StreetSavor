@@ -7,8 +7,6 @@ const LoginView = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-<<<<<<< Updated upstream
-=======
     handleLogin = () => {
         auth()
      .signInWithEmailAndPassword(email, password)
@@ -22,7 +20,6 @@ const LoginView = ({navigation}) => {
       });
     }
 
->>>>>>> Stashed changes
     return (
 
         <View style = {styles.container}> 

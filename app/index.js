@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator()
 import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
-import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
+import TabScreen from '../components/home/homescreen/TabScreen';
 
 const Example = ( ) =>   {
     return (
@@ -74,7 +74,7 @@ function App() {
                     }}
                 />
 
-                <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
+                <Stack.Screen name='TabScreen' component={TabScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#F2F2F2'},
                         headerShadowVisible:false,

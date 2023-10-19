@@ -4,7 +4,7 @@ import { TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import GreetingPage from '../greeting/GreetingPage';
 import { NavigationActions } from 'react-navigation';
-import HomeMapScreen from '../homescreen/HomeMapScreen';
+import TabScreen from '../homescreen/TabScreen';
 import styles from './AppAccess.styles';
 
 // Page to change access type                    
