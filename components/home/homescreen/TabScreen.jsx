@@ -13,6 +13,7 @@ import { Component } from 'react/cjs/react.production.min';
 // Imports
 import MapView from 'react-native-maps';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { Vendor,vendor_list,VendorItem } from '../../../database_components/vars';
 
 const Tab = createBottomTabNavigator();
 
