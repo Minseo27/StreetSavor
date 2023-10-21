@@ -10,6 +10,11 @@
     "name": "CapstoneProj",
     "slug": "CapstoneProj",
     "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDjvkLU1O6C3X3B3hykel4srHD1_vixf-o"
+        }
+      },
       "package": "com.capstone.streetsavor"
     }
   }

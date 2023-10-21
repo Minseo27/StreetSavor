@@ -22,6 +22,7 @@ function MapScreen() {
             <MapView
             //Hunter College Coordinates
                 style={{ flex: 1 }}
+                provider='google'
                 initialRegion={{
                 latitude:  40.7861,
                 longitude: -73.9543,
