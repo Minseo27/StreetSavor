@@ -21,6 +21,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
 import TabScreen from '../components/home/homescreen/TabScreen';
+import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 
 const Example = ( ) =>   {
@@ -79,7 +80,7 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle:'Street Savor',
+                        headerTitle: 'Street Savor',
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,
@@ -88,9 +89,18 @@ function App() {
                     }}
                 />
 
-               
-           
-        
+                <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
+                    options ={ {
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible:false,
+                        headerTitle: 'Street Savor',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                            fontSize: SIZES.large,
+                        },
+                        headerTitleAlign: 'center',
+                    }}
+                />
 
                 
             </Stack.Navigator>
