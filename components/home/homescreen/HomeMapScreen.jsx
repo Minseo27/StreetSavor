@@ -11,9 +11,16 @@ import { Component } from 'react/cjs/react.production.min';
 import { useEffect } from 'react';
 //import Geolocation from 'react-native-geolocation-service';
 // Imports
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 import { useState } from 'react';
 import { Alert } from 'react-native';
+
+//import { SIZES } from '../../../constants';
+//import Map, {Popup} from 'react-map-gl';
+//import images from './assets/images/location-pin.png'
+//assets/images/location-pin.png
+
+
 
 const HomeMapScreen = ({navigation}) => {
     const [name, setName] = useState('');
@@ -48,9 +55,8 @@ const HomeMapScreen = ({navigation}) => {
       useEffect(() => {
         requestLocationPermission();
       }, []);
-      
 
-      
+
     return (
     <View style = {{flex:1, backgroundColor: '#efcb4e'} }>
         <MapView
@@ -63,8 +69,16 @@ const HomeMapScreen = ({navigation}) => {
             longitudeDelta: 0.02,
             }}
         > 
-        </MapView>
 
+        <Marker
+
+          coordinate={{ latitude: 40.7861, longitude: -73.9543 }}
+          //icon={require('./location-pin.png')}
+          //icon={('constants/location-pin.png')}
+          />
+        
+        </MapView>
+        
         <View style = {styles.searchContainer}>
             <View style = {styles.searchWrapper}>
                 <TextInput
@@ -73,18 +87,25 @@ const HomeMapScreen = ({navigation}) => {
                 onChange = { setName }
                 placeholder= "What are you looking for?"
                 placeholderTextColor="#888"
+            
             />  
             </View>
-        
-        </View>
 
+            
+    
+        </View>
+       
+       
         
+        <View style={styles.searchContainer}>
+            <Image source = {require('./location-pin.png')} />
+            
+        </View>        
+      
     </View>
 
-    
    
     )
-
 
 };
 export default HomeMapScreen;
