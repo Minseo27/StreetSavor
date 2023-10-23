@@ -4,7 +4,7 @@ import { TouchableOpacity} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import GreetingPage from '../greeting/GreetingPage';
 import { NavigationActions } from 'react-navigation';
-import TabScreen from '../homescreen/TabScreen';
+import HomeMapScreen from '../homescreen/HomeMapScreen';
 import styles from './AppAccess.styles';
 
 // Page to change access type                    
@@ -31,7 +31,7 @@ const AppAcccess = ({navigation}) => {
             <View  style = {styles.buttonContainerRight}>
             <TouchableOpacity style = {[styles.button, { marginTop: 15 }]} 
                 onPress ={ () => {
-                    navigation.navigate('TabScreen', {name: 'TabScreen'})
+                    navigation.navigate('HomeMapScreen', {name: 'HomeMapScreen'})
                 }}>
                         <Text style = {styles.buttonText}> I am a Vendor</Text>
 

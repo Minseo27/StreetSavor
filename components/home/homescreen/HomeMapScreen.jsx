@@ -87,7 +87,7 @@ function AccountPage () {
     );
 }
 
-const TabScreen = ({navigation}) => {
+const HomeMapScreen = ({navigation}) => {
     return (
         <Tab.Navigator initialRouteName='Map' options={{flex: 1,}}>
             <Tab.Screen name='Map' component={MapScreen} options={{headerShown: false}}/>
@@ -99,4 +99,4 @@ const TabScreen = ({navigation}) => {
 
 
 
-export default TabScreen;
+export default HomeMapScreen;

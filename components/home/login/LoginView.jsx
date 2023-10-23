@@ -10,7 +10,7 @@ const LoginView = ({navigation}) => {
     handleLogin = () => {
         auth()
      .signInWithEmailAndPassword(email, password)
-     .then(() => navigation.navigate('TabScreen', {name:'TabScreen'}))
+     .then(() => navigation.navigate('HomeMapScreen', {name:'HomeMapScreen'}))
      .catch(error => {
         if (error.code === 'auth/invalid-email') {
           console.log('That email address is invalid!');
