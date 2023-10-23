@@ -18,16 +18,15 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   searchContainer: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent:"center",
+    alignItems:"center",
     flexDirection: "row",
-    borderRadius: SIZES.medium,
+    marginTop: SIZES.medium,
     height: 50,
     zIndex:1,
-    position:'absolute',   
+    position:'absolute'
   },
   searchWrapper: {
-    //position:'absolute',
 
     borderColor:'black',
     width:'89%',
