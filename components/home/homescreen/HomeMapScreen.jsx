@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import MapView from 'react-native-maps';
 import { useState } from 'react';
 import { Alert } from 'react-native';
-
+/*
 const HomeMapScreen = ({navigation}) => {
     const [name, setName] = useState('');
     const [setLocation] = useState(false)
@@ -85,6 +85,7 @@ const HomeMapScreen = ({navigation}) => {
     
    
     )
+    */
 //import { MapsComponent } from '@syncfusion/ej2-react-maps';
 //import Geolocation from '@react-native-community/geolocation';
 // Imports
@@ -175,5 +176,5 @@ const HomeMapScreen = ({navigation}) => {
 
 
 
-};
+
 export default HomeMapScreen;
