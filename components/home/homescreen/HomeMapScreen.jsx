@@ -9,8 +9,8 @@ import { SIZES } from '../../../constants'
 import Input from 'postcss/lib/input';
 import { Component } from 'react/cjs/react.production.min';
 import { useEffect } from 'react';
-//import Geolocation from 'react-native-geolocation-service';
-// Imports
+import Geolocation from 'react-native-geolocation-service';
+
 import MapView from 'react-native-maps';
 import { useState } from 'react';
 import { Alert } from 'react-native';
