@@ -24,7 +24,9 @@ const Stack = createNativeStackNavigator()
 import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
-import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
+import HomeMapScreen from '../components/home/homescreen/TabScreen';
+import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
+import { SIZES } from '../constants';
 
 const Example = ( ) =>   {
     return (
@@ -110,14 +112,27 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle:'',
-                        headerTintColor:'black'
+                        headerTitle: 'Street Savor',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                            fontSize: SIZES.large,
+                        },
+                        headerTitleAlign: 'center',
                     }}
                 />
 
-               
-           
-        
+                <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
+                    options ={ {
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible:false,
+                        headerTitle: 'Street Savor',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                            fontSize: SIZES.large,
+                        },
+                        headerTitleAlign: 'center',
+                    }}
+                />
 
                 
             </Stack.Navigator>
