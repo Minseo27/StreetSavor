@@ -1520,7 +1520,7 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
-<<<<<<< HEAD
+
   RCTRequired: c0569ecc035894e4a68baecb30fe6a7ea6e399f9
   RCTTypeSafety: e90354072c21236e0bcf1699011e39acd25fea2f
   React: a1be3c6dc0a6e949ccd3e659781aa47bbae1868f
@@ -1529,11 +1529,7 @@ SPEC CHECKSUMS:
   React-Core: 34da8c952844e21f5a69bf46438fb6bf063900d0
   React-CoreModules: 621243df8863055ff30f3bb2ff71573ffa7b16c8
   React-cxxreact: 4ad1cc861e32fb533dad6ff7a4ea25680fa1c994
-<<<<<<< HEAD
-  React-debug: dd81a33d11e49d6353d7fcc981695c9a1aa48397
-=======
   React-debug: b1459fc66ed34ef91a33024ffa17b573c19a5e9e
->>>>>>> f9ac396 (Changes)
   React-hermes: 37377d0a56aa0cf55c65248271866ce3268cde3f
   React-jsi: 6de8b0ccc6b765b58e4eee9ee38049dbeaf5c221
   React-jsiexecutor: c7f826e40fa9cab5d37cab6130b1af237332b594
@@ -1543,11 +1539,7 @@ SPEC CHECKSUMS:
   react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-maps: f699e0753c22c4d5c3a44d03895b193a4dbca6c2
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
-<<<<<<< HEAD
-  React-NativeModulesApple: 54b7364b8e299070cfd49b7b161707f3c75938ce
-=======
   React-NativeModulesApple: 91f7a2c3b12999e41da43cdfe123a2f7d4876d0e
->>>>>>> f9ac396 (Changes)
   React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
   React-RCTActionSheet: 02904b932b50e680f4e26e7a686b33ebf7ef3c00
   React-RCTAnimation: e44fe5053708c5be762943087c78dc5a6a3c645c
@@ -1561,16 +1553,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: 35eec7201c8ffdaccdd908a5ec874b7055f975f3
   React-rncore: 46133d523155fc84572338bd6a7c461c1d873efc
   React-runtimeexecutor: d465ba0c47ef3ed8281143f59605cacc2244d5c7
-<<<<<<< HEAD
-  React-runtimescheduler: c9f3dbc253728a1f3cc335b450a7ccdcc0b29828
-  React-utils: 2ce81469f6ea43015405d3d325dfffccaac23b33
-  ReactCommon: b706aaa0c95eecc00f4c516ddf70024cde4421e8
-=======
   React-runtimescheduler: 99c9b73737876afcabaa71a0a66e861477c6837d
   React-utils: 1c1814fd909083c20682bf52934e8928d73372ef
   ReactCommon: bc80c4fb26101338a7d248f880d8b633e2b831e2
->>>>>>> f9ac396 (Changes)
-=======
   RCTRequired: 28469809442eb4eb5528462705f7d852948c8a74
   RCTTypeSafety: e9c6c409fca2cc584e5b086862d562540cb38d29
   React: 769f469909b18edfe934f0539fffb319c4c61043
@@ -1604,7 +1589,6 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 76eb364c37e6c20845cfe0cb049f883021bdfccf
   React-utils: 1dc03e6e55f56388b6fdde3768a66c885bacb627
   ReactCommon: cfe086d2e2ec9f2907c66666c856082608fba822
->>>>>>> origin/Android
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
