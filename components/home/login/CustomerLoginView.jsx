@@ -15,7 +15,7 @@ const CustomerLoginView = ({ navigation }) => {
     }
 
     try {
-      const userCredential = await auth().signInWithEmailAndPassword(email, password);
+      await auth().signInWithEmailAndPassword(email, password);
       
       navigation.navigate('HomeMapScreen', { name: 'HomeMapScreen' });
     } catch (error) {
