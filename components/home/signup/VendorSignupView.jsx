@@ -30,7 +30,9 @@ const VendorSignupView = ({ navigation }) => {
           .collection('Users')
           .doc('dFqhRhGV5BSuqWYys6bP')
           .collection('Vendors')
-          .doc(user.uid);
+          .doc('zNpo2OBPsA73QZJFM5ub')
+          .collection('info')
+          .doc(user.uid)
 
         await docRef.set(userData);
 

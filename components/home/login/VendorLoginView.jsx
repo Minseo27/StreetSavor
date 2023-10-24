@@ -1,8 +1,7 @@
-import { View, Text, ScrollView, Button, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'; // Import Alert
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 const VendorLoginView = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -11,26 +10,14 @@ const VendorLoginView = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-        Alert.alert('Missing Fields', 'Please enter both email and password.');
-        return;
+      Alert.alert('Missing Fields', 'Please enter both email and password.');
+      return;
     }
 
     try {
       const userCredential = await auth().signInWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-
-      const userDoc = await firestore()
-        .collection('Users')
-        .doc('dFqhRhGV5BSuqWYys6bP')
-        .collection('Vendors')
-        .doc(user.uid)
-        .get();
-
-      if (userDoc.exists) {
-        navigation.navigate('HomeMapScreen', { name: 'HomeMapScreen' });
-      } else {
-        setError('Invalid email or password. Please try again.');
-      }
+      
+      navigation.navigate('HomeMapScreen', { name: 'HomeMapScreen' });
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
         setError('Invalid email address.');
@@ -81,3 +68,4 @@ const VendorLoginView = ({ navigation }) => {
 };
 
 export default VendorLoginView;
+
