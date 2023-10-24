@@ -3,9 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<key>NSLocationAlwaysUsageDescription</key>
 	<string>AIzaSyCV1uKF2l01ldU7CwTCTceAPTlhnZw97pQ</string>
 	<key>GCM_SENDER_ID</key>
 	<string>109136530915</string>

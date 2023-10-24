@@ -13,38 +13,6 @@ import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 //import Geolocation from '@react-native-community/geolocation';
 // Imports
 
-const HomeMapScreen = ({ navigation }) => {
-    useEffect(() => {
-      checkLocationPermission();
-    }, []);
-  
-    const checkLocationPermission = async () => {
-      const locationPermission = await AsyncStorage.getItem('locationPermission');
-      if (locationPermission === 'granted') {
-      } else {
-        Alert.alert(
-          'Location Tracking Permission',
-          'Allow location tracking for customers?',
-          [
-            {
-              text: 'Do It Later',
-              style: 'cancel',
-            },
-            {
-              text: 'Yes',
-              onPress: async () => {
-                // Store the user's location
-                // geolocation here
-  
-                // Store the permission status
-                await AsyncStorage.setItem('locationPermission', 'granted');
-              },
-            },
-          ]
-        );
-      }
-    };
-
 /*
 const HomeMapScreen = ({navigation}) => {
     const [name, setName] = useState('');
@@ -142,7 +110,6 @@ function MapScreen() {
             <MapView
             //Hunter College Coordinates
                 style={{ flex: 1 }}
-                provider='google'
                 initialRegion={{
                 latitude:  40.7861,
                 longitude: -73.9543,
@@ -206,6 +173,37 @@ function AccountPage () {
 }
 
 const HomeMapScreen = ({navigation}) => {
+    useEffect(() => {
+        checkLocationPermission();
+      }, []);
+
+      const checkLocationPermission = async () => {
+        const locationPermission = await AsyncStorage.getItem('locationPermission');
+        if (locationPermission === 'granted') {
+        } else {
+          Alert.alert(
+            'Location Tracking Permission',
+            'Allow location tracking for customers?',
+            [
+              {
+                text: 'Do It Later',
+                style: 'cancel',
+              },
+              {
+                text: 'Yes',
+                onPress: async () => {
+                  // Store the user's location
+                  // geolocation here
+    
+                  // Store the permission status
+                  await AsyncStorage.setItem('locationPermission', 'granted');
+                },
+              },
+            ]
+          );
+        }
+      };
+
     return (
         <Tab.Navigator initialRouteName='Map' options={{flex: 1,}}>
             <Tab.Screen name='Map' component={MapScreen} options={{headerShown: false}}/>
