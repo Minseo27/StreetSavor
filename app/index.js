@@ -9,8 +9,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from '@react-navigation/stack';
 import AccessApp from '../components/home/continue/AccessApp';
-import LoginView from '../components/home/login/LoginView';
-import SignupView from '../components/home/signup/SignupView';
+import CustomerLoginView from '../components/home/login/CustomerLoginView';
+import CustomerSignupView from '../components/home/signup/CustomerSignupView';
+import VendorLoginView from '../components/home/login/VendorLoginView';
+import VendorSignupView from '../components/home/signup/VendorSignupView';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 
@@ -67,7 +69,7 @@ function App() {
                     }                
                 />
 
-                <Stack.Screen name='LoginView' component={LoginView}
+                <Stack.Screen name='CustomerLoginView' component={CustomerLoginView}
                     options = {{
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible: false,
@@ -76,7 +78,26 @@ function App() {
                     }}
                 />
 
-                <Stack.Screen name='SignupView' component={SignupView}
+                <Stack.Screen name='VendorLoginView' component={VendorLoginView}
+                    options = {{
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible: false,
+                        headerTitle:'',
+                        headerTintColor: 'black'
+                    }}
+                />
+
+
+                <Stack.Screen name='CustomerSignupView' component={CustomerSignupView}
+                    options = {{
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible: false,
+                        headerTitle:'',
+                        headerTintColor: 'black'
+                    }}
+                />
+
+                <Stack.Screen name='VendorSignupView' component={VendorSignupView}
                     options = {{
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible: false,

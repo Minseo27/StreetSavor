@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
 
-const LoginView = ({navigation}) => {
+const VendorLoginView = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -50,7 +50,7 @@ const LoginView = ({navigation}) => {
             <View style={[styles.textContainer, {marginTop:20}]}>
             <Text style={styles.text}>Don't have an account? </Text>
             <TouchableOpacity
-                onPress = { () => navigation.navigate('SignupView', {name:'SignupView'}) }>
+                onPress = { () => navigation.navigate('VendorSignupView', {name:'VendorSignupView'}) }>
                 <Text style= {styles.text2}>Sign Up</Text>
             </TouchableOpacity>
             </View>
@@ -62,4 +62,4 @@ const LoginView = ({navigation}) => {
 
 
 
-export default LoginView;
+export default VendorLoginView;

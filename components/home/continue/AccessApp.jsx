@@ -3,7 +3,6 @@ import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TouchableOpaci
 import { NavigationContainer } from '@react-navigation/native';
 import GreetingPage from '../greeting/GreetingPage';
 import { NavigationActions } from 'react-navigation';
-import HomeMapScreen from '../homescreen/HomeMapScreen';
 import styles from './AppAccess.styles';
 
 // Page to change access type                    
@@ -20,7 +19,7 @@ const AppAcccess = ({navigation}) => {
 
             <TouchableOpacity style={styles.button} 
                 onPress = { () => {
-                    navigation.navigate('LoginView', {name:'LoginView'})
+                    navigation.navigate('CustomerLoginView', {name:'CustomerLoginView'})
                 } }>
                 <Text style= {styles.buttonText}>I am a Customer</Text>
 
@@ -30,7 +29,7 @@ const AppAcccess = ({navigation}) => {
             <View  style = {styles.buttonContainerRight}>
             <TouchableOpacity style = {[styles.button, { marginTop: 15 }]} 
                 onPress ={ () => {
-                    navigation.navigate('HomeMapScreen', {name: 'HomeMapScreen'})
+                    navigation.navigate('VendorLoginView', {name: 'VendorLoginView'})
                 }}>
                         <Text style = {styles.buttonText}> I am a Vendor</Text>
 
