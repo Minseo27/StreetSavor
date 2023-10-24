@@ -1,108 +1,72 @@
-
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native';
-import  {TextInput, TouchableOpacity}  from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import styles from './homemapscreen.styles';
-import Image from 'react-native';
-import { SIZES } from '../../../constants'
-import Input from 'postcss/lib/input';
-import { Component } from 'react/cjs/react.production.min';
-import { useEffect } from 'react';
-//import Geolocation from 'react-native-geolocation-service';
+import MapView from 'react-native-maps';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+//import { MapsComponent } from '@syncfusion/ej2-react-maps';
+//import Geolocation from '@react-native-community/geolocation';
 // Imports
-import MapView, { Marker } from 'react-native-maps';
-import { useState } from 'react';
-import { Alert } from 'react-native';
 
-//import { SIZES } from '../../../constants';
-//import Map, {Popup} from 'react-map-gl';
-//import images from './assets/images/location-pin.png'
-//assets/images/location-pin.png
-
-
-
-const HomeMapScreen = ({navigation}) => {
-    const [name, setName] = useState('');
-    const [setLocation] = useState(false)
-   
-    const requestLocationPermission = async () => {
-        if (Platform.OS === 'ios') {
-          try {
-            const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
-            if (result === RESULTS.DENIED) {
-              const permissionResult = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
-              if (permissionResult === RESULTS.GRANTED) {
-                try {
-                  const position = await Geolocation.getCurrentPosition({
-                    enableHighAccuracy: true,
-                    timeout: 15000,
-                    maximumAge: 10000,
-                  });
-                  const { latitude, longitude } = position.coords;
-                  console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                } catch (error) {
-                  console.error("Error fetching current location:", error.message);
-                }
-              }
-            }
-          } catch (error) {
-            console.error("Error checking location permission:", error.message);
-          }
-        }
-      };
-      
-      useEffect(() => {
-        requestLocationPermission();
-      }, []);
-
-
+const HomeMapScreen = ({ navigation }) => {
+    useEffect(() => {
+      checkLocationPermission();
+    }, []);
+  
+    const checkLocationPermission = async () => {
+      const locationPermission = await AsyncStorage.getItem('locationPermission');
+      if (locationPermission === 'granted') {
+      } else {
+        Alert.alert(
+          'Location Tracking Permission',
+          'Allow location tracking for customers?',
+          [
+            {
+              text: 'Do It Later',
+              style: 'cancel',
+            },
+            {
+              text: 'Yes',
+              onPress: async () => {
+                // Store the user's location
+                // geolocation here
+  
+                // Store the permission status
+                await AsyncStorage.setItem('locationPermission', 'granted');
+              },
+            },
+          ]
+        );
+      }
+    };
+  
     return (
-    <View style = {{flex:1, backgroundColor: '#efcb4e'} }>
+      <View style={{ flex: 1, backgroundColor: '#efcb4e' }}>
         <MapView
-        //Hunter College Coordinates
-            style={{ flex: 1 }}
-            initialRegion={{
-            latitude:  40.7861,
+          // Hunter College Coordinates
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: 40.7861,
             longitude: -73.9543,
             latitudeDelta: 0.03,
             longitudeDelta: 0.02,
-            }}
-        > 
-
-        <Marker
-
-          coordinate={{ latitude: 40.7861, longitude: -73.9543 }}
-          //icon={require('./location-pin.png')}
-          //icon={('constants/location-pin.png')}
-          />
-        
+          }}
+        >
         </MapView>
-        
-        <View style = {styles.searchContainer}>
-            <View style = {styles.searchWrapper}>
-                <TextInput
-                style= {styles.searchInput}
-                value = {name}
-                onChange = { setName }
-                placeholder= "What are you looking for?"
-                placeholderTextColor="#888"
-            
-            />  
-            </View>
-
-            
-    
+  
+        <View style={styles.searchContainer}>
+          <View style={styles.searchWrapper}>
+            <TextInput
+              style={styles.searchInput}
+              value=""
+              onChange={() => {}}
+              placeholder="What are you looking for?"
+              placeholderTextColor="#888"
+            />
+          </View>
         </View>
-       
-       
-        
-             
-      
-    </View>
-
-   
-    )
-
-};
-export default HomeMapScreen;
+      </View>
+    );
+  };
+  
+  export default HomeMapScreen;
