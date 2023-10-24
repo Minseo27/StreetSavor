@@ -97,10 +97,7 @@ const HomeMapScreen = ({navigation}) => {
        
        
         
-        <View style={styles.searchContainer}>
-            <Image source = {require('./location-pin.png')} />
-            
-        </View>        
+             
       
     </View>
 
