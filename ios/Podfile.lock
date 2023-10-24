@@ -1097,8 +1097,6 @@ PODS:
   - React-jsinspector (0.72.6)
   - React-logger (0.72.6):
     - glog
-  - react-native-geolocation (3.1.0):
-    - React-Core
   - react-native-geolocation-service (5.3.1):
     - React
   - react-native-maps (1.8.0):
@@ -1307,7 +1305,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
-  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -1424,8 +1421,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
-  react-native-geolocation:
-    :path: "../node_modules/@react-native-community/geolocation"
   react-native-geolocation-service:
     :path: "../node_modules/react-native-geolocation-service"
   react-native-maps:
@@ -1520,42 +1515,6 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
-
-  RCTRequired: c0569ecc035894e4a68baecb30fe6a7ea6e399f9
-  RCTTypeSafety: e90354072c21236e0bcf1699011e39acd25fea2f
-  React: a1be3c6dc0a6e949ccd3e659781aa47bbae1868f
-  React-callinvoker: 1020b33f6cb1a1824f9ca2a86609fbce2a73c6ed
-  React-Codegen: d3cabb5a8b9de7b0fc5928c0cf478e73a178d728
-  React-Core: 34da8c952844e21f5a69bf46438fb6bf063900d0
-  React-CoreModules: 621243df8863055ff30f3bb2ff71573ffa7b16c8
-  React-cxxreact: 4ad1cc861e32fb533dad6ff7a4ea25680fa1c994
-  React-debug: b1459fc66ed34ef91a33024ffa17b573c19a5e9e
-  React-hermes: 37377d0a56aa0cf55c65248271866ce3268cde3f
-  React-jsi: 6de8b0ccc6b765b58e4eee9ee38049dbeaf5c221
-  React-jsiexecutor: c7f826e40fa9cab5d37cab6130b1af237332b594
-  React-jsinspector: aaed4cf551c4a1c98092436518c2d267b13a673f
-  React-logger: da1ebe05ae06eb6db4b162202faeafac4b435e77
-  react-native-geolocation: ef66fb798d96284c6043f0b16c15d9d1d4955db4
-  react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
-  react-native-maps: f699e0753c22c4d5c3a44d03895b193a4dbca6c2
-  react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
-  React-NativeModulesApple: 91f7a2c3b12999e41da43cdfe123a2f7d4876d0e
-  React-perflogger: 496a1a3dc6737f964107cb3ddae7f9e265ddda58
-  React-RCTActionSheet: 02904b932b50e680f4e26e7a686b33ebf7ef3c00
-  React-RCTAnimation: e44fe5053708c5be762943087c78dc5a6a3c645c
-  React-RCTAppDelegate: 75566e142d0c325f603790943a38f0e297bcbab3
-  React-RCTBlob: 5577c3542fafbd9241f505bda541f6762996b0eb
-  React-RCTImage: f48859ae6a1e5c2c8659f860efdfcb8b0cb60cde
-  React-RCTLinking: 9b145f380c6b5910e3219bef73e1d7024381ad54
-  React-RCTNetwork: 179f50a80c01fa7d6a515552a24ad2e294f341a1
-  React-RCTSettings: cdc9f538f0f8e72e6f3de7c971fb4fb2f49caff9
-  React-RCTText: 9b9f5589d9b649d7246c3f336e116496df28cfe6
-  React-RCTVibration: 35eec7201c8ffdaccdd908a5ec874b7055f975f3
-  React-rncore: 46133d523155fc84572338bd6a7c461c1d873efc
-  React-runtimeexecutor: d465ba0c47ef3ed8281143f59605cacc2244d5c7
-  React-runtimescheduler: 99c9b73737876afcabaa71a0a66e861477c6837d
-  React-utils: 1c1814fd909083c20682bf52934e8928d73372ef
-  ReactCommon: bc80c4fb26101338a7d248f880d8b633e2b831e2
   RCTRequired: 28469809442eb4eb5528462705f7d852948c8a74
   RCTTypeSafety: e9c6c409fca2cc584e5b086862d562540cb38d29
   React: 769f469909b18edfe934f0539fffb319c4c61043
@@ -1570,6 +1529,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 3bf18ff7cb03cd8dfdce08fbbc0d15058c1d71ae
   React-jsinspector: 194e32c6aab382d88713ad3dd0025c5f5c4ee072
   React-logger: cebf22b6cf43434e471dc561e5911b40ac01d289
+  react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-maps: f699e0753c22c4d5c3a44d03895b193a4dbca6c2
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
   React-NativeModulesApple: 1802a680a4cd891d2ab97780771bcb2ff11fdc0b

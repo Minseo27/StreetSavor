@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { MapsComponent } from '@syncfusion/ej2-react-maps';
 //import Geolocation from '@react-native-community/geolocation';
 // Imports
+//import { AsyncStorage } from 'react-native';
+
 
 const HomeMapScreen = ({ navigation }) => {
     useEffect(() => {
