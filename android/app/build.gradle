@@ -1,6 +1,5 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
-apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services' // <- Add this line
 
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
@@ -83,7 +82,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    //namespace "com.capstoneproj"
+    namespace "com.capstone.streetsavor"
     defaultConfig {
         applicationId "com.capstone.streetsavor"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -137,6 +136,8 @@ android {
 }
 
 dependencies {
+  // Add the dependencies for any other desired Firebase products
+  // https://firebase.google.com/docs/android/setup#available-libraries
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     // Import the Firebase BoM
