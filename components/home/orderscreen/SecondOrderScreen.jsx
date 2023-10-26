@@ -10,7 +10,6 @@ import { Component } from 'react/cjs/react.production.min';
 //import { MapsComponent } from '@syncfusion/ej2-react-maps';
 //import Geolocation from '@react-native-community/geolocation';
 // Imports
-import MapView from 'react-native-maps';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 

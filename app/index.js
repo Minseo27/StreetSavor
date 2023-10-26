@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator()
 import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
-import HomeMapScreen from '../components/home/homescreen/TabScreen';
+import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
 import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 

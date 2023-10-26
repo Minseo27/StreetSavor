@@ -1,39 +1,61 @@
 
-import React from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import React, { useState,useEffect } from 'react'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable, PermissionsAndroid} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as Location from 'expo-location'
 import styles from './homemapscreen.styles';
 import Image from 'react-native';
 import { COLORS, SIZES } from '../../../constants'
 import Input from 'postcss/lib/input';
 import { Component } from 'react/cjs/react.production.min';
 //import { MapsComponent } from '@syncfusion/ej2-react-maps';
-//import Geolocation from '@react-native-community/geolocation';
 // Imports
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import LoginView from '../login/LoginView';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
+import { PERMISSIONS, Permission} from 'react-native-permissions';
+import Geolocation from '@react-native-community/geolocation';
+import { Button } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 function MapScreen() {
+    const {loc, setLoc} = useState(null);
+    const {region,setRegion} = useEffect(null);
+    useEffect(() =>{
+        const getLocation = async () => {
+            let {grant} = await Location.getForegroundPermissionsAsync();
+            if (grant != 'granted') {
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync();
+            setLoc(location.coords)
+
+            setRegion({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+            })
+        }
+
+        getLocation();
+    },[])
     return (
         <View style = {{flex:1,}}>
-            <MapView
+            {region && (<MapView
             //Hunter College Coordinates
                 style={{ flex: 1 }}
-                provider='google'
-                initialRegion={{
-                latitude:  40.7861,
-                longitude: -73.9543,
-                latitudeDelta: 0.03,
-                longitudeDelta: 0.02,
-                }}
+                //provider='google'
+                initialRegion={region}
             >
-
-            </MapView>
+                {loc && (<Marker coordinate={{latitude: loc.latitude, longitude: loc.longitude}}/>)}
+            </MapView>)}
 
             <View style = {styles.searchContainer}>
                 <View style = {styles.searchWrapper}>
@@ -80,7 +102,6 @@ function AccountPage () {
         <ScrollView style={{flex:1,}}>
             <View style={{flex:1, justifyContent:'center'}}>
                 <Text style={{textAlign: 'center'}}>
-                    This will be the account page.
                 </Text>
             </View>
         </ScrollView>
