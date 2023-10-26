@@ -10,6 +10,7 @@ import Image from 'react-native';
 import { COLORS, SIZES } from '../../../constants'
 import Input from 'postcss/lib/input';
 import { Component } from 'react/cjs/react.production.min';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { MapsComponent } from '@syncfusion/ej2-react-maps';
 // Imports
 import MapView from 'react-native-maps';
@@ -25,15 +26,15 @@ const Tab = createBottomTabNavigator();
 
 function MapScreen() {
     const {loc, setLoc} = useState(null);
-    const {region,setRegion} = useEffect(null);
+    const {region,setRegion} = useState(null);
     useEffect(() =>{
         const getLocation = async () => {
-            let {grant} = await Location.getForegroundPermissionsAsync();
+            let {grant} = await AsyncStorage.getForegroundPermissionsAsync();
             if (grant != 'granted') {
                 return;
             }
 
-            let location = await Location.getCurrentPositionAsync();
+            let location = await AsyncStorage.getCurrentPositionAsync();
             setLoc(location.coords)
 
             setRegion({
