@@ -26,10 +26,19 @@ import { Component } from 'react/cjs/react.production.min';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import { useEffect } from 'react';
+import { useState } from 'react';
+//import { Marker } from 'react-native-maps';
 
 const Tab = createBottomTabNavigator();
 
 function MapScreen() {
+
+    //Saving Position 
+    let savedLatitude = null;
+    let savedLongitude = null;
+    //Saving Text Change
+    const [newText, setText] = useState('');
+  
     return (
         <View style = {{flex:1,}}>
             <MapView
@@ -49,10 +58,11 @@ function MapScreen() {
                 <View style = {styles.searchWrapper}>
                     <TextInput
                     style= {styles.searchInput}
-                    value = ""
-                    onChange = { () => {  } }
+                    value = {newText}
+                    onChange = { newText => setText(newText) }
                     placeholder= "What are you looking for?"
                     placeholderTextColor="#888"
+                    //defaultValue={text}
                 />  
                 </View>
             
@@ -98,14 +108,16 @@ function AccountPage () {
 }
 
 const HomeMapScreen = ({navigation}) => {
+
+
     useEffect(() => {
         checkLocationPermission();
       }, []);
 
       const checkLocationPermission = async () => {
         const locationPermission = await AsyncStorage.getItem('locationPermission');
-        if (locationPermission !== 'granted') {
-
+        if (locationPermission === 'granted') {
+            console.warn("hello")
         } else {
           Alert.alert(
             'Location Tracking Permission',
@@ -121,8 +133,9 @@ const HomeMapScreen = ({navigation}) => {
                   // Store the user's location
                   // geolocation here
     
+                    console.warn("hello")
                   // Store the permission status
-                  await AsyncStorage.setItem('locationPermission', 'granted');
+                  //await AsyncStorage.setItem('locationPermission', 'granted');
                 },
               },
             ]
