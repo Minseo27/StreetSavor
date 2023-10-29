@@ -47,7 +47,10 @@ const LoginView = ({navigation}) => {
             
             <View style={[styles.textContainer, {marginTop:20}]}>
             <Text style={styles.text}>Don't have an account? </Text>
-            <Text style={styles.text2}> Sign Up</Text>
+            <TouchableOpacity
+                onPress = { () => navigation.navigate('SignupView', {name:'SignupView'}) }>
+                <Text style= {styles.text2}>Sign Up</Text>
+            </TouchableOpacity>
             </View>
         </View>
         </View>
