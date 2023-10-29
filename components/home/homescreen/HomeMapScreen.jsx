@@ -25,8 +25,8 @@ import { Button } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 function MapScreen() {
-    const {loc, setLoc} = useState(null);
-    const {region,setRegion} = useState(null);
+    const [loc, setLoc] = useState(null);
+    const [region,setRegion] = useState(null);
     useEffect(() =>{
         const getLocation = async () => {
             let {grant} = await AsyncStorage.getForegroundPermissionsAsync();

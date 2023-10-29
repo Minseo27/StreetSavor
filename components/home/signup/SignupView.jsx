@@ -2,15 +2,16 @@ import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TextInput} fro
 import React, { useState } from 'react';
 import { TouchableOpacity} from 'react-native';
 import styles from './signupView.styles';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+
 
 const SignupView = ({navigation}) => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-
+    firebase.initializeApp({apiKey: 'AIzaSyA8bOJCQ0_GyG29q19TcasS4nWE5_r_74Q',databaseURL: 'https://streetsavor-c90a7.firebaseio.com' ,projectId: 'streetsavor-c90a7'});
     handleSignUp = () => {
         const userData = {
             name: username,

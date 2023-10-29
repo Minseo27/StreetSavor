@@ -2,11 +2,12 @@ import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TextInput} fro
 import React, { useState } from 'react';
 import { TouchableOpacity} from 'react-native';
 import styles from './loginView.styles';
+import auth, { firebase } from '@react-native-firebase/auth';
 
 const LoginView = ({navigation}) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    firebase.initializeApp({apiKey: 'AIzaSyA8bOJCQ0_GyG29q19TcasS4nWE5_r_74Q', databaseURL: 'https://streetsavor-c90a7.firebaseio.com',projectId: 'streetsavor-c90a7'});
     handleLogin = () => {
         auth()
      .signInWithEmailAndPassword(email, password)
@@ -30,18 +31,20 @@ const LoginView = ({navigation}) => {
         <View>    
             <TextInput
                 style={[styles.input, {marginTop:30}]}
-                placeholder="Username"
-                onChangeText={(text) => setUsername(text)}/>
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter email address"
+                autoCapitalize="none"/>
             <TextInput
                 style={[styles.input, {marginTop:10}]}
-                placeholder="Password"
-                secureTextEntry
-                onChangeText={(text) => setPassword(text)}/>
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Enter password"
+                autoCapitalize="none"
+                secureTextEntry/>
 
             <TouchableOpacity style={[styles.button, {marginTop:20}]}
-                onPress = { () => {
-                    navigation.navigate('LoginView', {name:'LoginView'})
-                } }>
+                onPress={handleLogin}>
                 <Text style= {styles.buttonText}>Login</Text>
             </TouchableOpacity>
             

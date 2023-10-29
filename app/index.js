@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createStackNavigator } from '@react-navigation/stack';
 import AccessApp from '../components/home/continue/AccessApp';
 import LoginView from '../components/home/login/LoginView';
+import SignupView from '../components/home/signup/SignupView';
 
 // Creating Navigator
 const Stack = createNativeStackNavigator()
@@ -68,6 +69,15 @@ function App() {
                 />
 
                 <Stack.Screen name='LoginView' component={LoginView}
+                    options = {{
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible: false,
+                        headerTitle:'',
+                        headerTintColor: 'black'
+                    }}
+                />
+
+                <Stack.Screen name='SignupView' component={SignupView}
                     options = {{
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible: false,
