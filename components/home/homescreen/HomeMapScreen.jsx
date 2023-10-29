@@ -1,12 +1,11 @@
 
 import React, { useState,useEffect } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable, PermissionsAndroid} from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable, PermissionsAndroid, Alert} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as Location from 'expo-location'
 import styles from './homemapscreen.styles';
-import Image from 'react-native';
 import { COLORS, SIZES } from '../../../constants'
 import Input from 'postcss/lib/input';
 import { Component } from 'react/cjs/react.production.min';
@@ -19,8 +18,12 @@ import LoginView from '../login/LoginView';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import { PERMISSIONS, Permission} from 'react-native-permissions';
-import Geolocation from '@react-native-community/geolocation';
+//import Geolocation from '@react-native-community/geolocation';
 import { Button } from 'react-native';
+//import { AsyncStorage } from 'react-native';
+import { Image } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import Geolocation from 'react-native-geolocation-service';
 
 const Tab = createBottomTabNavigator();
 
@@ -71,11 +74,113 @@ function MapScreen() {
             
             </View>
         </View>
-
-    );
-
-
+    )
 }
+
+// function MapScreen() {
+
+//   //Saving Position 
+//   let savedLatitude = null;
+//   let savedLongitude = null;
+//   let savedLatDelta = null;
+//   let savedLongDelta = null;
+  
+  
+//     useEffect(() => {
+//       checkLocationPermission();
+//     }, []);
+  
+//     const checkLocationPermission = async () => {
+//       const locationPermission = await AsyncStorage.getItem('locationPermission');
+//       if (locationPermission !== 'granted') {
+//       } else {
+//         Alert.alert(
+//           'Location Tracking Permission',
+//           'Allow location tracking for customers?',
+//           [
+//             {
+//               text: 'Do It Later',
+//               style: 'cancel',
+//             },
+//             {
+//               text: 'Yes',
+//               onPress: async () => {
+//                 // Store the user's location
+//                 // geolocation here
+
+//                 Geolocation.getCurrentPosition(
+//                   (position) => {
+//                       //console.log("My current location", JSON.stringify(position));
+//                       //this.setState({location: position.coords.latitude.toString() + "," + position.coords.longitude.toString()})
+//                       //console.warn(position.coords.latitude)
+                      
+//                       savedLatitude = position.coords.latitude;
+//                       savedLongitude = position.coords.longitude
+//                       savedLatDelta = position.coords.latitudeDelta
+//                       savedLongDelta = position.coords.longitudeDelta
+                      
+//                   },
+//                   (error) => {
+//                       // See error code charts below.
+//                       console.log(error.code, error.message);
+//                   },
+//                   { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+
+//                   console.warn(savedLatitude)
+//                 // Store the permission status
+//                 //await AsyncStorage.setItem('locationPermission', 'granted');
+//               },
+//             },
+//           ]
+//         );
+//       }
+
+
+//       //console.warn(savedLatitude)
+      
+//     };
+  
+
+//     return (
+      
+//       <View style={{ flex: 1, backgroundColor: '#efcb4e' }}>
+       
+//         <MapView
+//           // Hunter College Coordinates
+//           style={{ flex: 1 }}
+//           initialRegion={{
+//             latitude: savedLatitude,
+//             longitude: savedLongitude,
+//             latitudeDelta: 0.03,
+//             longitudeDelta: 0.02,
+//           }}
+//         >
+//           <Marker
+//           coordinate={{
+//             latitude: savedLatitude,
+//             longitude: savedLongitude,
+//           }}
+//         //image = {require(".asset/mount.jpeg")}
+        
+    
+//     />
+//         </MapView>
+  
+//         <View style={styles.searchContainer}>
+//           <View style={styles.searchWrapper}>
+//             <TextInput
+//               style={styles.searchInput}
+//               value=""
+//               onChange={() => {}}
+//               placeholder="What are you looking for?"
+//               placeholderTextColor="#888"
+//             />
+//           </View>
+//         </View>
+//       </View>
+//     );
+// }
+
 const FirstOrderScreen = ({navigation}) => {
     var list_of_vendors = vendor_list.map(truck => <Pressable style={{height: 100,backgroundColor: COLORS.lightWhite, marginBottom: SIZES.small, alignItems: 'baseline'}} onPress={ () => navigation.navigate('SecondOrderScreen',{name: 'SecondOrderScreen'})}>
         <Text style={{textAlign: 'left', fontSize: SIZES.large, marginLeft: SIZES.small, marginTop: SIZES.xSmall}}>
@@ -121,4 +226,7 @@ const HomeMapScreen = ({navigation}) => {
 
 
 
+{/* export default HomeMapScreen;
+  }; */}
+  
 export default HomeMapScreen;

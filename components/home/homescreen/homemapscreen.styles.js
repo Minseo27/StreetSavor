@@ -5,9 +5,7 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SIZES } from "../../../constants";
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
+ 
   userName: {
     fontFamily: FONT.regular,
     fontSize: SIZES.large,
@@ -69,9 +67,15 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: SIZES.medium,
   },
-  mapProperty: {
-    
-  }
+  container: {
+    flex:1,
+    flexDirection:'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#efcb4e',
+    width:'100%'
+
+  },
 });
 
 export default styles;
