@@ -16,7 +16,7 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import LoginView from '../login/LoginView';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
+import {email_info, Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import { PERMISSIONS, Permission} from 'react-native-permissions';
 //import Geolocation from '@react-native-community/geolocation';
 import { Button } from 'react-native';
@@ -24,162 +24,166 @@ import { Button } from 'react-native';
 import { Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import Geolocation from 'react-native-geolocation-service';
+import firestore, { Filter } from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const Tab = createBottomTabNavigator();
 
-function MapScreen() {
-    const [loc, setLoc] = useState(null);
-    const [region,setRegion] = useState(null);
-    useEffect(() =>{
-        const getLocation = async () => {
-            let {grant} = await AsyncStorage.getForegroundPermissionsAsync();
-            if (grant != 'granted') {
-                return;
-            }
+// function MapScreen() {
+//     const [loc, setLoc] = useState(null);
+//     const [region,setRegion] = useState(null);
+//     useEffect(() =>{
+//         const getLocation = async () => {
+//             let {grant} = await AsyncStorage.getForegroundPermissionsAsync();
+//             if (grant != 'granted') {
+//                 return;
+//             }
 
-            let location = await AsyncStorage.getCurrentPositionAsync();
-            setLoc(location.coords)
+//             let location = await AsyncStorage.getCurrentPositionAsync();
+//             setLoc(location.coords)
 
-            setRegion({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005,
-            })
-        }
+//             setRegion({
+//                 latitude: location.coords.latitude,
+//                 longitude: location.coords.longitude,
+//                 latitudeDelta: 0.005,
+//                 longitudeDelta: 0.005,
+//             })
+//         }
 
-        getLocation();
-    },[])
-    return (
-        <View style = {{flex:1,}}>
-            {region && (<MapView
-            //Hunter College Coordinates
-                style={{ flex: 1 }}
-                //provider='google'
-                initialRegion={region}
-            >
-                {loc && (<Marker coordinate={{latitude: loc.latitude, longitude: loc.longitude}}/>)}
-            </MapView>)}
+//         getLocation();
+//     },[])
+//     return (
+//         <View style = {{flex:1,}}>
+//             {region && (<MapView
+//             //Hunter College Coordinates
+//                 style={{ flex: 1 }}
+//                 //provider='google'
+//                 initialRegion={region}
+//             >
+//                 {loc && (<Marker coordinate={{latitude: loc.latitude, longitude: loc.longitude}}/>)}
+//             </MapView>)}
 
-            <View style = {styles.searchContainer}>
-                <View style = {styles.searchWrapper}>
-                    <TextInput
-                    style= {styles.searchInput}
-                    value = ""
-                    onChange = { () => {  } }
-                    placeholder= "What are you looking for?"
-                    placeholderTextColor="#888"
-                />  
-                </View>
+//             <View style = {styles.searchContainer}>
+//                 <View style = {styles.searchWrapper}>
+//                     <TextInput
+//                     style= {styles.searchInput}
+//                     value = ""
+//                     onChange = { () => {  } }
+//                     placeholder= "What are you looking for?"
+//                     placeholderTextColor="#888"
+//                 />  
+//                 </View>
             
-            </View>
-        </View>
-    )
+//             </View>
+//         </View>
+//     )
+// }
+
+async function getInfo() {
+    return await firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Customers').doc(auth().currentUser.uid).get();
 }
 
-// function MapScreen() {
+function MapScreen() {
 
-//   //Saving Position 
-//   let savedLatitude = null;
-//   let savedLongitude = null;
-//   let savedLatDelta = null;
-//   let savedLongDelta = null;
+  //Saving Position 
+  let savedLatitude = null;
+  let savedLongitude = null;
+  let savedLatDelta = null;
+  let savedLongDelta = null;
   
   
-//     useEffect(() => {
-//       checkLocationPermission();
-//     }, []);
+    useEffect(() => {
+      checkLocationPermission();
+    }, []);
   
-//     const checkLocationPermission = async () => {
-//       const locationPermission = await AsyncStorage.getItem('locationPermission');
-//       if (locationPermission !== 'granted') {
-//       } else {
-//         Alert.alert(
-//           'Location Tracking Permission',
-//           'Allow location tracking for customers?',
-//           [
-//             {
-//               text: 'Do It Later',
-//               style: 'cancel',
-//             },
-//             {
-//               text: 'Yes',
-//               onPress: async () => {
-//                 // Store the user's location
-//                 // geolocation here
+    const checkLocationPermission = async () => {
+      const locationPermission = await AsyncStorage.getItem('locationPermission');
+      if (locationPermission !== 'granted') {
+      } else {
+        Alert.alert(
+          'Location Tracking Permission',
+          'Allow location tracking for customers?',
+          [
+            {
+              text: 'Do It Later',
+              style: 'cancel',
+            },
+            {
+              text: 'Yes',
+              onPress: async () => {
+                // Store the user's location
+                // geolocation here
 
-//                 Geolocation.getCurrentPosition(
-//                   (position) => {
-//                       //console.log("My current location", JSON.stringify(position));
-//                       //this.setState({location: position.coords.latitude.toString() + "," + position.coords.longitude.toString()})
-//                       //console.warn(position.coords.latitude)
+                Geolocation.getCurrentPosition(
+                  (position) => {
+                      //console.log("My current location", JSON.stringify(position));
+                      //this.setState({location: position.coords.latitude.toString() + "," + position.coords.longitude.toString()})
+                      //console.warn(position.coords.latitude)
                       
-//                       savedLatitude = position.coords.latitude;
-//                       savedLongitude = position.coords.longitude
-//                       savedLatDelta = position.coords.latitudeDelta
-//                       savedLongDelta = position.coords.longitudeDelta
+                      savedLatitude = position.coords.latitude;
+                      savedLongitude = position.coords.longitude
                       
-//                   },
-//                   (error) => {
-//                       // See error code charts below.
-//                       console.log(error.code, error.message);
-//                   },
-//                   { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
+                  },
+                  (error) => {
+                      // See error code charts below.
+                      console.log(error.code, error.message);
+                  },
+                  { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
 
-//                   console.warn(savedLatitude)
-//                 // Store the permission status
-//                 //await AsyncStorage.setItem('locationPermission', 'granted');
-//               },
-//             },
-//           ]
-//         );
-//       }
+                  console.warn(savedLatitude)
+                // Store the permission status
+                //await AsyncStorage.setItem('locationPermission', 'granted');
+              },
+            },
+          ]
+        );
+      }
 
 
-//       //console.warn(savedLatitude)
+      //console.warn(savedLatitude)
       
-//     };
+    };
   
 
-//     return (
+    return (
       
-//       <View style={{ flex: 1, backgroundColor: '#efcb4e' }}>
+      <View style={{ flex: 1, backgroundColor: '#efcb4e' }}>
        
-//         <MapView
-//           // Hunter College Coordinates
-//           style={{ flex: 1 }}
-//           initialRegion={{
-//             latitude: savedLatitude,
-//             longitude: savedLongitude,
-//             latitudeDelta: 0.03,
-//             longitudeDelta: 0.02,
-//           }}
-//         >
-//           <Marker
-//           coordinate={{
-//             latitude: savedLatitude,
-//             longitude: savedLongitude,
-//           }}
-//         //image = {require(".asset/mount.jpeg")}
+        <MapView
+          // Hunter College Coordinates
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: 40.7861,
+            longitude: -73.9543,
+            latitudeDelta: 0.03,
+            longitudeDelta: 0.02,
+          }}
+        >
+          <Marker
+          coordinate={{
+            latitude: 40.7861,
+            longitude: -73.9543,
+          }}
+        //image = {require(".asset/mount.jpeg")}
         
     
-//     />
-//         </MapView>
+    />
+        </MapView>
   
-//         <View style={styles.searchContainer}>
-//           <View style={styles.searchWrapper}>
-//             <TextInput
-//               style={styles.searchInput}
-//               value=""
-//               onChange={() => {}}
-//               placeholder="What are you looking for?"
-//               placeholderTextColor="#888"
-//             />
-//           </View>
-//         </View>
-//       </View>
-//     );
-// }
+        <View style={styles.searchContainer}>
+          <View style={styles.searchWrapper}>
+            <TextInput
+              style={styles.searchInput}
+              value=""
+              onChange={() => {}}
+              placeholder="What are you looking for?"
+              placeholderTextColor="#888"
+            />
+          </View>
+        </View>
+      </View>
+    );
+}
 
 const FirstOrderScreen = ({navigation}) => {
     var list_of_vendors = vendor_list.map(truck => <Pressable style={{height: 100,backgroundColor: COLORS.lightWhite, marginBottom: SIZES.small, alignItems: 'baseline'}} onPress={ () => navigation.navigate('SecondOrderScreen',{name: 'SecondOrderScreen'})}>
@@ -207,8 +211,12 @@ function AccountPage () {
     return (
         <ScrollView style={{flex:1,}}>
             <View style={{flex:1, justifyContent:'center'}}>
-                <Text style={{textAlign: 'center'}}>
-                </Text>
+                <Image style={{}}>
+
+                </Image>
+                <Button title="Press Here" color="#841584" onPress={() => {console.log(getInfo)}}>
+
+                </Button>
             </View>
         </ScrollView>
     );

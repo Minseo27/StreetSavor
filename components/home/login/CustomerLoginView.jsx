@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
 
+var exportEmail = null;
+var exportUsername = null;
+
 const CustomerLoginView = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +33,7 @@ const CustomerLoginView = ({ navigation }) => {
       }
     }
   };
-
+  exportEmail = email;
   return (
     <View style={styles.container}>
       <Text style={styles.name}>Street{'\n'} Savor</Text>
