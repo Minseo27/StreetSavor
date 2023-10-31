@@ -79,22 +79,18 @@ const Tab = createBottomTabNavigator();
 //     )
 // }
 
-async function getInfo() {
-    return await firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Customers').doc(auth().currentUser.uid).get();
+function getInfo() {
 }
 
 function MapScreen() {
 
   //Saving Position 
-  let savedLatitude = null;
-  let savedLongitude = null;
+  const [savedLatitude,setLatitude] = useState(null);
+  const [savedLongitude,setLongitude] = useState(null);
   let savedLatDelta = null;
   let savedLongDelta = null;
   
-  
-    useEffect(() => {
-      checkLocationPermission();
-    }, []);
+
   
     const checkLocationPermission = async () => {
       const locationPermission = await AsyncStorage.getItem('locationPermission');
@@ -120,8 +116,8 @@ function MapScreen() {
                       //this.setState({location: position.coords.latitude.toString() + "," + position.coords.longitude.toString()})
                       //console.warn(position.coords.latitude)
                       
-                      savedLatitude = position.coords.latitude;
-                      savedLongitude = position.coords.longitude
+                      setLatitude(position.coords.latitude);
+                      setLongitude(position.coords.longitude);
                       
                   },
                   (error) => {
@@ -143,7 +139,10 @@ function MapScreen() {
       //console.warn(savedLatitude)
       
     };
-  
+
+    useEffect(() => {
+        checkLocationPermission();
+      }, []);
 
     return (
       
@@ -208,15 +207,20 @@ const FirstOrderScreen = ({navigation}) => {
 }
 
 function AccountPage () {
+    const [userInfo, setInfo] = useState([]);
+    firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Customers').doc(auth().currentUser.uid).get().then((snapshot) => {
+        if (snapshot.exists)
+            setInfo(snapshot.data())
+    })
     return (
         <ScrollView style={{flex:1,}}>
             <View style={{flex:1, justifyContent:'center'}}>
-                <Image style={{}}>
-
-                </Image>
-                <Button title="Press Here" color="#841584" onPress={() => {console.log(getInfo)}}>
-
-                </Button>
+                <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginTop: SIZES.medium}}>
+                    Email: {userInfo.email}{"\n"}
+                    Username: {userInfo.name}{"\n"}
+                    Password: {userInfo.password}{"\n"}
+                </Text>
             </View>
         </ScrollView>
     );
