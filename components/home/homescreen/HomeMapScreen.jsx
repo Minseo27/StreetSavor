@@ -31,6 +31,14 @@ function MapScreen() {
   useEffect(() => {
     const fetchLocationFromFirestore = async () => {
         const user = auth().currentUser;
+
+        // const userDocRef = firestore()
+        // .collection('Users')
+        //     .doc('dFqhRhGV5BSuqWYys6bP')
+        //     .collection('Vendors')
+        //     .doc('zNpo2OBPsA73QZJFM5ub')
+        //     .collection('info')
+        //     .doc(user.uid);
         
         try {
         const userDocRef = firestore()
@@ -51,8 +59,6 @@ function MapScreen() {
                 // Setting Values
                 setLatitude(latitude); 
                 setLongitude(longitude); 
-
-
                 //Setting Location Value
                 setLocationDataFetched(true)
             
@@ -69,6 +75,63 @@ function MapScreen() {
 
   fetchLocationFromFirestore();
   }, [] );
+
+  // Variables for Containing Food Truck Location
+  const [latTruck, setFoodLatitude] = useState(null);
+  const [lonTruck, setFoodLongitude] = useState(null);
+  const [locationFoodDataFetched, setFoodLocationDataFetched] = useState(false);
+
+
+
+  // Fetching Food Truck Based on Search Bar 
+  useEffect(() => {
+      const fetchFoodTruckLocation = async () => { 
+        const user = auth().currentUser;
+
+        // const userDocRef = firestore()
+        // .collection('Users')
+        //     .doc('dFqhRhGV5BSuqWYys6bP')
+        //     .collection('Vendors')
+        //     .doc('zNpo2OBPsA73QZJFM5ub')
+        //     .collection('info')
+        //     .doc(user.uid);
+        
+        try {
+        const userDocRef = firestore()
+            .collection('Users')
+            .doc('dFqhRhGV5BSuqWYys6bP')
+            .collection('Vendors')
+            .doc('zNpo2OBPsA73QZJFM5ub')
+            .collection('info')
+            .doc('DPo0lvwPjqWXiExwmoxpq3ViMnR2');
+    
+        const userDoc = await userDocRef.get();
+    
+        if (userDoc.exists) {
+            const locationData = userDoc.data().location;
+            if (locationData) {
+                const { latitude, longitude } = locationData;
+
+                // Setting Values
+                setFoodLatitude(latitude); 
+                setFoodLongitude(longitude); 
+                //Setting Location Value
+                setFoodLocationDataFetched(true)
+            
+            } else {
+            console.log('No location data found for the user.');
+            }
+        } else {
+            console.log('User document does not exist.');
+        }
+        } catch (error) {
+        console.error('Error fetching location data:', error);
+        }
+    };
+
+    fetchFoodTruckLocation();
+  }, [] );
+
 
   console.warn(`${lat}`, `${lon}`)
 
@@ -98,9 +161,20 @@ function MapScreen() {
                 //longitude: -73.9543,
                 latitude:  lat,
                 longitude: lon,
-                }}>
                 
+                }}
+                description={"You are here"}>
                 <Image source={require('./location-pin.png')} style={{height: 35, width:35 }} />
+            </Marker>
+
+            <Marker 
+                coordinate ={{
+                    latitude:latTruck,
+                    longitude:lonTruck,
+                }}
+                description={"Here is a truck"}
+            >
+                <Image source = {require('./foodtruck.jpeg')} style={{height:35, width:35}}/>
             </Marker>
 
             </MapView>
