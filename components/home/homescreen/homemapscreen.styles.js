@@ -67,9 +67,21 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: SIZES.medium,
   },
+<<<<<<< HEAD
   mapProperty: {
     
   }
+=======
+  container: {
+    flex:1,
+    flexDirection:'column',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#efcb4e',
+    width:'100%'
+
+  },
+>>>>>>> origin/Android
 });
 
 export default styles;

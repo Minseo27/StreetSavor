@@ -11,6 +11,12 @@
     ],
     "name": "CapstoneProj",
     "slug": "CapstoneProj",
+<<<<<<< HEAD
+=======
+    "ios": {
+      "bundleIdentifier": "com.capstone.streetsavor"
+    },
+>>>>>>> origin/Android
     "android": {
       "config": {
         "googleMaps": {

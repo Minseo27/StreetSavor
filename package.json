@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "@expo-google-fonts/barlow": "^0.2.3",
+<<<<<<< HEAD
     "@react-native-async-storage/async-storage": "^1.19.3",
     "@react-native-community/geolocation": "^3.1.0",
+=======
+    "@expo/config": "^8.1.2",
+    "@react-native-async-storage/async-storage": "^1.19.3",
+>>>>>>> origin/Android
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^18.5.0",
     "@react-native-firebase/auth": "^18.5.0",
@@ -26,6 +31,7 @@
     "expo-constants": "~14.4.2",
     "expo-font": "~11.4.0",
     "expo-linking": "~5.0.2",
+    "expo-modules-autolinking": "^1.5.1",
     "expo-router": "2.0.0",
     "expo-screen-orientation": "^6.2.0",
     "expo-splash-screen": "~0.20.4",
