@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,9 +14,11 @@ import Geolocation from 'react-native-geolocation-service';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import BottomScroll from './BottomSheetScrollView';
+import { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { Image } from 'react-native';
 
 const Tab = createBottomTabNavigator();
-
 
 const FirstOrderScreen = ({navigation}) => {
     var list_of_vendors = vendor_list.map(truck => <Pressable style={{height: 100,backgroundColor: COLORS.lightWhite, marginBottom: SIZES.small, alignItems: 'baseline'}} onPress={ () => navigation.navigate('SecondOrderScreen',{name: 'SecondOrderScreen'})}>
@@ -70,6 +72,7 @@ const HomeMapScreen = ({navigation}) => {
             (position) => {
               const { latitude, longitude } = position.coords;
               storeLocationInFirestore(latitude, longitude);
+              
             },
             (error) => {
               console.error('Error getting location:', error);

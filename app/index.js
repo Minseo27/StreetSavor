@@ -15,8 +15,7 @@ import VendorLoginView from '../components/home/login/VendorLoginView';
 import VendorSignupView from '../components/home/signup/VendorSignupView';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
-
-
+import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
@@ -24,7 +23,7 @@ const Stack = createNativeStackNavigator()
 import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
-import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
+//import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
 import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 

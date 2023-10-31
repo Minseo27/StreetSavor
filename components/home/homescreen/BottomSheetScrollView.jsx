@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import MapScreen from "./MapScreen";
 
-const BottomScroll= () => {
+function BottomScroll () {
   // hooks
   const sheetRef = useRef(null);
 
@@ -53,7 +53,7 @@ const BottomScroll= () => {
 
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
