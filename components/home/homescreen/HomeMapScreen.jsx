@@ -84,7 +84,7 @@ function MapScreen() {
 
 
   // Fetching Food Truck Based on Search Bar 
-  useEffect(() => {
+  //useEffect(() => {
       const fetchFoodTruckLocation = async () => { 
         const user = auth().currentUser;
 
@@ -103,7 +103,7 @@ function MapScreen() {
             .collection('Vendors')
             .doc('zNpo2OBPsA73QZJFM5ub')
             .collection('info')
-            .doc('DPo0lvwPjqWXiExwmoxpq3ViMnR2');
+            .doc(newText);
     
         const userDoc = await userDocRef.get();
     
@@ -130,7 +130,7 @@ function MapScreen() {
     };
 
     fetchFoodTruckLocation();
-  }, [] );
+  //}, [] );
 
 
   console.warn(`${lat}`, `${lon}`)
@@ -188,7 +188,8 @@ function MapScreen() {
                     onChangeText = {newText => setText(newText)}
                     placeholder= "What are you looking for?"
                     placeholderTextColor="#888"
-                    onSubmitEditing={() => alert(`Welcome to ${newText}`)}
+                    //onSubmitEditing={() => alert(`Welcome to ${newText}`)}
+                    onSubmitEditing = { () => fetchFoodTruckLocation() }
                 />  
                 </View>
             
