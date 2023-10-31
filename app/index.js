@@ -16,7 +16,6 @@ import VendorSignupView from '../components/home/signup/VendorSignupView';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
-
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 

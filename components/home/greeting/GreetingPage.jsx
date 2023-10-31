@@ -35,7 +35,7 @@ const GreetingPage = ({navigation}) => {
             <View style = {styles.buttonContainer}>
                 <TouchableOpacity style ={styles.button} 
                     onPress =  { ()=> {
-                        navigation.navigate('AppAccess', {name: 'AppAccess'})
+                        navigation.navigate('HomeMapScreen', {name: 'AppAccess'})
 
     
                     }}>
