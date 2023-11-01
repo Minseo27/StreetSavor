@@ -27,9 +27,9 @@ function BottomScroll () {
       <View key={item} style={styles.itemContainer}>
         <Image source={item.imageSource} style={styles.image} />
         <View style={styles.textContainer}>
-        <Text style={styles.titleText}>title</Text>
-        <Text style={styles.descriptionText}>description</Text>
-        <Text style={styles.moreInfoText}>moreInfo</Text>
+        <Text style={styles.titleText}>Title</Text>
+        <Text style={styles.descriptionText}>Description</Text>
+        <Text style={styles.moreInfoText}>More Info</Text>
     </View>
       </View>
     ),

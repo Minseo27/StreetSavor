@@ -130,6 +130,7 @@ function MapScreen (){
   
       fetchFoodTruckLocation();
     //}, [] );
+
   
   
     console.warn(`${lat}`, `${lon}`)
