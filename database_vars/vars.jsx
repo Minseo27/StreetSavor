@@ -12,6 +12,5 @@ const Vendor = {
 
 var vendor_list = [Vendor, Vendor, Vendor,Vendor,Vendor, Vendor, Vendor, Vendor,Vendor, Vendor, Vendor, Vendor];
 
-var email_info = null;
 
-export {VendorItem,Vendor,vendor_list,email_info};
+export {VendorItem,Vendor,vendor_list};

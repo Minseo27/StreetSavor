@@ -87,13 +87,14 @@ function MapScreen() {
   //Saving Position 
   const [savedLatitude,setLatitude] = useState(null);
   const [savedLongitude,setLongitude] = useState(null);
+  AsyncStorage.setItem('ACCESS_FINE_LOCATION')
   let savedLatDelta = null;
   let savedLongDelta = null;
   
 
   
     const checkLocationPermission = async () => {
-      const locationPermission = await AsyncStorage.getItem('locationPermission');
+      const locationPermission = await AsyncStorage.getItem('ACCESS_FINE_LOCATION');
       if (locationPermission !== 'granted') {
       } else {
         Alert.alert(
@@ -216,11 +217,21 @@ function AccountPage () {
         <ScrollView style={{flex:1,}}>
             <View style={{flex:1, justifyContent:'center'}}>
                 <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginTop: SIZES.medium}}>
+                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
                     Email: {userInfo.email}{"\n"}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
                     Username: {userInfo.name}{"\n"}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
+                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
                     Password: {userInfo.password}{"\n"}
-                </Text>
+                  </Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     );
