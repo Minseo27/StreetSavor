@@ -105,7 +105,7 @@ function MapScreen() {
             .collection('Vendors')
             .doc('zNpo2OBPsA73QZJFM5ub')
             .collection('info')
-            .doc(newText);
+            .doc(user.uid);
     
         const userDoc = await userDocRef.get();
     

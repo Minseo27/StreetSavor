@@ -100,10 +100,8 @@ function MapScreen() {
         const userDocRef = firestore()
             .collection('Users')
             .doc('dFqhRhGV5BSuqWYys6bP')
-            .collection('Vendors')
-            .doc('zNpo2OBPsA73QZJFM5ub')
-            .collection('info')
-            .doc(newText);
+            .collection('Customers')
+            .doc(user.uid);
     
         const userDoc = await userDocRef.get();
     
