@@ -13,6 +13,7 @@ import CustomerLoginView from '../components/home/login/CustomerLoginView';
 import CustomerSignupView from '../components/home/signup/CustomerSignupView';
 import VendorLoginView from '../components/home/login/VendorLoginView';
 import VendorSignupView from '../components/home/signup/VendorSignupView';
+import VendorHomeMapScreen from '../components/home/homescreen/VendorHomeMapScreen';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
@@ -108,6 +109,19 @@ function App() {
                 />
 
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
+                    options ={ {
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible:false,
+                        headerTitle: 'Street Savor',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                            fontSize: SIZES.large,
+                        },
+                        headerTitleAlign: 'center',
+                    }}
+                />
+
+                <Stack.Screen name='VendorHomeMapScreen' component={VendorHomeMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
