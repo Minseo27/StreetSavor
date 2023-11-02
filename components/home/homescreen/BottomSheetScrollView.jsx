@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useMemo } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import MapScreen from "./MapScreen";
+import MapScreen from "./HomeMapScreen";
 
 function BottomScroll () {
   // hooks
@@ -37,7 +37,7 @@ function BottomScroll () {
   );
   return (
     <View style={styles.container}>
-        <MapScreen/>
+        
       <BottomSheet
         ref={sheetRef}
         index={1}

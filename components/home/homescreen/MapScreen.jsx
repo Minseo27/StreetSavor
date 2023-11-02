@@ -17,7 +17,7 @@ import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
-
+/*
 function MapScreen (){
 
     const [lat, setLatitude] = useState(null);
@@ -197,4 +197,4 @@ function MapScreen (){
   }
 
   export default MapScreen;
-  
+  */
