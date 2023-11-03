@@ -16,6 +16,7 @@ import VendorSignupView from '../components/home/signup/VendorSignupView';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
+import VendorMapScreen from '../components/home/homescreen/vendorMapScreen';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
@@ -107,7 +108,7 @@ function App() {
                     }}
                 />
 
-                <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
+                <Stack.Screen name='VendorMapScreen' component={VendorMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
@@ -120,6 +121,18 @@ function App() {
                     }}
                 />
 
+                <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
+                    options ={ {
+                        headerStyle:{backgroundColor:'#efcb4e'},
+                        headerShadowVisible:false,
+                        headerTitle: 'Street Savor',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                            fontSize: SIZES.large,
+                        },
+                        headerTitleAlign: 'center',
+                    }}
+                />
                 <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},

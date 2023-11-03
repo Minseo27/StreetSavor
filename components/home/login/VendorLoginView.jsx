@@ -17,7 +17,7 @@ const VendorLoginView = ({ navigation }) => {
     try {
       await auth().signInWithEmailAndPassword(email, password);
       
-      navigation.navigate('HomeMapScreen', { name: 'HomeMapScreen' });
+      navigation.navigate('VendorMapScreen', { name: 'VendorMapScreen' });
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
         setError('Invalid email address.');
