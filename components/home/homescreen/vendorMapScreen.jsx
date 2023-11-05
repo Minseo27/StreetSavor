@@ -160,7 +160,6 @@ const VendorMapScreen =({naivigation}) => {
 
               ) : ( <ActivityIndicator size ="large"/>)} 
   
-
           </View>
   
       );

@@ -8,15 +8,14 @@ import MapView, { Marker } from 'react-native-maps';
 import { COLORS, SIZES } from '../../../constants'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
-import * as permissions from 'react-native-permissions';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import BottomScroll from './BottomSheetScrollView';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
+import BottomScroll from './BottomSheetScrollView';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,18 +42,37 @@ const FirstOrderScreen = ({navigation}) => {
 }
 
 function AccountPage () {
-    return (
-        <ScrollView style={{flex:1,}}>
-            <View style={{flex:1, justifyContent:'center'}}>
-                <Text style={{textAlign: 'center'}}>
-                    This will be the account page.
+  const [userInfo, setInfo] = useState([]);
+  firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Customers').doc(auth().currentUser.uid).get().then((snapshot) => {
+      if (snapshot.exists)
+          setInfo(snapshot.data())
+  })
+  return (
+      <ScrollView style={{flex:1,}}>
+          <View style={{flex:1, justifyContent:'center'}}>
+              <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
+              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                  Email: {userInfo.email}{"\n"}
                 </Text>
-            </View>
-        </ScrollView>
-    );
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                  Username: {userInfo.name}{"\n"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                  Password: {userInfo.password}{"\n"}
+                </Text>
+              </TouchableOpacity>
+          </View>
+      </ScrollView>
+  );
 }
 
 const HomeMapScreen = ({navigation}) => {
+  
         const checkLocationPermission = async () => {
           const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
           if (result === RESULTS.DENIED) {
