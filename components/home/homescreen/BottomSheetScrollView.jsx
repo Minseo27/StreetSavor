@@ -1,20 +1,26 @@
-import React, { useCallback, useRef, useMemo } from "react";
+import React, { useCallback, useRef, useMemo, useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import MapScreen from "./MapScreen";
+import firestore from '@react-native-firebase/firestore';
 
-function BottomScroll () {
+const BottomScroll = () => {
   // hooks
   const sheetRef = useRef(null);
+  const [vendorInfo, setVendorInfo] = useState([]);
 
-  // variables
-  const data = useMemo(
-    () =>
-      Array(10)
-        .fill(0)
-        .map((_, index) => `index-${index}`),
-    []
-  );
+  useEffect(()=>{
+    const fetchData = async () => {
+      const vendorDoc = await firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').get();
+      const list = [];
+      vendorDoc.forEach((doc) => {
+        list.push(doc.data());
+      });
+      setVendorInfo(list);
+    };
+    fetchData();
+  }, []);
+  
   const snapPoints = useMemo(() => ["15%", "50%", "90%"], []);
 
   // callbacks
@@ -23,11 +29,11 @@ function BottomScroll () {
   }, []);
   // render
   const renderItem = useCallback(
-    (item) => (
-      <View key={item} style={styles.itemContainer}>
-        <Image source={item.imageSource} style={styles.image} />
+    (item, index) => (
+      <View key={index} style={styles.itemContainer}>
+        <Image source={require('./foodtruck.jpeg')} style={styles.image} />
         <View style={styles.textContainer}>
-        <Text style={styles.titleText}>title</Text>
+        <Text style={styles.titleText}>{item.name}</Text>
         <Text style={styles.descriptionText}>description</Text>
         <Text style={styles.moreInfoText}>moreInfo</Text>
     </View>
@@ -37,7 +43,7 @@ function BottomScroll () {
   );
   return (
     <View style={styles.container}>
-        <MapScreen/>
+      <MapScreen />
       <BottomSheet
         ref={sheetRef}
         index={1}
@@ -46,7 +52,7 @@ function BottomScroll () {
       >
         <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={styles.title}>Nearest Treats</Text>
-          {data.map(renderItem)}
+          {vendorInfo.map((item, index) => renderItem(item, index))}
           
         </BottomSheetScrollView>
       </BottomSheet>
@@ -87,11 +93,12 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   descriptionText: {
-    fontSize: 14,
+    fontSize: 12,
   },
   moreInfoText: {
-    fontSize: 12,
+    fontSize: 10,
   },
 });
 
 export default BottomScroll;
+

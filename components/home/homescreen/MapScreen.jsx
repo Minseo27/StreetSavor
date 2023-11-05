@@ -1,22 +1,14 @@
-
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { NavigationActions } from 'react-navigation';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, TextInput} from 'react-native';
 import styles from './homemapscreen.styles';
-import MapView, { Marker } from 'react-native-maps';
-import { COLORS, SIZES } from '../../../constants'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
-import * as permissions from 'react-native-permissions';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import Geolocation from 'react-native-geolocation-service';
+import MapView, { Marker, Polyline} from 'react-native-maps';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
+import { DirectionsService } from 'react-native-maps-directions';
+import MapViewDirections from 'react-native-maps-directions';
 
 function MapScreen (){
 
@@ -31,14 +23,6 @@ function MapScreen (){
       const fetchLocationFromFirestore = async () => {
           const user = auth().currentUser;
   
-          // const userDocRef = firestore()
-          // .collection('Users')
-          //     .doc('dFqhRhGV5BSuqWYys6bP')
-          //     .collection('Vendors')
-          //     .doc('zNpo2OBPsA73QZJFM5ub')
-          //     .collection('info')
-          //     .doc(user.uid);
-          
           try {
           const userDocRef = firestore()
               .collection('Users')
@@ -74,27 +58,22 @@ function MapScreen (){
   
     fetchLocationFromFirestore();
     }, [] );
+
+    // Setting Cooridintes to be Used in route Polyline
+    const [showPolyline, setShowPolyline] = useState(false);
+
+
   
     // Variables for Containing Food Truck Location
     const [latTruck, setFoodLatitude] = useState(null);
     const [lonTruck, setFoodLongitude] = useState(null);
     const [locationFoodDataFetched, setFoodLocationDataFetched] = useState(false);
   
-  
-  
     // Fetching Food Truck Based on Search Bar 
     //useEffect(() => {
-        const fetchFoodTruckLocation = async () => { 
+        const fetchFoodTruckLocation = async () => {
+            /*
           const user = auth().currentUser;
-  
-          // const userDocRef = firestore()
-          // .collection('Users')
-          //     .doc('dFqhRhGV5BSuqWYys6bP')
-          //     .collection('Vendors')
-          //     .doc('zNpo2OBPsA73QZJFM5ub')
-          //     .collection('info')
-          //     .doc(user.uid);
-          
           try {
           const userDocRef = firestore()
               .collection('Users')
@@ -126,10 +105,47 @@ function MapScreen (){
           } catch (error) {
           console.error('Error fetching location data:', error);
           }
-      };
+        */
+       if(newText) {
+           try{
+               const vendorDocRef = firestore()
+               .collection('Users')
+               .doc('dFqhRhGV5BSuqWYys6bP')
+               .collection('Vendors')
+               .doc('zNpo2OBPsA73QZJFM5ub')
+               .collection('info');
+               const query = vendorDocRef.where("name", "==", newText).limit(1);
+               const userDoc = await query.get();
+
+               if (!userDoc.empty) {
+                   const vendorDoc = userDoc.docs[0];
+                   const locationData = vendorDoc.data().location;
+                   if (locationData) {
+                    const { latitude, longitude } = locationData;
+                    setFoodLatitude(latitude); 
+                    setFoodLongitude(longitude);
+                    setFoodLocationDataFetched(true)
+                   } else {
+                    console.log('No location data found for the user.');
+                    }
+               } else {
+                    console.log('User document does not exist.');
+               }
+           } catch(error) {
+               console.error("Error searching for vendor location:", error);
+           }
+        }
+       
+        }; 
   
       fetchFoodTruckLocation();
-    //}, [] );
+    
+
+    // Setting Condition for Rendering Truck Route
+    const getRouteLocation = () =>{
+        setShowPolyline(true)
+    }
+
   
   
     console.warn(`${lat}`, `${lon}`)
@@ -151,11 +167,11 @@ function MapScreen (){
                   longitudeDelta: 0.02,
                   }}
               >
+
+
   
               <Marker
                   coordinate={{
-                  //latitude: 40.7861, 
-                  //longitude: -73.9543,
                   latitude:  lat,
                   longitude: lon,
                   
@@ -169,11 +185,22 @@ function MapScreen (){
                       latitude:latTruck,
                       longitude:lonTruck,
                   }}
-                  description={"Here is a truck"}
+                  description={"Your Nearest Truck"}
+                  onPress={getRouteLocation}
               >
                   <Image source = {require('./foodtruck.jpeg')} style={{height:35, width:35}}/>
               </Marker>
-  
+
+              {showPolyline && 
+              (<MapViewDirections
+                origin={{ latitude: lat, longitude: lon }}
+                destination={{ latitude: latTruck, longitude: lonTruck }}
+                apikey={"AIzaSyBLoT-2L2OzwWceQVT4VHgy3AFTXkWeqHU"} // Your API Key
+                strokeWidth={2}
+                
+                
+                />)
+              }
               </MapView>
               ) : ( <ActivityIndicator size ="large"/>)} 
   
