@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -165,3 +166,4 @@ const VendorMapScreen =({naivigation}) => {
   }
 
   export default VendorMapScreen;
+  

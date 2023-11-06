@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     
     // changing margin from the top of whatver is above
     buttonContainer:{
-        marginTop:200
+        marginTop:100
     },
     buttonText:{
         fontSize:20,
