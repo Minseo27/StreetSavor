@@ -1,187 +1,221 @@
-
-import React, { useState,useEffect } from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable, PermissionsAndroid, Alert} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import * as Location from 'expo-location'
 import styles from './homemapscreen.styles';
+import MapView, { Marker } from 'react-native-maps';
 import { COLORS, SIZES } from '../../../constants'
-import Input from 'postcss/lib/input';
-import { Component } from 'react/cjs/react.production.min';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-//import { MapsComponent } from '@syncfusion/ej2-react-maps';
-// Imports
-import MapView from 'react-native-maps';
-import { Marker } from 'react-native-maps';
-import LoginView from '../login/LoginView';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import {email_info, Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
-import { PERMISSIONS, Permission} from 'react-native-permissions';
-//import Geolocation from '@react-native-community/geolocation';
-import { Button } from 'react-native';
-//import { AsyncStorage } from 'react-native';
-import { Image } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
-import firestore, { Filter } from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { Image } from 'react-native';
+import BottomScroll from './BottomSheetScrollView';
 
 const Tab = createBottomTabNavigator();
 
-// function MapScreen() {
-//     const [loc, setLoc] = useState(null);
-//     const [region,setRegion] = useState(null);
-//     useEffect(() =>{
-//         const getLocation = async () => {
-//             let {grant} = await AsyncStorage.getForegroundPermissionsAsync();
-//             if (grant != 'granted') {
-//                 return;
-//             }
+function MapScreen (){
 
-//             let location = await AsyncStorage.getCurrentPositionAsync();
-//             setLoc(location.coords)
+  const [lat, setLatitude] = useState(null);
+  const [lon, setLongitude] = useState(null);
+  const [newText, setText] = useState('');
 
-//             setRegion({
-//                 latitude: location.coords.latitude,
-//                 longitude: location.coords.longitude,
-//                 latitudeDelta: 0.005,
-//                 longitudeDelta: 0.005,
-//             })
-//         }
+  const [locationDataFetched, setLocationDataFetched] = useState(false);
 
-//         getLocation();
-//     },[])
-//     return (
-//         <View style = {{flex:1,}}>
-//             {region && (<MapView
-//             //Hunter College Coordinates
-//                 style={{ flex: 1 }}
-//                 //provider='google'
-//                 initialRegion={region}
-//             >
-//                 {loc && (<Marker coordinate={{latitude: loc.latitude, longitude: loc.longitude}}/>)}
-//             </MapView>)}
+const Tab = createBottomTabNavigator();
 
-//             <View style = {styles.searchContainer}>
-//                 <View style = {styles.searchWrapper}>
-//                     <TextInput
-//                     style= {styles.searchInput}
-//                     value = ""
-//                     onChange = { () => {  } }
-//                     placeholder= "What are you looking for?"
-//                     placeholderTextColor="#888"
-//                 />  
-//                 </View>
+  useEffect(() => {
+    const fetchLocationFromFirestore = async () => {
+        const user = auth().currentUser;
+
+        // const userDocRef = firestore()
+        // .collection('Users')
+        //     .doc('dFqhRhGV5BSuqWYys6bP')
+        //     .collection('Vendors')
+        //     .doc('zNpo2OBPsA73QZJFM5ub')
+        //     .collection('info')
+        //     .doc(user.uid);
+        
+        try {
+        const userDocRef = firestore()
+            .collection('Users')
+            .doc('dFqhRhGV5BSuqWYys6bP')
+            .collection('Customers')
+            .doc(user.uid);
+    
+        const userDoc = await userDocRef.get();
+    
+        if (userDoc.exists) {
+            const locationData = userDoc.data().location;
+            if (locationData) {
+                const { latitude, longitude } = locationData;
+            //console.log('Latitude:', latitude);
+            //console.warn('Longitude:', longitude);
+
+                // Setting Values
+                setLatitude(latitude); 
+                setLongitude(longitude); 
+                //Setting Location Value
+                setLocationDataFetched(true)
             
-//             </View>
-//         </View>
-//     )
-// }
-
-function getInfo() {
-}
-
-function MapScreen() {
-
-  //Saving Position 
-  const [savedLatitude,setLatitude] = useState(null);
-  const [savedLongitude,setLongitude] = useState(null);
-  AsyncStorage.setItem('ACCESS_FINE_LOCATION')
-  let savedLatDelta = null;
-  let savedLongDelta = null;
-  
-
-  
-    const checkLocationPermission = async () => {
-      const locationPermission = await AsyncStorage.getItem('ACCESS_FINE_LOCATION');
-      if (locationPermission !== 'granted') {
-      } else {
-        Alert.alert(
-          'Location Tracking Permission',
-          'Allow location tracking for customers?',
-          [
-            {
-              text: 'Do It Later',
-              style: 'cancel',
-            },
-            {
-              text: 'Yes',
-              onPress: async () => {
-                // Store the user's location
-                // geolocation here
-
-                Geolocation.getCurrentPosition(
-                  (position) => {
-                      //console.log("My current location", JSON.stringify(position));
-                      //this.setState({location: position.coords.latitude.toString() + "," + position.coords.longitude.toString()})
-                      //console.warn(position.coords.latitude)
-                      
-                      setLatitude(position.coords.latitude);
-                      setLongitude(position.coords.longitude);
-                      
-                  },
-                  (error) => {
-                      // See error code charts below.
-                      console.log(error.code, error.message);
-                  },
-                  { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
-
-                  console.warn(savedLatitude)
-                // Store the permission status
-                //await AsyncStorage.setItem('locationPermission', 'granted');
-              },
-            },
-          ]
-        );
-      }
-
-
-      //console.warn(savedLatitude)
-      
+            } else {
+            console.log('No location data found for the user.');
+            }
+        } else {
+            console.log('User document does not exist.');
+        }
+        } catch (error) {
+        console.error('Error fetching location data:', error);
+        }
     };
 
-    useEffect(() => {
-        checkLocationPermission();
-      }, []);
+  fetchLocationFromFirestore();
+  }, [] );
+
+  // Variables for Containing Food Truck Location
+  const [latTruck, setFoodLatitude] = useState(null);
+  const [lonTruck, setFoodLongitude] = useState(null);
+  const [locationFoodDataFetched, setFoodLocationDataFetched] = useState(false);
+
+  // Fetching Food Truck Based on Search Bar 
+  //useEffect(() => {
+      const fetchFoodTruckLocation = async () => {
+          /*
+        const user = auth().currentUser;
+        try {
+        const userDocRef = firestore()
+            .collection('Users')
+            .doc('dFqhRhGV5BSuqWYys6bP')
+            .collection('Vendors')
+            .doc('zNpo2OBPsA73QZJFM5ub')
+            .collection('info')
+            .doc(newText);
+    
+        const userDoc = await userDocRef.get();
+    
+        if (userDoc.exists) {
+            const locationData = userDoc.data().location;
+            if (locationData) {
+                const { latitude, longitude } = locationData;
+
+                // Setting Values
+                setFoodLatitude(latitude); 
+                setFoodLongitude(longitude); 
+                //Setting Location Value
+                setFoodLocationDataFetched(true)
+            
+            } else {
+            console.log('No location data found for the user.');
+            }
+        } else {
+            console.log('User document does not exist.');
+        }
+        } catch (error) {
+        console.error('Error fetching location data:', error);
+        }
+      */
+     if(newText) {
+         try{
+             const vendorDocRef = firestore()
+             .collection('Users')
+             .doc('dFqhRhGV5BSuqWYys6bP')
+             .collection('Vendors')
+             .doc('zNpo2OBPsA73QZJFM5ub')
+             .collection('info');
+             const query = vendorDocRef.where("name", "==", newText).limit(1);
+             const userDoc = await query.get();
+
+             if (!userDoc.empty) {
+                 const vendorDoc = userDoc.docs[0];
+                 const locationData = vendorDoc.data().location;
+                 if (locationData) {
+                  const { latitude, longitude } = locationData;
+                  setFoodLatitude(latitude); 
+                  setFoodLongitude(longitude);
+                  setFoodLocationDataFetched(true)
+                 } else {
+                  console.log('No location data found for the user.');
+                  }
+             } else {
+                  console.log('User document does not exist.');
+             }
+         } catch(error) {
+             console.error("Error searching for vendor location:", error);
+         }
+      }
+     
+      }; 
+
+    fetchFoodTruckLocation();
+  //}, [] );
+
+
+  console.warn(`${lat}`, `${lon}`)
 
     return (
-      
-      <View style={{ flex: 1, backgroundColor: '#efcb4e' }}>
-       
-        <MapView
-          // Hunter College Coordinates
-          style={{ flex: 1 }}
-          initialRegion={{
-            latitude: 40.7861,
-            longitude: -73.9543,
-            latitudeDelta: 0.03,
-            longitudeDelta: 0.02,
-          }}
-        >
-          <Marker
-          coordinate={{
-            latitude: 40.7861,
-            longitude: -73.9543,
-          }}
-        //image = {require(".asset/mount.jpeg")}
-        
-    
-    />
-        </MapView>
-  
-        <View style={styles.searchContainer}>
-          <View style={styles.searchWrapper}>
-            <TextInput
-              style={styles.searchInput}
-              value=""
-              onChange={() => {}}
-              placeholder="What are you looking for?"
-              placeholderTextColor="#888"
-            />
-          </View>
+        <View style = {{flex:1,}}>
+            {locationDataFetched ? (
+                //Conditional Map Render
+            <MapView
+            //Hunter College Coordinates
+            
+                style={{ flex: 1 }}
+                initialRegion={{
+                //latitude:  40.7861,
+                //longitude: -73.9543,
+                latitude:  lat,
+                longitude: lon,
+                latitudeDelta: 0.03,
+                longitudeDelta: 0.02,
+                }}
+            >
+
+            <Marker
+                coordinate={{
+                //latitude: 40.7861, 
+                //longitude: -73.9543,
+                latitude:  lat,
+                longitude: lon,
+                
+                }}
+                description={"You are here"}>
+                <Image source={require('./location-pin.png')} style={{height: 35, width:35 }} />
+            </Marker>
+
+            <Marker 
+                coordinate ={{
+                    latitude:latTruck,
+                    longitude:lonTruck,
+                }}
+                description={"Here is a truck"}
+            >
+                <Image source = {require('./foodtruck.jpeg')} style={{height:35, width:35}}/>
+            </Marker>
+
+            </MapView>
+            ) : ( <ActivityIndicator size ="large"/>)} 
+
+            <View style = {styles.searchContainer}>
+                <View style = {styles.searchWrapper}>
+                    <TextInput
+                    style= {styles.searchInput}
+                    value = {newText}
+                    onChangeText = {newText => setText(newText)}
+                    placeholder= "What are you looking for?"
+                    placeholderTextColor="#888"
+                    //onSubmitEditing={() => alert(`Welcome to ${newText}`)}
+                    onSubmitEditing = { () => fetchFoodTruckLocation() }
+                />  
+                </View>
+            
+            </View>
         </View>
-      </View>
+
     );
 }
 
@@ -208,40 +242,92 @@ const FirstOrderScreen = ({navigation}) => {
 }
 
 function AccountPage () {
-    const [userInfo, setInfo] = useState([]);
-    firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Customers').doc(auth().currentUser.uid).get().then((snapshot) => {
-        if (snapshot.exists)
-            setInfo(snapshot.data())
-    })
-    return (
-        <ScrollView style={{flex:1,}}>
-            <View style={{flex:1, justifyContent:'center'}}>
-                <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
-                    Email: {userInfo.email}{"\n"}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
-                    Username: {userInfo.name}{"\n"}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
-                    Password: {userInfo.password}{"\n"}
-                  </Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-    );
+  const [userInfo, setInfo] = useState([]);
+  firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Customers').doc(auth().currentUser.uid).get().then((snapshot) => {
+      if (snapshot.exists)
+          setInfo(snapshot.data())
+  })
+  return (
+      <ScrollView style={{flex:1,}}>
+          <View style={{flex:1, justifyContent:'center'}}>
+              <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
+              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                  Email: {userInfo.email}{"\n"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                  Username: {userInfo.name}{"\n"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
+                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                  Password: {userInfo.password}{"\n"}
+                </Text>
+              </TouchableOpacity>
+          </View>
+      </ScrollView>
+  );
 }
 
 const HomeMapScreen = ({navigation}) => {
-    return (
+  
+        const checkLocationPermission = async () => {
+          const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+          if (result === RESULTS.DENIED) {
+            const permissionResult = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+            if (permissionResult === RESULTS.GRANTED) {
+              getUserLocationAndStoreInFirestore();
+            }
+          } else if (result === RESULTS.GRANTED) {
+            getUserLocationAndStoreInFirestore();
+          }
+        };
+      
+        const getUserLocationAndStoreInFirestore = () => {
+          Geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              storeLocationInFirestore(latitude, longitude);
+              
+            },
+            (error) => {
+              console.error('Error getting location:', error);
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+          );
+        };
+      
+        const storeLocationInFirestore = (latitude, longitude) => {
+        const user = auth().currentUser;
+          firestore()
+            .collection('Users')
+            .doc('dFqhRhGV5BSuqWYys6bP')
+            .collection('Customers')
+            .doc(user.uid)
+            .update({
+              location: {
+                latitude,
+                longitude,
+              },
+            })
+            .then(() => {
+              console.log('Location updated in Firestore');
+            })
+            .catch((error) => {
+              console.error('Error updating location:', error);
+            });
+        };
+      
+        useEffect(() => {
+          checkLocationPermission();
+        }, []);
+
+      return (
         <Tab.Navigator initialRouteName='Map' options={{flex: 1,}}>
-            <Tab.Screen name='Map' component={MapScreen} options={{headerShown: false}}/>
-            <Tab.Screen name="Order" component={FirstOrderScreen} options={{headerShown: false}}/>
+            <Tab.Screen name='Map' component={BottomScroll} options={{headerShown: false}}/>
+            <Tab.Screen name="Cart" component={FirstOrderScreen} options={{headerShown: false}}/>
             <Tab.Screen name="Account" component={AccountPage} options={{headerShown: false}}/>
         </Tab.Navigator>
     );
@@ -249,7 +335,5 @@ const HomeMapScreen = ({navigation}) => {
 
 
 
-{/* export default HomeMapScreen;
-  }; */}
-  
+
 export default HomeMapScreen;
