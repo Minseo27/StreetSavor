@@ -20,7 +20,6 @@ import VendorMapScreen from '../components/home/homescreen/vendorMapScreen';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
-
 // Screen Rotation 
 import * as ScreenOrientation from "expo-screen-orientation";
 
@@ -29,36 +28,22 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 
-const Example = ( ) =>   {
-    return (
-        <Text> Test</Text>
-    )
-} 
-
 // Application Root With Navigator
 function App() {
-
-
     const router = useRouter()
-    return ( 
-
-
+    return (
         <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
-
-        <NavigationContainer independent={true} >
-
-    
-           <Stack.Navigator>
+        <NavigationContainer independent={true}>
+           <Stack.Navigator >
             
                 <Stack.Screen name = 'Initial' component={GreetingPage}
                 // Initial Screen is the Greeting Page
                     options = { {
-                        //Background color # F2F2F2
+                        //backgroundColor: '#efcb4e',
                         headerStyle: {backgroundColor: '#efcb4e'},
                         // Removing the Shadow
                         headerShadowVisible: false, 
-                        headerTitle:"",
-                        //headerMode:'none'
+                        headerTitle:'',
                         }}
                 />
                
@@ -90,8 +75,6 @@ function App() {
                     }}
                 />
                 
-
-
                 <Stack.Screen name='CustomerSignupView' component={CustomerSignupView}
                     options = {{
                         headerStyle:{backgroundColor:'#efcb4e'},
@@ -135,8 +118,6 @@ function App() {
                     }}
                 />
 
-                
-                
                 <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
@@ -150,14 +131,9 @@ function App() {
                     }}
                 />
 
-                
             </Stack.Navigator>
 
         </NavigationContainer>
-
-      
-
-        
 
         </SafeAreaView>
     )

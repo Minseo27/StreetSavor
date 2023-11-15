@@ -74,14 +74,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#efcb4e',
-        width: '100%'
+        width: '100%',
       },
       welcomemessage: {
         fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
-        marginTop: 180,
+        marginTop: 130,
         fontStyle: 'italic'
       }    
 
