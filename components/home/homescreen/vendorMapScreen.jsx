@@ -18,7 +18,7 @@ import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 //import { useEffect } from 'react';
 
-const VendorMapScreen =({naivigation}) => {
+function MapScreen() {
 
     const [lat, setLatitude] = useState(null);
     const [lon, setLongitude] = useState(null);
@@ -162,6 +162,31 @@ const VendorMapScreen =({naivigation}) => {
           </View>
   
       );
+  }
+
+function CreateMenuScreen() {
+    return (
+        <View>
+
+        </View>
+    );
+}
+
+function AccountPage() {
+    return (
+        <View>
+            
+        </View>
+    );
+}
+  const VendorMapScreen = ({navigation}) => {
+    return (
+        <Tab.Navigator initialRouteName='Map' options={{flex: 1,}}>
+            <Tab.Screen name='Map' component={MapScreen} options={{headerShown: false}}/>
+            <Tab.Screen name="Your Menu" component={CreateMenuScreen} options={{headerShown: false}}/>
+            <Tab.Screen name="Account" component={AccountPage} options={{headerShown: false}}/>
+        </Tab.Navigator>
+    );
   }
 
   export default VendorMapScreen;

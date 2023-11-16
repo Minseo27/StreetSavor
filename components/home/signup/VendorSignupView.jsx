@@ -24,6 +24,7 @@ const VendorSignupView = ({ navigation }) => {
           name: username,
           email: email,
           password: password,
+          menu: [],
         };
 
         const docRef = firestore()

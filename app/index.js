@@ -60,7 +60,7 @@ function App() {
                         // Removing the Shadow
                         headerShadowVisible: false, 
                         headerTitle:"",
-                        //headerMode:'none'
+                        headerMode:'none'
                         }}
                 />
                
@@ -111,7 +111,7 @@ function App() {
                         headerTintColor: 'black'
                     }}
                 />
-                
+
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
