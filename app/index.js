@@ -45,12 +45,7 @@ function App() {
                         headerStyle: {backgroundColor: '#efcb4e'},
                         // Removing the Shadow
                         headerShadowVisible: false, 
-<<<<<<< HEAD
-                        headerTitle:"",
-                        headerMode:'none'
-=======
                         headerTitle:'',
->>>>>>> origin/minseo
                         }}
                 />
                
