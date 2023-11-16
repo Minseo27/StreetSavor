@@ -9,8 +9,61 @@ import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import { DirectionsService } from 'react-native-maps-directions';
 import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from 'react-native-geolocation-service';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
-function MapScreen (){
+function MapScreen () {
+    const checkLocationPermission = async () => {
+        const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+        if (result === RESULTS.DENIED) {
+          const permissionResult = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+          if (permissionResult === RESULTS.GRANTED) {
+            getUserLocationAndStoreInFirestore();
+          }
+        } else if (result === RESULTS.GRANTED) {
+          getUserLocationAndStoreInFirestore();
+        }
+      };
+
+      const storeLocationInFirestore = (latitude, longitude) => {
+        const user = auth().currentUser;
+          firestore()
+            .collection('Users')
+            .doc('dFqhRhGV5BSuqWYys6bP')
+            .collection('Customers')
+            .doc(user.uid)
+            .update({
+              location: {
+                latitude,
+                longitude,
+              },
+            })
+            .then(() => {
+              console.log('Location updated in Firestore');
+            })
+            .catch((error) => {
+              console.log('Error updating location:', error);
+            });
+        };
+    
+      const getUserLocationAndStoreInFirestore = () => {
+        Geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            storeLocationInFirestore(latitude, longitude);
+            fetchLocationFromFirestore();
+          },
+          (error) => {
+            console.error('Error getting location:', error);
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        );
+      };
+    
+      useEffect(() => {
+        checkLocationPermission();
+      }, []);
+
 
     const [lat, setLatitude] = useState(null);
     const [lon, setLongitude] = useState(null);
@@ -18,11 +71,8 @@ function MapScreen (){
   
     const [locationDataFetched, setLocationDataFetched] = useState(false);
   
-  
-    useEffect(() => {
       const fetchLocationFromFirestore = async () => {
           const user = auth().currentUser;
-  
           try {
           const userDocRef = firestore()
               .collection('Users')
@@ -32,7 +82,7 @@ function MapScreen (){
       
           const userDoc = await userDocRef.get();
       
-          if (userDoc.exists) {
+          if (!userDoc.empty) {
               const locationData = userDoc.data().location;
               if (locationData) {
                   const { latitude, longitude } = locationData;
@@ -57,7 +107,7 @@ function MapScreen (){
       };
   
     fetchLocationFromFirestore();
-    }, [] );
+    
 
     // Setting Cooridintes to be Used in route Polyline
     const [showPolyline, setShowPolyline] = useState(false);
@@ -72,40 +122,6 @@ function MapScreen (){
     // Fetching Food Truck Based on Search Bar 
     //useEffect(() => {
         const fetchFoodTruckLocation = async () => {
-            /*
-          const user = auth().currentUser;
-          try {
-          const userDocRef = firestore()
-              .collection('Users')
-              .doc('dFqhRhGV5BSuqWYys6bP')
-              .collection('Vendors')
-              .doc('zNpo2OBPsA73QZJFM5ub')
-              .collection('info')
-              .doc(newText);
-      
-          const userDoc = await userDocRef.get();
-      
-          if (userDoc.exists) {
-              const locationData = userDoc.data().location;
-              if (locationData) {
-                  const { latitude, longitude } = locationData;
-  
-                  // Setting Values
-                  setFoodLatitude(latitude); 
-                  setFoodLongitude(longitude); 
-                  //Setting Location Value
-                  setFoodLocationDataFetched(true)
-              
-              } else {
-              console.log('No location data found for the user.');
-              }
-          } else {
-              console.log('User document does not exist.');
-          }
-          } catch (error) {
-          console.error('Error fetching location data:', error);
-          }
-        */
        if(newText) {
            try{
                const vendorDocRef = firestore()
@@ -146,12 +162,10 @@ function MapScreen (){
         setShowPolyline(true)
     }
 
-  
-  
     console.warn(`${lat}`, `${lon}`)
   
       return (
-          <View style = {{flex:1,}}>
+          <View style = {{flex:1}}>
               {locationDataFetched ? (
                   //Conditional Map Render
               <MapView
@@ -167,9 +181,6 @@ function MapScreen (){
                   longitudeDelta: 0.02,
                   }}
               >
-
-
-  
               <Marker
                   coordinate={{
                   latitude:  lat,
@@ -197,7 +208,6 @@ function MapScreen (){
                 destination={{ latitude: latTruck, longitude: lonTruck }}
                 apikey={"AIzaSyBLoT-2L2OzwWceQVT4VHgy3AFTXkWeqHU"} // Your API Key
                 strokeWidth={2}
-                
                 
                 />)
               }

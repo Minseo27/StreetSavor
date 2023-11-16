@@ -5,6 +5,7 @@ import MapScreen from "./MapScreen";
 import firestore from '@react-native-firebase/firestore';
 
 const BottomScroll = () => {
+  MapScreen();
   // hooks
   const sheetRef = useRef(null);
   const [vendorInfo, setVendorInfo] = useState([]);
