@@ -25,7 +25,7 @@ const Layout = () => {
 
     if(!fontsLoaded) return null;
     
-    return <Stack onLayout = {onLayoutRootView} screenOptions={{headerShown: false}}/>;
+    return <Stack onLayout = {onLayoutRootView} screenOptions={{headerShown: true}}/>;
 }
 
 

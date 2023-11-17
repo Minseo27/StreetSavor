@@ -61,7 +61,7 @@ const CustomerLoginView = ({ navigation }) => {
         <View style={[styles.textContainer, { marginTop: 20 }]}>
           <Text style={styles.text}>Don't have an account? </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('CustomerSignupView', { name: 'CustomerSignupView' })}>
+            onPress={() => navigation.navigate('CustomerSignupView')}>
             <Text style={styles.text2}>Sign Up</Text>
           </TouchableOpacity>
         </View>

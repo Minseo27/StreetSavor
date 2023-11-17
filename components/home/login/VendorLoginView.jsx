@@ -17,7 +17,7 @@ const VendorLoginView = ({ navigation }) => {
     try {
       await auth().signInWithEmailAndPassword(email, password);
       
-      navigation.navigate('VendorMapScreen', { name: 'VendorMapScreen' });
+      navigation.navigate('VendorMapScreen');
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
         setError('Invalid email address.');
@@ -58,7 +58,7 @@ const VendorLoginView = ({ navigation }) => {
         <View style={[styles.textContainer, { marginTop: 20 }]}>
           <Text style={styles.text}>Don't have an account? </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('VendorSignupView', { name: 'VendorSignupView' })}>
+            onPress={() => navigation.navigate('VendorSignupView')}>
             <Text style={styles.text2}>Sign Up</Text>
           </TouchableOpacity>
         </View>
