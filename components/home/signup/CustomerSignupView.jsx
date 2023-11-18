@@ -10,6 +10,18 @@ const CustomerSignupView = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
+  const [lat,setLatitude] = useState(null);
+  const [long,setLongitude] = useState(null);
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(pos => {
+      setLatitude(pos.coords.latitude);
+      setLongitude(pos.coords.longitude);
+    })
+  };
+
+  getLocation();
+  
   const handleSignUp = async () => {
     try {
       const userExists = await auth().fetchSignInMethodsForEmail(email);
@@ -24,6 +36,10 @@ const CustomerSignupView = ({ navigation }) => {
           name: username,
           email: email,
           password: password,
+          location: {
+            latitude: lat,
+            logntitude: long,
+          },
         };
 
         const docRef = firestore()

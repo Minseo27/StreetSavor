@@ -3,12 +3,25 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import styles from './signupView.styles';
+import Geolocation from '@react-native-community/geolocation';
 
 const VendorSignupView = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  const [lat,setLatitude] = useState(null);
+  const [long,setLongitude] = useState(null);
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(pos => {
+      setLatitude(pos.coords.latitude);
+      setLongitude(pos.coords.longitude);
+    })
+  };
+
+  getLocation();
 
   const handleSignUp = async () => {
     try {
@@ -24,6 +37,10 @@ const VendorSignupView = ({ navigation }) => {
           name: username,
           email: email,
           password: password,
+          location: {
+            latitude: lat,
+            logntitude: long,
+          },
           menu: [],
         };
 
