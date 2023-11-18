@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CapstoneProj</string>
+    <string name="mapbox_access_token">pk.eyJ1Ijoiam1vdG9yb2xhIiwiYSI6ImNscDN1M2kyZTExaWkyamxvdDVkbmQ5dzYifQ.fJOlBvxpmA3cDLmlQ9HrOQ</string>
 </resources>

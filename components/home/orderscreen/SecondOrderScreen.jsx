@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, StyleSheet,Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,6 +12,7 @@ import { Component } from 'react/cjs/react.production.min';
 // Imports
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 

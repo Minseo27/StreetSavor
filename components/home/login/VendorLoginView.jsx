@@ -1,7 +1,8 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import React, { useState } from 'react';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 const VendorLoginView = ({ navigation }) => {
   const [email, setEmail] = useState('');

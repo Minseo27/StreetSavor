@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, TextInput} from 'react-native';
+import { View} from 'react-native';
 import styles from './homemapscreen.styles';
 import MapView, { Marker, Polyline} from 'react-native-maps';
 import auth from '@react-native-firebase/auth';
@@ -11,6 +11,7 @@ import { DirectionsService } from 'react-native-maps-directions';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import { TextInput } from 'react-native-gesture-handler';
 
 function MapScreen () {
     const checkLocationPermission = async () => {

@@ -1,11 +1,3 @@
-<<<<<<< HEAD
 <project version="4">
   <component name="ProjectRootManager" version="2" languageLevel="JDK_19" project-jdk-name="Android API 33, extension level 3" project-jdk-type="Android SDK" />
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectRootManager">
-    <output url="file://$PROJECT_DIR$/out" />
-  </component>
->>>>>>> b0f661b (Before)
 </project>

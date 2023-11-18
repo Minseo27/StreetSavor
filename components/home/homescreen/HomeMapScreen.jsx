@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase } from 'react-native';
+import { View, Text, StyleSheet,Alert, Pressable, ActivityIndicatorBase } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
 import { COLORS, SIZES } from '../../../constants'
@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import BottomScroll from './BottomSheetScrollView';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 
 const Tab = createBottomTabNavigator();
 

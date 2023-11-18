@@ -6,6 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
 import MapView, { Marker } from 'react-native-maps';
+// import MapBox from '@rnmapbox/maps'
 import { COLORS, SIZES } from '../../../constants'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
@@ -17,8 +18,8 @@ import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
-//import { useEffect } from 'react';
 
+const Tab = createBottomTabNavigator();
 function MapScreen() {
 
     const [lat, setLatitude] = useState(null);
@@ -98,7 +99,7 @@ function MapScreen() {
             const vendorData = vendorDoc.data();
             const latName = vendorData.location.latitude
             //const longName = vendorData.location.longitude
-            const { latitude, longitude } =vendorData.location;
+            const { latitude, longitude } = vendorData.location;
 
             //console.warn(latitude)
             markersData.push({latitude,longitude})

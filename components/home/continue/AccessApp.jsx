@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Button,SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import GreetingPage from '../greeting/GreetingPage';
 import { NavigationActions } from 'react-navigation';
 import styles from './AppAccess.styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 // Page to change access type                    
 const AppAcccess = ({navigation}) => {
