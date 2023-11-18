@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import styles from './signupView.styles';
+import Geolocation from '@react-native-community/geolocation';
 
 const CustomerSignupView = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -21,7 +22,7 @@ const CustomerSignupView = ({ navigation }) => {
   };
 
   getLocation();
-  
+
   const handleSignUp = async () => {
     try {
       const userExists = await auth().fetchSignInMethodsForEmail(email);
