@@ -19,6 +19,7 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
 import VendorMapScreen from '../components/home/homescreen/vendorMapScreen';
+import { Image } from 'react-native';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
@@ -99,12 +100,17 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle: 'Street Savor',
+                        headerTitle: () => (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <Image style={{alignSelf: 'center', width: 32, height: 32,}} source={require('../assets/images/project_logo.png')}/>
+                            </View>
+                        ),
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,
                         },
                         headerTitleAlign: 'center',
+                        
                     }}
                 />
 
@@ -112,7 +118,11 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle: 'Street Savor',
+                        headerTitle: () => (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <Image style={{alignSelf: 'center', width: 32, height: 32,}} source={require('../assets/images/project_logo.png')}/>
+                            </View>
+                        ),
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,
@@ -125,7 +135,11 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle: 'Street Savor',
+                        headerTitle: () => (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <Image style={{alignSelf: 'center', width: 32, height: 32,}} source={require('../assets/images/project_logo.png')}/>
+                            </View>
+                        ),
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,

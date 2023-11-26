@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
 
 var exportEmail = null;
 var exportUsername = null;
@@ -37,7 +38,7 @@ const CustomerLoginView = ({ navigation }) => {
   exportEmail = email;
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>Street{'\n'} Savor</Text>
+      <Image style={{alignSelf: 'center', width: 128, height: 128,}} source={require('../../../assets/images/project_logo.png')}/>
       <View>
         <TextInput
           style={[styles.input, { marginTop: 30 }]}

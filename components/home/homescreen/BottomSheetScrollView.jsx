@@ -1,9 +1,8 @@
 import React, { useCallback, useRef, useMemo, useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-// import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import MapScreen from "./MapScreen";
 import firestore from '@react-native-firebase/firestore';
-import BottomSheet from 'react-native-simple-bottom-sheet'
 import { ScrollView } from "react-native-gesture-handler";
 
 const BottomScroll = () => {
@@ -45,15 +44,32 @@ const BottomScroll = () => {
     []
   );
   return (
+    // <View style={styles.container}>
+    //   <MapScreen />
+    //   <BottomSheet isOpen sliderMaxHeight={500} sliderMinHeight={200}>
+    //     {(onScrollBeginDrag) => (
+    //       <ScrollView onScrollBeginDrag={onScrollBeginDrag} contentContainerStyle={styles.contentContainer}>
+    //       <Text style={styles.title}>Nearest Treats</Text>
+    //         {vendorInfo.map((item, index) => renderItem(item, index))}         
+    //       </ScrollView>
+    //     )}
+    //   </BottomSheet>
+
+    // </View>
+
     <View style={styles.container}>
       <MapScreen />
-      <BottomSheet isOpen sliderMaxHeight={100}>
-        {(onScrollBeginDrag) => (
-          <ScrollView onScrollBeginDrag={onScrollBeginDrag} contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.title}>Nearest Treats</Text>
-            {vendorInfo.map((item, index) => renderItem(item, index))}         
-          </ScrollView>
-        )}
+      <BottomSheet
+        ref={sheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChange}
+      >
+        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
+        <Text style={styles.title}>Nearest Treats</Text>
+          {vendorInfo.map((item, index) => renderItem(item, index))}
+          
+        </BottomSheetScrollView>
       </BottomSheet>
 
     </View>

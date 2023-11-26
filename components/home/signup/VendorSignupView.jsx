@@ -5,6 +5,8 @@ import firestore from '@react-native-firebase/firestore';
 import styles from './signupView.styles';
 import Geolocation from '@react-native-community/geolocation';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
+import { VendorItem } from '../../../database_vars/vars';
 
 const VendorSignupView = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -33,16 +35,15 @@ const VendorSignupView = ({ navigation }) => {
       } else {
         const userCredential = await auth().createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
-
         const userData = {
           name: username,
           email: email,
           password: password,
+          menu : {},
           location: {
             latitude: lat,
-            logntitude: long,
+            longitude: long,
           },
-          menu: [],
         };
 
         const docRef = firestore()
@@ -86,7 +87,7 @@ const VendorSignupView = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>Street{'\n'} Savor</Text>
+      <Image style={{alignSelf: 'center', width: 128, height: 128,}} source={require('../../../assets/images/project_logo.png')}/>
       <View>
         <TextInput
           style={[styles.input, { marginTop: 30 }]}

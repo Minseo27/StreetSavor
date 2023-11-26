@@ -118,6 +118,7 @@ function MapScreen () {
     // Variables for Containing Food Truck Location
     const [latTruck, setFoodLatitude] = useState(null);
     const [lonTruck, setFoodLongitude] = useState(null);
+    // const [coords,setCoords] = useState(null);
     const [locationFoodDataFetched, setFoodLocationDataFetched] = useState(false);
   
     // Fetching Food Truck Based on Search Bar 
@@ -138,10 +139,13 @@ function MapScreen () {
                    const vendorDoc = userDoc.docs[0];
                    const locationData = vendorDoc.data().location;
                    if (locationData) {
+                    // const c = locationData;
                     const { latitude, longitude } = locationData;
                     setFoodLatitude(latitude); 
                     setFoodLongitude(longitude);
+                    // setCoords(c);
                     setFoodLocationDataFetched(true)
+                    console.log(latitude,longitude);
                    } else {
                     console.log('No location data found for the user.');
                     }
@@ -176,26 +180,26 @@ function MapScreen () {
                   initialRegion={{
                   //latitude:  40.7861,
                   //longitude: -73.9543,
-                  latitude:  lat,
-                  longitude: lon,
+                  latitude:  Number(lat),
+                  longitude: Number(lon),
                   latitudeDelta: 0.03,
                   longitudeDelta: 0.02,
                   }}
               >
               <Marker
                   coordinate={{
-                  latitude:  lat,
-                  longitude: lon,
+                  latitude:  Number(lat),
+                  longitude: Number(lon),
                   
                   }}
                   description={"You are here"}>
                   <Image source={require('./location-pin.png')} style={{height: 35, width:35 }} />
               </Marker>
   
-              <Marker 
+              <Marker
                   coordinate ={{
-                      latitude:latTruck,
-                      longitude:lonTruck,
+                      latitude: Number(latTruck),
+                      longitude: Number(lonTruck),
                   }}
                   description={"Your Nearest Truck"}
                   onPress={getRouteLocation}
@@ -205,8 +209,8 @@ function MapScreen () {
 
               {showPolyline && 
               (<MapViewDirections
-                origin={{ latitude: lat, longitude: lon }}
-                destination={{ latitude: latTruck, longitude: lonTruck }}
+                origin={{ latitude: Number(lat), longitude: Number(lon) }}
+                destination={{ latitude: Number(latTruck), longitude: Number(lonTruck) }}
                 apikey={"AIzaSyBLoT-2L2OzwWceQVT4VHgy3AFTXkWeqHU"} // Your API Key
                 strokeWidth={2}
                 

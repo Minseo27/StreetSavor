@@ -5,6 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import styles from './signupView.styles';
 import Geolocation from '@react-native-community/geolocation';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
 
 const CustomerSignupView = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -40,7 +41,7 @@ const CustomerSignupView = ({ navigation }) => {
           password: password,
           location: {
             latitude: lat,
-            logntitude: long,
+            longitude: long,
           },
         };
 
@@ -83,7 +84,7 @@ const CustomerSignupView = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>Street{'\n'} Savor</Text>
+      <Image style={{alignSelf: 'center', width: 128, height: 128,}} source={require('../../../assets/images/project_logo.png')}/>
       <View>
         <TextInput
           style={[styles.input, { marginTop: 30 }]}

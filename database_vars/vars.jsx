@@ -3,6 +3,7 @@ const VendorItem = {
     price: "$1.99",
     stauts: "Available",
 };
+
 const Vendor = {
     name: "Random Vendor",
     contact: ["vendor@somedomain.com","XXX-XXX-XXXX"],
