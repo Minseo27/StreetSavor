@@ -13,7 +13,8 @@ import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import * as permissions from 'react-native-permissions';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
+import { ReactNativeFirebase } from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
@@ -26,7 +27,6 @@ import { Modal } from 'react-native';
 
 // MapboxGL.setAccessToken("pk.eyJ1Ijoiam1vdG9yb2xhIiwiYSI6ImNscDN1M2kyZTExaWkyamxvdDVkbmQ5dzYifQ.fJOlBvxpmA3cDLmlQ9HrOQ")
 const Tab = createBottomTabNavigator();
-
 function MapScreen() {
     const [lat, setLatitude] = useState(null);
     const [lon, setLongitude] = useState(null);
@@ -174,15 +174,24 @@ function MapScreen() {
 
 function CreateMenuScreen() {
     const docRef = firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid);
+    const batch = firebase.firestore().batch();
     const [item,setItem] = useState({});
     const [foodName,setFoodName] = useState('');
     const [price,setPrice] = useState('');
     const [status,setStatus] = useState('');
+    const [menuRef,setMenuRef] = useState({});
     const [userInfo, setInfo] = useState([]);
+    const [menuArray,setMenu] = useState([]); 
 
     const [visible, setVisible] = useState(false);
-
+    function checkSnapshot() {
+        firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
+            if (snapshot.exists)
+                setMenu(snapshot.child('menu').val());
+        })
+    };
     const handleDialog = () => {
+        checkSnapshot();
         setVisible(true);
         setItem(VendorItem);
     };
@@ -191,12 +200,17 @@ function CreateMenuScreen() {
         item.item_name = foodName;
         item.price = price;
         item.status = status;
-        // firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
-        //     if (snapshot.exists)
-        //         snapshot.data().menu.push(item)
-        // });
+        // batch.update(docRef,"menu",{...userInfo.menu,item});
+        // menuArray.set(item);
+        docRef.update({
+            menu: item,
+        })
+        // console.log(userInfo);
         // firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).set(userInfo);
         setVisible(false);
+        setFoodName('');
+        setPrice('');
+        setStatus('');
     };
     
     const handleCancel = () => {
@@ -210,6 +224,7 @@ function CreateMenuScreen() {
     return (
         <View style={{flex: 1}}>
             <Button onPress={handleDialog} title="Add Item" color="#000000"/>
+
             <ScrollView style={{flex: 1}}>
                  <View style={modalStyles.firstViewContainer}>
                     <Modal transparent={true} animationType="slide" visible={visible} style={{backgroundColor: '#efcb4e'}}>

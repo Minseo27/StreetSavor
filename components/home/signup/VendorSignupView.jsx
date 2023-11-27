@@ -45,7 +45,6 @@ const VendorSignupView = ({ navigation }) => {
             longitude: long,
           },
         };
-
         const docRef = firestore()
           .collection('Users')
           .doc('dFqhRhGV5BSuqWYys6bP')
