@@ -7,33 +7,57 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import BottomScroll from './BottomSheetScrollView';
 
 const Tab = createBottomTabNavigator();
 
-const FirstOrderScreen = () => {
-    var list_of_vendors = vendor_list.map(truck => <Pressable style={{height: 100,backgroundColor: COLORS.lightWhite, marginBottom: SIZES.small, alignItems: 'baseline'}} onPress={ () => navigation.navigate('SecondOrderScreen',{name: 'SecondOrderScreen'})}>
-        <Text style={{textAlign: 'left', fontSize: SIZES.large, marginLeft: SIZES.small, marginTop: SIZES.xSmall}}>
-            {truck.name}
-        </Text>
-        <Text style={{textAlign: 'left', fontSize: SIZES.small, marginLeft: SIZES.small, marginTop: SIZES.small, marginBottom: SIZES.small}}>
-            Email: {truck.contact[0]}
-        </Text>
-        <Text style={{textAlign: 'left', fontSize: SIZES.small, marginLeft: SIZES.small, marginBottom: SIZES.small}}>
-            Phone: {truck.contact[0]}
-        </Text>
-    </Pressable>);
-    return (
-        <ScrollView style={{flex:1,}}>
-            {list_of_vendors}
-            {/* <View style={{flex:1,justifyContent:'center',}}>
-                <Text style={{textAlign:'center'}}>This will be the first order screen</Text>
-            </View> */}
-        </ScrollView>
-    );
+const FirstOrderScreen = ({ navigation }) => {
+  const [vendors, setVendors] = useState([]);
+
+  useEffect(() => {
+      const fetchVendors = async () => {
+          try {
+              const infoCollectionPath = firestore()
+                  .collection('Users')
+                  .doc('dFqhRhGV5BSuqWYys6bP')
+                  .collection('Vendors')
+                  .doc('zNpo2OBPsA73QZJFM5ub')
+                  .collection('info');
+
+              const querySnapshot = await infoCollectionPath.get();
+              const fetchedVendors = querySnapshot.docs.map(doc => ({
+                  id: doc.id,
+                  ...doc.data()
+              }));
+
+              setVendors(fetchedVendors);
+          } catch (error) {
+              console.error("Error fetching vendors: ", error);
+          }
+      };
+
+      fetchVendors();
+  }, []);
+
+  return (
+      <ScrollView style={{ flex: 1 }}>
+          {vendors.map(vendor => (
+              <Pressable
+                  key={vendor.id}
+                  style={{ height: 100, backgroundColor: COLORS.lightWhite, marginBottom: SIZES.small, alignItems: 'baseline' }}
+                  onPress={() => navigation.navigate('SecondOrderScreen', { name: 'SecondOrderScreen' })}
+              >
+                  <Text style={{ textAlign: 'left', fontSize: SIZES.large, marginLeft: SIZES.small, marginTop: SIZES.xSmall }}>
+                      Email: {vendor.email}
+                  </Text>
+                  
+              </Pressable>
+          ))}
+      </ScrollView>
+  );
 }
 
 function AccountPage () {
