@@ -33,9 +33,15 @@ const BottomScroll = () => {
       <View key={index} style={styles.itemContainer}>
         <Image source={require('./foodtruck.jpeg')} style={styles.image} />
         <View style={styles.textContainer}>
+<<<<<<< HEAD
         <Text style={styles.titleText}>{item.name}</Text>
         <Text style={styles.descriptionText}>description</Text>
         <Text style={styles.moreInfoText}>moreInfo</Text>
+=======
+        <Text style={styles.titleText}>Title</Text>
+        <Text style={styles.descriptionText}>Description</Text>
+        <Text style={styles.moreInfoText}>More Info</Text>
+>>>>>>> minseo
     </View>
       </View>
     ),

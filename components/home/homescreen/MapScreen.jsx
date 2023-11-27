@@ -139,12 +139,16 @@ function MapScreen (){
         }; 
   
       fetchFoodTruckLocation();
+<<<<<<< HEAD
     
 
     // Setting Condition for Rendering Truck Route
     const getRouteLocation = () =>{
         setShowPolyline(true)
     }
+=======
+    //}, [] );
+>>>>>>> minseo
 
   
   

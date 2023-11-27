@@ -36,6 +36,9 @@ const Example = ( ) =>   {
     )
 } 
 
+
+
+
 // Application Root With Navigator
 function App() {
 
@@ -44,12 +47,13 @@ function App() {
     return ( 
 
 
-        <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
+        <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} } >
 
         <NavigationContainer independent={true} >
 
+
     
-           <Stack.Navigator>
+           <Stack.Navigator >
             
                 <Stack.Screen name = 'Initial' component={GreetingPage}
                 // Initial Screen is the Greeting Page
