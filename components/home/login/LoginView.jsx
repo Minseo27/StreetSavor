@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styles from './loginView.styles';
 import auth from '@react-native-firebase/auth';
 
-const VendorLoginView = ({ navigation }) => {
+const CustomerLoginView = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -17,7 +17,7 @@ const VendorLoginView = ({ navigation }) => {
     try {
       await auth().signInWithEmailAndPassword(email, password);
       
-      navigation.navigate('VendorMapScreen', { name: 'VendorMapScreen' });
+      navigation.navigate('HomeMapScreen', { name: 'HomeMapScreen' });
     } catch (error) {
       if (error.code === 'auth/invalid-email') {
         setError('Invalid email address.');
@@ -58,7 +58,7 @@ const VendorLoginView = ({ navigation }) => {
         <View style={[styles.textContainer, { marginTop: 20 }]}>
           <Text style={styles.text}>Don't have an account? </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('VendorSignupView', { name: 'VendorSignupView' })}>
+            onPress={() => navigation.navigate('CustomerSignupView', { name: 'CustomerSignupView' })}>
             <Text style={styles.text2}>Sign Up</Text>
           </TouchableOpacity>
         </View>
@@ -67,4 +67,7 @@ const VendorLoginView = ({ navigation }) => {
   );
 };
 
-export default VendorLoginView;
+export default CustomerLoginView;
+
+
+

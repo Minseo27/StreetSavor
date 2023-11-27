@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     
     // changing margin from the top of whatver is above
     buttonContainer:{
-        marginTop:200
+        marginTop:100
     },
     buttonText:{
         fontSize:20,
@@ -74,14 +74,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#efcb4e',
-        width: '100%'
+        width: '100%',
       },
       welcomemessage: {
         fontSize: 50,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
-        marginTop: 180,
+        marginTop: 130,
         fontStyle: 'italic'
       }    
 

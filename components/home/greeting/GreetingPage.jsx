@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, Touchable } from 'react-native'
 import { useState } from 'react'
 
+
 import { SIZES } from '../../../constants'
 import {
   TextInput,
@@ -28,7 +29,6 @@ const GreetingPage = ({navigation}) => {
     return (
 
         <View style={styles.container}>
-
             <Text style={styles.welcomemessage}>{'Street\nSavor'} </Text>
                     
 

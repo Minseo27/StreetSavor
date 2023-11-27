@@ -17,6 +17,7 @@ import VendorHomeMapScreen from '../components/home/homescreen/VendorHomeMapScre
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
+import VendorMapScreen from '../components/home/homescreen/vendorMapScreen';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
@@ -28,36 +29,22 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 
-const Example = ( ) =>   {
-    return (
-        <Text> Test</Text>
-    )
-} 
-
 // Application Root With Navigator
 function App() {
-
-
     const router = useRouter()
-    return ( 
-
-
+    return (
         <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
-
-        <NavigationContainer independent={true} >
-
-    
-           <Stack.Navigator>
+        <NavigationContainer independent={true}>
+           <Stack.Navigator >
             
                 <Stack.Screen name = 'Initial' component={GreetingPage}
                 // Initial Screen is the Greeting Page
                     options = { {
-                        //Background color # F2F2F2
+                        //backgroundColor: '#efcb4e',
                         headerStyle: {backgroundColor: '#efcb4e'},
                         // Removing the Shadow
                         headerShadowVisible: false, 
-                        headerTitle:"",
-                        //headerMode:'none'
+                        headerTitle:'',
                         }}
                 />
                
@@ -88,8 +75,7 @@ function App() {
                         headerTintColor: 'black'
                     }}
                 />
-
-
+                
                 <Stack.Screen name='CustomerSignupView' component={CustomerSignupView}
                     options = {{
                         headerStyle:{backgroundColor:'#efcb4e'},
@@ -107,7 +93,6 @@ function App() {
                         headerTintColor: 'black'
                     }}
                 />
-
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
@@ -121,7 +106,7 @@ function App() {
                     }}
                 />
 
-                <Stack.Screen name='VendorHomeMapScreen' component={VendorHomeMapScreen}
+                <Stack.Screen name='VendorMapScreen' component={VendorMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
@@ -147,14 +132,9 @@ function App() {
                     }}
                 />
 
-                
             </Stack.Navigator>
 
         </NavigationContainer>
-
-      
-
-        
 
         </SafeAreaView>
     )
