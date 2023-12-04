@@ -180,8 +180,9 @@ function CreateMenuScreen() {
     const [price,setPrice] = useState('');
     const [status,setStatus] = useState('');
     const [visible, setVisible] = useState(false);
+    const [deleteVisible, setDeleteVisible] = useState(false);
     const [userMenu,setInfo] = useState([]);
-    const [itemList,setItemList] = useState(null); 
+    const [removeName,setRemovalName] = useState('');
 
         useEffect(() => {
             const fetchMenuInfo = async () => {
@@ -239,19 +240,41 @@ function CreateMenuScreen() {
     };
 
     const handleDeleteDialog = () => {
-        setVisible(true);
+        setDeleteVisible(true);
     };
 
     const handleDeleteAccept = () => {
+        if (removeName != '') {
+            let menu_title = 'menu.$';
+            for (const value in userMenu.values()) {
+                if (removeName == value.item_name) {
+                    let table_name = value.item_name;
+                    const remove = firebase.firestore.FieldValue.delete();
+                    docRef.update({
+                        [menu_title.concat(table_name.toString())]: remove,
+                    });
+                    var x = userMenu[0];
+                    userMenu[0] = value;
+                    userMenu[userMenu.indexOf(value)] = x;
+                    userMenu.shift();
+                }
+            }
+        }
+        setDeleteVisible(false);
+        setRemovalName('');
+    }
 
+    const handleDeleteCancel = () => {
+        setDeleteVisible(false);
+        setRemovalName('');
     }
 
     const handleAccept = () => {
         item.item_name = foodName;
         item.price = price;
         item.status = status;
-        var menu_title = 'menu.$';
-        var table_name = item.item_name;
+        let menu_title = 'menu.$';
+        let table_name = item.item_name;
         if ((item.item_name != '') && (item.price != '') && (item.status != '')) {
             docRef.update({
                 [menu_title.concat(table_name.toString())]: item,
@@ -320,8 +343,24 @@ function CreateMenuScreen() {
                         </View>
                     </Modal>
                 </View>
+                <View style={modalStyles.firstViewContainer}>
+                    <Modal transparent={true} animationType="slide" visible={deleteVisible} style={{backgroundColor: '#efcb4e'}}>
+                        <View style={modalStyles.firstViewContainer}>
+                            <View style={modalStyles.modalViewContainer}>
+                                <Text style={modalStyles.modalTopText}>Enter the item to delete</Text>
+                                <TextInput placeholder="Enter item name" style={modalStyles.modalTextInput} keyboardType="default" onChangeText={setRemovalName} value={removeName}/>
+                                <View style={modalStyles.modalButtonContainer}>
+                                    <Button title="OK" color='#efcb4e' onPress={handleDeleteAccept}/>
+                                    <View style={modalStyles.modalButtonContainer}>
+                                        <Button title="Cancel" color='#efcb4e' onPress={handleDeleteCancel}/>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
             </ScrollView>
-            <Button onPress={handleDialog} title="Delete Item" color="#000000"/>
+            <Button onPress={handleDeleteDialog} title="Delete Item" color="#000000"/>
         </View>
     );
 }
