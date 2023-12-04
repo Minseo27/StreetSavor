@@ -39,7 +39,7 @@ const VendorSignupView = ({ navigation }) => {
           name: username,
           email: email,
           password: password,
-          menu : {},
+          menu : [],
           location: {
             latitude: lat,
             longitude: long,

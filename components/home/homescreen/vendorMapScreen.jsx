@@ -1,14 +1,14 @@
 
 import React, { useEffect } from 'react';
 import { render } from 'react-dom';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase, FlatList } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
 import MapView, { Marker } from 'react-native-maps';
 import { COLORS, SIZES } from '../../../constants'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import * as permissions from 'react-native-permissions';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
@@ -174,58 +174,131 @@ function MapScreen() {
 
 function CreateMenuScreen() {
     const docRef = firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid);
-    const batch = firebase.firestore().batch();
-    const [item,setItem] = useState({});
+    // const batch = firebase.firestore().batch();
+    const [item,setItem] = useState([]);
     const [foodName,setFoodName] = useState('');
     const [price,setPrice] = useState('');
     const [status,setStatus] = useState('');
-    const [menuRef,setMenuRef] = useState({});
-    const [userInfo, setInfo] = useState([]);
-    const [menuArray,setMenu] = useState([]); 
-
     const [visible, setVisible] = useState(false);
-    function checkSnapshot() {
-        firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
-            if (snapshot.exists)
-                setMenu(snapshot.child('menu').val());
-        })
-    };
+    const [userMenu,setInfo] = useState([]);
+    const [itemList,setItemList] = useState(null); 
+
+        useEffect(() => {
+            const fetchMenuInfo = async () => {
+                const user = auth().currentUser;
+                try {
+                const vendorDocRef = firestore()
+                .collection('Users')
+                    .doc('dFqhRhGV5BSuqWYys6bP')
+                    .collection('Vendors')
+                    .doc('zNpo2OBPsA73QZJFM5ub')
+                    .collection('info')
+                    .doc(user.uid);
+    
+                
+            
+                const vendorDoc = await vendorDocRef.get();
+            
+                if (vendorDoc.exists) {
+                    const menu_list = vendorDoc.data().menu;
+                    if (menu_list) {
+                        const list = [];
+                        Object.keys(menu_list).forEach((key) => {
+                            list.push(menu_list[key]);
+                        })
+                        setInfo(list);
+                    //     const list_of_vendors = list.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                    //     <Image source={require('./foodicon.png')} style={{height: 32, width:32 }} />
+                    //     <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    //         {food.item_name}
+                    //     </Text>
+                    //     <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    //         ${food.price}
+                    //     </Text>
+                    //     <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    //         {food.status}
+                    //     </Text>
+                    // </Pressable>);
+                    //     setItemList(list_of_vendors);
+                        //Setting Location Value
+                    }
+                } else {
+                    console.log('User document does not exist.');
+                }
+                } catch (error) {
+                console.error('Error fetching menu data:', error);
+                }
+            };
+        
+            fetchMenuInfo();
+        }, []);
+
     const handleDialog = () => {
-        checkSnapshot();
         setVisible(true);
         setItem(VendorItem);
     };
+
+    const handleDeleteDialog = () => {
+        setVisible(true);
+    };
+
+    const handleDeleteAccept = () => {
+
+    }
 
     const handleAccept = () => {
         item.item_name = foodName;
         item.price = price;
         item.status = status;
-        // batch.update(docRef,"menu",{...userInfo.menu,item});
-        // menuArray.set(item);
-        docRef.update({
-            menu: item,
-        })
-        // console.log(userInfo);
-        // firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).set(userInfo);
+        var menu_title = 'menu.$';
+        var table_name = item.item_name;
+        if ((item.item_name != '') && (item.price != '') && (item.status != '')) {
+            docRef.update({
+                [menu_title.concat(table_name.toString())]: item,
+            });
+            // const list = [];
+            // const vendorDocRef = docRef.get();
+            // firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
+            //     if (snapshot.exists)
+            //         Object.keys(snapshot.data().menu).forEach((key) => {
+            //             list.push(snapshot.data().menu[key]);
+            //         })
+            // });
+            // // Object.keys(menu_list).forEach((key) => {
+            // //     list.push(menu_list[key]);
+            // // })
+            userMenu.push(item);
+        }
         setVisible(false);
+        // setItemList(list);
         setFoodName('');
         setPrice('');
         setStatus('');
+
     };
     
     const handleCancel = () => {
         setVisible(false);
     };
 
-    // firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
-    //     if (snapshot.exists)
-    //         setInfo(snapshot.data())
-    // })
+    var menuItemList = userMenu.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+        <Image source={require('./foodicon.png')} style={{height: 32, width:32 }} />
+        <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+            {food.item_name}
+        </Text>
+        <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
+            ${food.price}
+        </Text>
+        <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
+            {food.status}
+        </Text>
+    </Pressable>);
     return (
         <View style={{flex: 1}}>
             <Button onPress={handleDialog} title="Add Item" color="#000000"/>
 
             <ScrollView style={{flex: 1}}>
+                {menuItemList}
                  <View style={modalStyles.firstViewContainer}>
                     <Modal transparent={true} animationType="slide" visible={visible} style={{backgroundColor: '#efcb4e'}}>
                         <View style={modalStyles.firstViewContainer}>
@@ -246,27 +319,9 @@ function CreateMenuScreen() {
                             </View>
                         </View>
                     </Modal>
-                    {/* <Dialog.Container visible={visible}>
-                        <Dialog.Title>
-                            <Text style={{color: COLORS.primary, fontWeight: 'bold', textAlign: 'center', justifyContent: 'center'}}>New Item</Text>
-                        </Dialog.Title>
-                        <Dialog.Description>
-                            <Text style={{color: COLORS.primary, textAlign: 'center', justifyContent: 'center'}}>What is the name of your item?</Text>
-                        </Dialog.Description>
-                        <Dialog.Input label={foodItem}/>
-                        <Dialog.Description>
-                            <Text style={{color: COLORS.primary, textAlign: 'center', justifyContent: 'center'}}>What is the price of the item?</Text>
-                        </Dialog.Description>
-                        <Dialog.Input label={price}/>
-                        <Dialog.Description>
-                            <Text style={{color: COLORS.primary, textAlign: 'center', justifyContent: 'center'}}>What is the availability of the item?</Text>
-                        </Dialog.Description>
-                        <Dialog.Input label={status}/>
-                        <Dialog.Button color="#169689" label="OK" onPress={handleAccept}/>
-                        <Dialog.Button color="#169689" label="Cancel" onPress={handleCancel}/>
-                    </Dialog.Container> */}
                 </View>
             </ScrollView>
+            <Button onPress={handleDialog} title="Delete Item" color="#000000"/>
         </View>
     );
 }
@@ -280,7 +335,7 @@ const AccountPage = ({navigation}) => {
     return (
         <ScrollView style={{flex:1,}}>
             <View style={{flex:1, justifyContent:'center'}}>
-                <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
+                <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('./truckicon.png')}/>
                 <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
                   <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
                     Email: {userInfo.email}{"\n"}
@@ -328,6 +383,14 @@ const AccountPage = ({navigation}) => {
         borderRadius: 50,
         margin: 20,
         padding: 35,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
     },
     modalText: {
         fontWeight: 'bold',
