@@ -49,27 +49,39 @@ const AccountPage = ({navigation}) => {
   return (
       <ScrollView style={{flex:1,}}>
           <View style={{flex:1, justifyContent:'center'}}>
-              <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('../../../assets/images/user.png')}/>
-              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left', alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                  Email: {userInfo.email}{"\n"}
+              <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('../../../assets/images/username.png')}/>
+              <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/email.png')}/>
+                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
+                    Email{"\n"}
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left',alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                  Username: {userInfo.name}{"\n"}
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.xSmall, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                   {userInfo.email}{"\n"}
+                  </Text>
+                </Pressable>
+                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/username.png')}/>
+                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
+                    Username{"\n"}
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left',alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold' ,marginLeft: SIZES.small}}>
-                  Password: {userInfo.password}{"\n"}
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    {userInfo.name}{"\n"}
+                  </Text>
+                </Pressable>
+                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/password.png')}/>
+                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
+                    Password{"\n"}
                 </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('CustomerLoginView')}} style={{marginTop:SIZES.xLarge, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
-                  Sign Out
-                </Text>
-              </TouchableOpacity>
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.xLarge, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    {userInfo.password}{"\n"}
+                  </Text>
+                </Pressable>
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.large, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 64}} onPress={() => navigation.navigate('CustomerLoginView',{name: 'CustomerLoginView'})}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    Sign Out
+                  </Text>
+                </Pressable>
           </View>
       </ScrollView>
   );

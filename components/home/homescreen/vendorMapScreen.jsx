@@ -177,11 +177,19 @@ function CreateMenuScreen() {
     const docRef = firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid);
     // const batch = firebase.firestore().batch();
     const [item,setItem] = useState([]);
+    const [itemEdit,setEditedItem] = useState([]);
     const [foodName,setFoodName] = useState('');
+    const [editFoodName,setEditFoodName] = useState('');
+    const [oldFoodName, setOldFoodName] = useState('');
     const [price,setPrice] = useState('');
+    const [editPrice,setEditPrice] = useState('');
+    const [oldPrice, setOldPrice] = useState('');
     const [status,setStatus] = useState('');
+    const [editStatus,setEditStatus] = useState('');
+    const [oldStatus, setOldStatus] = useState('');
     const [visible, setVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
+    const [editVisible,setEditVisible] = useState(false);
     const [userMenu,setInfo] = useState([]);
     const [removeName,setRemovalName] = useState('');
 
@@ -242,7 +250,7 @@ function CreateMenuScreen() {
         
             fetchMenuInfo();
         }, []);
-    
+
     // We use this function to open the dialog
     const handleDialog = () => {
         setVisible(true);
@@ -283,13 +291,43 @@ function CreateMenuScreen() {
         }
         setDeleteVisible(false);
         setRemovalName('');
-    }
+    };
 
+    // Function to handle the deletion of items
+    const handleEditAccept = () => {
+        if ((editFoodName != '') && (editPrice != '')  && (editStatus != '')) {
+            if ((oldFoodName != editFoodName) || (oldPrice != editPrice) || (oldStatus != editStatus)) {
+                itemEdit.item_name = editFoodName;
+                itemEdit.price = editPrice;
+                itemEdit.status = editStatus;
+                // Set initial menu path
+                let menu_title = 'menu.$';
+                // We create a new array to store the item_names from the original userMenu array, we do not need the price or status for this
+                let checkArr = userMenu?.map((t) => t.item_name);
+                // We do a simple check to see if the removeName is included in the checkArr.
+                userMenu[checkArr.indexOf(oldFoodName)] = itemEdit;
+
+                let old_table_name = oldFoodName;
+                let new_table_name = itemEdit.item_name;
+                docRef.update({
+                    [menu_title.concat(old_table_name.toString())]: firebase.firestore.FieldValue.delete(),
+                    [menu_title.concat(new_table_name.toString())]: itemEdit,
+                });
+            }
+        }
+        setEditVisible(false);
+        setOldPrice('');
+        setOldStatus('');
+        setOldFoodName('');
+        setEditFoodName('');
+        setEditPrice('');
+        setEditStatus('');
+    };
     // Function to handle when cancel option is chosen for the delete dialog.
     const handleDeleteCancel = () => {
         setDeleteVisible(false);
         setRemovalName('');
-    }
+    };
 
     // Function to handle the accept option for creating new items
     const handleAccept = () => {
@@ -332,7 +370,27 @@ function CreateMenuScreen() {
         setVisible(false);
     };
 
-    var menuItemList = userMenu.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+    const handleEditDialog = () => {
+        setEditVisible(true);
+        setEditedItem(VendorItem);
+    };
+
+    const handleEditCancel = () => {
+        setEditVisible(false);
+        setOldPrice('');
+        setOldStatus('');
+        setOldFoodName('');
+        setEditFoodName('');
+        setEditPrice('');
+        setEditStatus('');
+    };
+
+    var menuItemList = userMenu.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}} onPress={() => {
+        setOldFoodName(food.item_name);
+        setOldPrice(food.price);
+        setOldStatus(food.status);
+        handleEditDialog();
+    }}>
         <Image source={require('./foodicon.png')} style={{height: 32, width:32 }} />
         <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
             {food.item_name}
@@ -387,6 +445,27 @@ function CreateMenuScreen() {
                         </View>
                     </Modal>
                 </View>
+                <View style={modalStyles.firstViewContainer}>
+                    <Modal transparent={true} animationType="slide" visible={editVisible} style={{backgroundColor: '#efcb4e'}}>
+                        <View style={modalStyles.firstViewContainer}>
+                            <View style={modalStyles.modalViewContainer}>
+                                <Text style={modalStyles.modalTopText}>Edit your item!</Text>
+                                <Text style={modalStyles.modalText}>Edit your item name:</Text>
+                                <TextInput placeholder={oldFoodName} style={modalStyles.modalTextInput} keyboardType="default" onChangeText={setEditFoodName} value={editFoodName}/>
+                                <Text style={modalStyles.modalText}>Edit your item price:</Text>
+                                <TextInput placeholder={oldPrice} style={modalStyles.modalTextInput} keyboardType="numeric" onChangeText={setEditPrice} value={editPrice}/>
+                                <Text style={modalStyles.modalText}>Edit your item's availability status:</Text>
+                                <TextInput placeholder={oldStatus} style={modalStyles.modalTextInput} keyboardType="default" onChangeText={setEditStatus} value={editStatus}/>
+                                <View style={modalStyles.modalButtonContainer}>
+                                    <Button title="OK" color='#efcb4e' onPress={handleEditAccept}/>
+                                    <View style={modalStyles.modalButtonContainer}>
+                                        <Button title="Cancel" color='#efcb4e' onPress={handleEditCancel}/>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
             </ScrollView>
             <Button onPress={handleDeleteDialog} title="Delete Item" color="#000000"/>
         </View>
@@ -403,26 +482,38 @@ const AccountPage = ({navigation}) => {
         <ScrollView style={{flex:1,}}>
             <View style={{flex:1, justifyContent:'center'}}>
                 <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('./truckicon.png')}/>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                    Email: {userInfo.email}{"\n"}
+                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/email.png')}/>
+                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
+                    Email{"\n"}
+                </Text>
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.xSmall, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                   {userInfo.email}{"\n"}
                   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                    Username: {userInfo.name}{"\n"}
+                </Pressable>
+                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/username.png')}/>
+                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
+                    Username{"\n"}
+                </Text>
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    {userInfo.name}{"\n"}
                   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold' ,marginLeft: SIZES.small}}>
-                    Password: {userInfo.password}{"\n"}
+                </Pressable>
+                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/password.png')}/>
+                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
+                    Password{"\n"}
+                </Text>
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.xLarge, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
+                    {userInfo.password}{"\n"}
                   </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {navigation.navigate('VendorLoginView')}} style={{marginTop:SIZES.xLarge, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
+                </Pressable>
+                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.large, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 64}} onPress={() => navigation.navigate('VendorLoginView',{name: 'VendorLoginView'})}>
+                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
                     Sign Out
                   </Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </ScrollView>
     );
