@@ -173,6 +173,7 @@ function MapScreen() {
   }
 
 function CreateMenuScreen() {
+    const [arr,setCheckArr] = useState([]);
     const docRef = firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid);
     // const batch = firebase.firestore().batch();
     const [item,setItem] = useState([]);
@@ -184,6 +185,7 @@ function CreateMenuScreen() {
     const [userMenu,setInfo] = useState([]);
     const [removeName,setRemovalName] = useState('');
 
+        // Use effect to fetch menu info from vendor
         useEffect(() => {
             const fetchMenuInfo = async () => {
                 const user = auth().currentUser;
@@ -197,16 +199,23 @@ function CreateMenuScreen() {
                     .doc(user.uid);
     
                 
-            
+                // Get vendor document
                 const vendorDoc = await vendorDocRef.get();
-            
+                
+                // If the vendor document exists
                 if (vendorDoc.exists) {
+                    // Set the menu_list map to the vendordoc menu, but we are not done yet. We will need
+                    // convert the map to an array
                     const menu_list = vendorDoc.data().menu;
                     if (menu_list) {
+                        // Create a new empty array
                         const list = [];
+                        // Add objects from app to the array
                         Object.keys(menu_list).forEach((key) => {
                             list.push(menu_list[key]);
-                        })
+                        });
+                        console.log(list);
+                        // Set the newly made array to the userMenu
                         setInfo(list);
                     //     const list_of_vendors = list.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
                     //     <Image source={require('./foodicon.png')} style={{height: 32, width:32 }} />
@@ -233,48 +242,66 @@ function CreateMenuScreen() {
         
             fetchMenuInfo();
         }, []);
-
+    
+    // We use this function to open the dialog
     const handleDialog = () => {
         setVisible(true);
         setItem(VendorItem);
     };
 
+    // We use this to close the delete dialog
     const handleDeleteDialog = () => {
         setDeleteVisible(true);
     };
 
+    // Function to handle the deletion of items
     const handleDeleteAccept = () => {
-        if (removeName != '') {
-            let menu_title = 'menu.$';
-            for (const value in userMenu.values()) {
-                if (removeName == value.item_name) {
-                    let table_name = value.item_name;
-                    const remove = firebase.firestore.FieldValue.delete();
-                    docRef.update({
-                        [menu_title.concat(table_name.toString())]: remove,
-                    });
-                    var x = userMenu[0];
-                    userMenu[0] = value;
-                    userMenu[userMenu.indexOf(value)] = x;
-                    userMenu.shift();
-                }
-            }
+        // Set initial menu path
+        let menu_title = 'menu.$';
+        // We create a new array to store the item_names from the original userMenu array, we do not need the price or status for this
+        let checkArr = userMenu?.map((t) => t.item_name);
+        // We do a simple check to see if the removeName is included in the checkArr.
+        if (checkArr.includes(removeName)) {
+            console.log("FOUND!");
+            // Set the table_name path to the removeName var
+            let table_name = removeName;
+            // Here we start the process of removing the item from the userMenu.
+
+            // Set x to the first element of the userMenu.
+            let x = userMenu[0];
+            // Set the first index element to be the item located in the userMenu in the index it would have been located on the checkArr.
+            userMenu[0] = userMenu.at(checkArr.indexOf(removeName));
+            // Set the element at the index where removeName would have been located in checkArr to be x (original first element.)
+            userMenu[checkArr.indexOf(removeName)] = x;
+            // Shift to remove first element (which would be the element we need to remove), ending the process
+            userMenu.shift();
+            // We do a simple docRef.update to remove the element in the database.
+            docRef.update({
+                [menu_title.concat(table_name.toString())]: firebase.firestore.FieldValue.delete(),
+            });
+
         }
         setDeleteVisible(false);
         setRemovalName('');
     }
 
+    // Function to handle when cancel option is chosen for the delete dialog.
     const handleDeleteCancel = () => {
         setDeleteVisible(false);
         setRemovalName('');
     }
 
+    // Function to handle the accept option for creating new items
     const handleAccept = () => {
+        // Assign object vars to the food name, price status
         item.item_name = foodName;
         item.price = price;
         item.status = status;
+        // Since we are using dot notation, we need to set the default path for the menu field
         let menu_title = 'menu.$';
+        // The table name is where we will traverse to.
         let table_name = item.item_name;
+        // We only add the item if every field has a value, if not, it will not be added.
         if ((item.item_name != '') && (item.price != '') && (item.status != '')) {
             docRef.update({
                 [menu_title.concat(table_name.toString())]: item,
@@ -300,6 +327,7 @@ function CreateMenuScreen() {
 
     };
     
+    // Handle cancellation.
     const handleCancel = () => {
         setVisible(false);
     };
@@ -316,10 +344,10 @@ function CreateMenuScreen() {
             {food.status}
         </Text>
     </Pressable>);
+
     return (
         <View style={{flex: 1}}>
             <Button onPress={handleDialog} title="Add Item" color="#000000"/>
-
             <ScrollView style={{flex: 1}}>
                 {menuItemList}
                  <View style={modalStyles.firstViewContainer}>

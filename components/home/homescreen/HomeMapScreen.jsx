@@ -49,7 +49,7 @@ const AccountPage = ({navigation}) => {
   return (
       <ScrollView style={{flex:1,}}>
           <View style={{flex:1, justifyContent:'center'}}>
-              <Image style={{alignSelf: 'center', width: 259, height: 259, marginTop: SIZES.large}} source={require('../../../assets/images/avatar.jpg')}/>
+              <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('../../../assets/images/user.png')}/>
               <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left', alignContent: 'center'}}>
                 <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
                   Email: {userInfo.email}{"\n"}
