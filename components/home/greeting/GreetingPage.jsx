@@ -6,11 +6,10 @@ import { useState } from 'react'
 import { SIZES } from '../../../constants'
 import {
   TextInput,
-  TouchableOpacity,
   Image,
   FlatList
 } from 'react-native'
-
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Stack, useRouter } from 'expo-router'
 import styles from './greeting.styles'
 
@@ -29,13 +28,13 @@ const GreetingPage = ({navigation}) => {
     return (
 
         <View style={styles.container}>
-            <Text style={styles.welcomemessage}>{'Street\nSavor'} </Text>
+            <Image style={{alignSelf: 'center', width: 128, height: 128,}} source={require('../../../assets/images/project_logo.png')}/>
                     
 
             <View style = {styles.buttonContainer}>
                 <TouchableOpacity style ={styles.button} 
                     onPress =  { ()=> {
-                        navigation.navigate('AppAccess', {name: 'AppAccess'})
+                        navigation.navigate('AppAccess')
 
     
                     }}>

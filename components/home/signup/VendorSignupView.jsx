@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text,Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import styles from './signupView.styles';
+import Geolocation from '@react-native-community/geolocation';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
+import { VendorItem } from '../../../database_vars/vars';
 
 const VendorSignupView = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  const [lat,setLatitude] = useState(null);
+  const [long,setLongitude] = useState(null);
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(pos => {
+      setLatitude(pos.coords.latitude);
+      setLongitude(pos.coords.longitude);
+    })
+  };
+
+  getLocation();
 
   const handleSignUp = async () => {
     try {
@@ -19,13 +35,16 @@ const VendorSignupView = ({ navigation }) => {
       } else {
         const userCredential = await auth().createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
-
         const userData = {
           name: username,
           email: email,
           password: password,
+          menu : [],
+          location: {
+            latitude: lat,
+            longitude: long,
+          },
         };
-
         const docRef = firestore()
           .collection('Users')
           .doc('dFqhRhGV5BSuqWYys6bP')
@@ -67,7 +86,7 @@ const VendorSignupView = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>Street{'\n'} Savor</Text>
+      <Image style={{alignSelf: 'center', width: 128, height: 128,}} source={require('../../../assets/images/project_logo.png')}/>
       <View>
         <TextInput
           style={[styles.input, { marginTop: 30 }]}

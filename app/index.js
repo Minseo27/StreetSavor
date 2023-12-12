@@ -13,11 +13,11 @@ import CustomerLoginView from '../components/home/login/CustomerLoginView';
 import CustomerSignupView from '../components/home/signup/CustomerSignupView';
 import VendorLoginView from '../components/home/login/VendorLoginView';
 import VendorSignupView from '../components/home/signup/VendorSignupView';
-import VendorHomeMapScreen from '../components/home/homescreen/VendorHomeMapScreen';
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
 import VendorMapScreen from '../components/home/homescreen/vendorMapScreen';
+import { Image } from 'react-native';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
@@ -93,16 +93,22 @@ function App() {
                         headerTintColor: 'black'
                     }}
                 />
+
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle: 'Street Savor',
+                        headerBackVisible: false,
+                        headerTitle: () => (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <Image style={{alignSelf: 'center', width: 32, height: 32,}} source={require('../assets/images/project_logo.png')}/>
+                            </View>
+                        ),
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,
                         },
-                        headerTitleAlign: 'center',
+                        headerTitleAlign: 'center'
                     }}
                 />
 
@@ -110,7 +116,11 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle: 'Street Savor',
+                        headerTitle: () => (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <Image style={{alignSelf: 'center', width: 32, height: 32,}} source={require('../assets/images/project_logo.png')}/>
+                            </View>
+                        ),
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,
@@ -123,7 +133,11 @@ function App() {
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
-                        headerTitle: 'Street Savor',
+                        headerTitle: () => (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                                <Image style={{alignSelf: 'center', width: 32, height: 32,}} source={require('../assets/images/project_logo.png')}/>
+                            </View>
+                        ),
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: SIZES.large,
