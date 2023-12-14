@@ -3,13 +3,15 @@ import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import MapScreen from "./MapScreen";
 import firestore from '@react-native-firebase/firestore';
+import { ScrollView } from "react-native-gesture-handler";
 
 const BottomScroll = () => {
   // hooks
   const sheetRef = useRef(null);
   const [vendorInfo, setVendorInfo] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [menu, setMenu] = useState([]);
+  const [list_of_items,setItems] = useState([]);
+  
   useEffect(()=>{
     const fetchData = async () => {
       const vendorDoc = await firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').get();
@@ -17,19 +19,6 @@ const BottomScroll = () => {
       vendorDoc.forEach((doc) => {
         list.push(doc.data());
       });
-      if (vendorDoc.exists) {
-        const menu_list = vendorDoc.data().menu;
-        if (menu_list) {
-            const list = [];
-            Object.keys(menu_list).forEach((key) => {
-                list.push(menu_list[key]);
-            });
-            console.log(list);
-            setMenu(list);
-        }
-    } else {
-        console.log('User document does not exist.');
-    }
       setVendorInfo(list);
     }
     fetchData();
@@ -37,8 +26,15 @@ const BottomScroll = () => {
   
   const snapPoints = useMemo(() => ["15%", "50%", "90%"], []);
 
-  const handleItemPress = useCallback((item) => {
-    setSelectedItem(item);
+  const handleItemPress = useCallback((item) => { 
+    if ((item.menu)) {
+      const list = [];
+      Object.keys((item.menu)).forEach((key) => { 
+        list.push(item.menu[key]); });
+        var items = list.map(food => <Text style={styles.menuItems}>{food.item_name}</Text>);
+        setItems(items);
+    }  
+		setSelectedItem(item);
     sheetRef.current?.snapToIndex(2);
   }, []);
 
@@ -81,11 +77,15 @@ const BottomScroll = () => {
       </BottomSheet>
       {selectedItem && (
         <View style={styles.detailContainer}>
+          <View style={styles.detailTopContainer}>
           <Text style={styles.title}>{selectedItem.name}</Text>
-          <Text style={styles.title}>{menu.item_name}</Text>
           <TouchableOpacity onPress={handleDetailClose}>
             <Text style={styles.backButton}>Back to List</Text>
           </TouchableOpacity>
+          </View>
+          <ScrollView>
+          {list_of_items}
+          </ScrollView>
         </View>
       )}
     </View>
@@ -139,6 +139,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+  },
+  menuItems: {
+    fontSize: 20,
+    fontWeight: "400",
+    padding: 6,
+  },
+  detailTopContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   backButton: {
     fontSize: 16,
