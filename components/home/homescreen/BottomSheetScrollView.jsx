@@ -33,7 +33,7 @@ const BottomScroll = () => {
   const renderItem = useCallback(
     (item, index) => (
       <View key={index} style={styles.itemContainer}>
-        <Image source={require('./foodtruck.jpeg')} style={styles.image} />
+        <Image source={require('./truckicon.png')} style={styles.image} />
         <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
         <Text style={styles.descriptionText}>description</Text>

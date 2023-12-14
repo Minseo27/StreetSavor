@@ -114,7 +114,10 @@ function MapScreen () {
     const [showPolyline, setShowPolyline] = useState(false);
 
 
-  
+    const [markers, setMarkers] = useState([]);
+    const [curTruckLat,setTruckLat] = useState(null);
+    const [curTruckLon,setTruckLon] = useState(null);
+
     // Variables for Containing Food Truck Location
     const [latTruck, setFoodLatitude] = useState(null);
     const [lonTruck, setFoodLongitude] = useState(null);
@@ -123,8 +126,8 @@ function MapScreen () {
   
     // Fetching Food Truck Based on Search Bar 
     //useEffect(() => {
-        const fetchFoodTruckLocation = async () => {
-       if(newText) {
+    const fetchFoodTruckLocation = async () => {
+       //if(newText) {
            try{
                const vendorDocRef = firestore()
                .collection('Users')
@@ -132,8 +135,8 @@ function MapScreen () {
                .collection('Vendors')
                .doc('zNpo2OBPsA73QZJFM5ub')
                .collection('info');
-               const query = vendorDocRef.where("name", "==", newText).limit(1);
-               const userDoc = await query.get();
+              //  const query = vendorDocRef.where("name", '!=', false).limit(1);
+               const userDoc = await vendorDocRef.where("email", "!=", newText).limit(1).get();
 
                if (!userDoc.empty) {
                    const vendorDoc = userDoc.docs[0];
@@ -141,11 +144,12 @@ function MapScreen () {
                    if (locationData) {
                     // const c = locationData;
                     const { latitude, longitude } = locationData;
-                    setFoodLatitude(latitude); 
-                    setFoodLongitude(longitude);
+                    const title = locationData.name;
+                    setFoodLatitude(locationData.latitude); 
+                    setFoodLongitude(locationData.longitude);
                     // setCoords(c);
                     setFoodLocationDataFetched(true)
-                    console.log(latitude,longitude);
+                      //console.log(latitude,longitude);
                    } else {
                     console.log('No location data found for the user.');
                     }
@@ -155,12 +159,44 @@ function MapScreen () {
            } catch(error) {
                console.error("Error searching for vendor location:", error);
            }
-        }
+        //}
        
         }; 
   
       fetchFoodTruckLocation();
+  
+      // useEffect (() => { 
+      //   //const mapMarkerMaker = () => {
+      //         const user = auth().currentUser;
+      //         let markersData = [];
     
+      //           //const user = auth().currentUser;
+      //           const usersCollectionRef = firestore()
+      //                   .collection('Vendors')
+      //                   .doc('zNpo2OBPsA73QZJFM5ub')
+      //                   .collection('info')
+    
+      //       usersCollectionRef.get().then((querySnapshot) => {
+      //           querySnapshot.forEach((vendorDoc) => {
+      //           const vendorData = vendorDoc.data();
+      //           const latName = vendorData.location.latitude
+      //           //const longName = vendorData.location.longitude
+      //           if (vendorData.location) {
+      //             if ((vendorData.location.latitude != null) && (vendorData.location.longitude != null)) {
+      //               const { latitude, longitude } = vendorData.location;
+      //               const title = vendorData.name;
+      //               console.log(title);
+      //               //console.warn(latitude)
+      //               markersData.push({latitude,longitude,title})
+                
+      //               setMarkers(markersData);
+      //             }
+      //           } 
+      //           //console.warn(markersData)
+      //           });           
+      //       })  
+           
+      //   },[]); 
 
     // Setting Condition for Rendering Truck Route
     const getRouteLocation = () =>{
@@ -180,38 +216,54 @@ function MapScreen () {
                   initialRegion={{
                   //latitude:  40.7861,
                   //longitude: -73.9543,
-                  latitude:  Number(lat),
-                  longitude: Number(lon),
+                  latitude:  lat,
+                  longitude: lon,
                   latitudeDelta: 0.03,
                   longitudeDelta: 0.02,
                   }}
               >
               <Marker
                   coordinate={{
-                  latitude:  Number(lat),
-                  longitude: Number(lon),
+                  latitude:  lat,
+                  longitude: lon,
                   
                   }}
-                  description={"You are here"}>
+                  title="You're location"
+                  description="You are here">
                   <Image source={require('./location-pin.png')} style={{height: 35, width:35 }} />
               </Marker>
-  
+
+              {/* {markers.map( (marker, index) => {
+                return <Marker
+                    key={index}
+                    coordinate={{
+                    latitude: marker.latitude,
+                    longitude: marker.longitude,
+                    }}
+                    title={marker.name ? String(marker.name): 'undefined'}
+                    description='Your Nearest Truck'
+                onPress={() => (setTruckLat(marker.latitude), setTruckLon(marker.longitude), getRouteLocation)}>
+                    <Image source={require('./truckicon.png')} style={{ height: 32, width: 32}} />
+                </Marker>
+                })} */}
+
               <Marker
                   coordinate ={{
-                      latitude: Number(latTruck),
-                      longitude: Number(lonTruck),
+                      latitude: latTruck ? latTruck : 40.7124702,
+                      longitude: lonTruck ? lonTruck : -73.9835045,
                   }}
-                  description={"Your Nearest Truck"}
+                  description='Your Nearest Truck'
                   onPress={getRouteLocation}
               >
-                  <Image source = {require('./foodtruck.jpeg')} style={{height:35, width:35}}/>
+                  <Image source = {require('./truckicon.png')} style={{height:32, width:32}}/>
               </Marker>
 
               {showPolyline && 
               (<MapViewDirections
-                origin={{ latitude: Number(lat), longitude: Number(lon) }}
-                destination={{ latitude: Number(latTruck), longitude: Number(lonTruck) }}
+                origin={{ latitude: lat, longitude: lon }}
+                destination={{ latitude: latTruck, longitude: lonTruck }}
                 apikey={"AIzaSyBLoT-2L2OzwWceQVT4VHgy3AFTXkWeqHU"} // Your API Key
+                // coordinates={[curTruckLat,curTruckLon]}
                 strokeWidth={2}
                 
                 />)

@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import { COLORS, SIZES } from '../../../constants'
 import { ScrollView } from 'react-native';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
@@ -134,35 +134,36 @@ function MapScreen() {
                 }}
             >
 
-            <Marker
-                coordinate={{
-              
-                latitude:  Number(lat),
-                longitude: Number(lon),
+                <Marker
+                    coordinate={{
                 
-                }}
-                description={"You are here"}>
-                <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />
-              
-              
-            </Marker>
-          
-          
-            {markers.map( (marker, index) => (
-              <Marker
-                  key={index}
-                  coordinate={{
-                  latitude: Number(marker.latitude),
-                  longitude: Number(marker.longitude),
-                  }}
-              >
-                  <Image source={require('./green-pin.png')} style={{ height: 30, width: 30}} />
-              </Marker>
-              ))}
+                    latitude:  Number(lat),
+                    longitude: Number(lon),
+                    
+                    }}
+                    title='Truck Location'
+                    description='You are here!'>
+                    <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />
+                
+                
+                </Marker>
+            
+            
+                {markers.map( (marker, index) => {
+                return <Marker
+                    key={index}
+                    coordinate={{
+                    latitude: marker.latitude ,
+                    longitude: marker.longitude ,
+                    }}
+                >
+                    <Image source={require('./person.png')} style={{ height: 32, width: 32}} />
+                </Marker>
+                })}
 
           
               
-          </MapView>
+            </MapView>
             
 
             ) : ( <ActivityIndicator size ="large"/>)} 
