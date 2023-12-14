@@ -57,7 +57,7 @@ function MapScreen () {
           (error) => {
             console.error('Error getting location:', error);
           },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+          { enableHighAccuracy: true, timeout: 15000}
         );
       };
     
@@ -227,7 +227,6 @@ function MapScreen () {
                       onChangeText = {newText => setText(newText)}
                       placeholder= "What are you looking for?"
                       placeholderTextColor="#888"
-                      //onSubmitEditing={() => alert(`Welcome to ${newText}`)}
                       onSubmitEditing = { () => fetchFoodTruckLocation() }
                   />  
                   </View>
