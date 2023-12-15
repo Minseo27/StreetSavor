@@ -1,17 +1,19 @@
 import React, { useCallback, useRef, useMemo, useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import MapScreen from "./MapScreen";
 import firestore from '@react-native-firebase/firestore';
 import { ScrollView } from "react-native-gesture-handler";
+import styles from './BottomSheetScrollView.styles'; 
 
-const BottomScroll = () => {
+const BottomScroll = ({navigation}) => {
   // hooks
   const sheetRef = useRef(null);
   const [vendorInfo, setVendorInfo] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [list_of_items,setItems] = useState([]);
-  
+  const [list_of_items, setItems] = useState([]);
+  const [list_of_items2, setItems2] = useState([]);
+
   useEffect(()=>{
     const fetchData = async () => {
       const vendorDoc = await firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').get();
@@ -31,17 +33,52 @@ const BottomScroll = () => {
       const list = [];
       Object.keys((item.menu)).forEach((key) => { 
         list.push(item.menu[key]); });
-        var items = list.map(food => <Text style={styles.menuItems}>{food.item_name}</Text>);
+        var items = list.map(food =>
+          <View style={styles.foodItemContainer}>
+            <Text style={styles.menuItems}>{food.item_name}</Text>
+            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+            <Image source={require('./img.png')} style={styles.foodImage} />
+            </View>
+          </View>
+        );
         setItems(items);
     }  
-		setSelectedItem(item);
+    setSelectedItem(item);
     sheetRef.current?.snapToIndex(2);
+  }, []);
+
+  const handleItemPress2 = useCallback((item) => { 
+    if ((item.menu)) {
+      const list = [];
+      Object.keys((item.menu)).forEach((key) => { 
+        list.push(item.menu[key]); });
+        var items = list.map(food =>
+          <View style={styles.itemContainer}>
+            <Image source={require('./foodicon.png')} style={styles.image} />
+            <View style={styles.textContainer}>
+            <Text style={styles.titleText}>{food.item_name}</Text>
+            <Text style={styles.descriptionText}>{food.price}</Text>
+          </View>
+          </View>
+        );
+        setItems2(items);
+    }  
+    setSelectedItem(item);
   }, []);
 
   const handleDetailClose = useCallback(() => {
     setSelectedItem(null);
     sheetRef.current?.snapToIndex(1);
   }, []);
+
+  const handlePress = (item) => {
+    handleItemPress(item);
+    handleItemPress2(item);
+  }
+
+  const handleNavigation = () => {
+    navigation.navigate('VendorDetailScreen', { selectedItem, list_of_items2 });
+  };
 
   // callbacks
   const handleSheetChange = useCallback((index) => {
@@ -50,7 +87,7 @@ const BottomScroll = () => {
   // render
   const renderItem = useCallback(
     (item, index) => (
-      <TouchableOpacity key={index} style={styles.itemContainer} onPress={() => handleItemPress(item)}>
+      <TouchableOpacity key={index} style={styles.itemContainer} onPress={() => handlePress(item)}>
         <Image source={require('./foodtruck.jpeg')} style={styles.image} />
         <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
@@ -59,7 +96,7 @@ const BottomScroll = () => {
     </View>
       </TouchableOpacity>
     ),
-    [handleItemPress]
+    [handlePress]
   );
   return (
     <View style={styles.container}>
@@ -70,20 +107,26 @@ const BottomScroll = () => {
         snapPoints={snapPoints}
         onChange={handleSheetChange}
       >
-        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={styles.title}>Nearest Treats</Text>
+        <BottomSheetScrollView contentContainerStyle={styles.contentContainer}>
           {vendorInfo.map((item, index) => renderItem(item, index))}
         </BottomSheetScrollView>
       </BottomSheet>
       {selectedItem && (
         <View style={styles.detailContainer}>
           <View style={styles.detailTopContainer}>
-          <Text style={styles.title}>{selectedItem.name}</Text>
+          <Text style={styles.vendorName}>{selectedItem.name}</Text>
           <TouchableOpacity onPress={handleDetailClose}>
             <Text style={styles.backButton}>Back to List</Text>
           </TouchableOpacity>
           </View>
-          <ScrollView>
+          <View style={{borderBottomWidth: 1, borderBottomColor: '#ccc',width: '100%'}} />
+          <Text style={{marginTop: 15, fontSize:20, fontFamily: "DMMedium"}}>Featured Menu</Text>
+          <TouchableOpacity
+            onPress={handleNavigation} style={styles.orderButtonContainer}>
+            <Text style={styles.orderButton}>Order</Text>
+          </TouchableOpacity>
+          <ScrollView horizontal contentContainerStyle={styles.scrollViewContent} showsHorizontalScrollIndicator={false}>
           {list_of_items}
           </ScrollView>
         </View>
@@ -92,69 +135,4 @@ const BottomScroll = () => {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  contentContainer: {
-    backgroundColor: "white",
-  },
-  title: {
-      padding: 6,
-      fontSize: 24,
-      fontWeight: 'medium',
-  },
-  image: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
-  },
-  itemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    margin: 6,
-    backgroundColor: "#eee",
-    borderRadius: 10
-  },
-  textContainer: {
-    flex: 1,
-  },titleText: {
-    fontSize: 16,
-    fontWeight: "600",
-  },
-  descriptionText: {
-    fontSize: 12,
-  },
-  moreInfoText: {
-    fontSize: 10,
-  },
-  detailContainer: {
-    position: 'absolute',
-    height: '90%',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 16,
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  menuItems: {
-    fontSize: 20,
-    fontWeight: "400",
-    padding: 6,
-  },
-  detailTopContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  backButton: {
-    fontSize: 16,
-    color: 'blue',
-    marginTop: 10,
-  },
-});
-
 export default BottomScroll;
-
