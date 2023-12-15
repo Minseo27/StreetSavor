@@ -71,6 +71,7 @@ function MapScreen () {
     const [newText, setText] = useState('');
   
     const [locationDataFetched, setLocationDataFetched] = useState(false);
+    const [markerDataFetched, setMarkerDataFetched] = useState(false);
   
       const fetchLocationFromFirestore = async () => {
           const user = auth().currentUser;
@@ -114,15 +115,16 @@ function MapScreen () {
     const [showPolyline, setShowPolyline] = useState(false);
 
 
-    const [markers, setMarkers] = useState([]);
     const [curTruckLat,setTruckLat] = useState(null);
     const [curTruckLon,setTruckLon] = useState(null);
 
     // Variables for Containing Food Truck Location
     const [latTruck, setFoodLatitude] = useState(null);
     const [lonTruck, setFoodLongitude] = useState(null);
+    const [truckName, setTruckName] = useState('');
     // const [coords,setCoords] = useState(null);
     const [locationFoodDataFetched, setFoodLocationDataFetched] = useState(false);
+    const [initialFetched,isInitiallyFetched] = useState(false);
   
     // Fetching Food Truck Based on Search Bar 
     //useEffect(() => {
@@ -136,19 +138,20 @@ function MapScreen () {
                .doc('zNpo2OBPsA73QZJFM5ub')
                .collection('info');
               //  const query = vendorDocRef.where("name", '!=', false).limit(1);
-               const userDoc = await vendorDocRef.where("email", "!=", newText).limit(1).get();
+               const userDoc = await vendorDocRef.where("name", "!=", newText).limit(1).get();
 
                if (!userDoc.empty) {
                    const vendorDoc = userDoc.docs[0];
+                   setTruckName(vendorDoc.data().name);
                    const locationData = vendorDoc.data().location;
                    if (locationData) {
                     // const c = locationData;
                     const { latitude, longitude } = locationData;
-                    const title = locationData.name;
-                    setFoodLatitude(locationData.latitude); 
-                    setFoodLongitude(locationData.longitude);
+                    setFoodLatitude(latitude); 
+                    setFoodLongitude(longitude);
                     // setCoords(c);
-                    setFoodLocationDataFetched(true)
+                    setFoodLocationDataFetched(true);
+                    setMarkerDataFetched(true);
                       //console.log(latitude,longitude);
                    } else {
                     console.log('No location data found for the user.');
@@ -160,10 +163,53 @@ function MapScreen () {
                console.error("Error searching for vendor location:", error);
            }
         //}
-       
         }; 
-  
-      fetchFoodTruckLocation();
+      
+      if (initialFetched == false) {
+        fetchFoodTruckLocation();
+        isInitiallyFetched(true)
+      }
+
+      const searchFoodTruckLocation = async () => {
+        setShowPolyline(false);
+        setFoodLocationDataFetched(false);
+        setMarkerDataFetched(false);
+        setTruckName('')
+        //if(newText) {
+            try{
+                const vendorDocRef = firestore()
+                .collection('Users')
+                .doc('dFqhRhGV5BSuqWYys6bP')
+                .collection('Vendors')
+                .doc('zNpo2OBPsA73QZJFM5ub')
+                .collection('info');
+               //  const query = vendorDocRef.where("name", '!=', false).limit(1);
+                const userDoc = await vendorDocRef.where("name", "==", newText).limit(1).get();
+ 
+                if (!userDoc.empty) {
+                    const vendorDoc = userDoc.docs[0];
+                    setTruckName(vendorDoc.data().name);
+                    const locationData = vendorDoc.data().location;
+                    if (locationData) {
+                     // const c = locationData;
+                     const { latitude, longitude } = locationData;
+                     setFoodLatitude(latitude); 
+                     setFoodLongitude(longitude);
+                     // setCoords(c);
+                     setFoodLocationDataFetched(true)
+                     setMarkerDataFetched(true);
+                       //console.log(latitude,longitude);
+                    } else {
+                     console.log('No location data found for the user.');
+                     }
+                } else {
+                     console.log('User document does not exist.');
+                }
+            } catch(error) {
+                console.error("Error searching for vendor location:", error);
+            }
+          //}
+         }; 
   
       // useEffect (() => { 
       //   //const mapMarkerMaker = () => {
@@ -204,7 +250,7 @@ function MapScreen () {
     }
 
     console.warn(`${lat}`, `${lon}`)
-  
+    console.warn(`${latTruck}`, `${lonTruck}`)
       return (
           <View style = {{flex:1}}>
               {locationDataFetched ? (
@@ -247,16 +293,17 @@ function MapScreen () {
                 </Marker>
                 })} */}
 
-              <Marker
+              {markerDataFetched ? (<Marker
                   coordinate ={{
-                      latitude: latTruck ? latTruck : 40.7124702,
-                      longitude: lonTruck ? lonTruck : -73.9835045,
+                      latitude: latTruck,
+                      longitude: lonTruck,
                   }}
+                  title={truckName}
                   description='Your Nearest Truck'
                   onPress={getRouteLocation}
               >
                   <Image source = {require('./truckicon.png')} style={{height:32, width:32}}/>
-              </Marker>
+              </Marker>) : null}
 
               {showPolyline && 
               (<MapViewDirections
@@ -276,10 +323,10 @@ function MapScreen () {
                       <TextInput
                       style= {styles.searchInput}
                       value = {newText}
-                      onChangeText = {newText => setText(newText)}
+                      onChangeText = {setText}
                       placeholder= "What are you looking for?"
                       placeholderTextColor="#888"
-                      onSubmitEditing = { () => fetchFoodTruckLocation() }
+                      onSubmitEditing = {searchFoodTruckLocation}
                   />  
                   </View>
               
