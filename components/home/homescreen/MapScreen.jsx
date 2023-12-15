@@ -274,7 +274,7 @@ function MapScreen () {
                   longitude: Number(lon),
                   
                   }}
-                  title="You're location"
+                  title="You"
                   description="You are here">
                   <Image source={require('./location-pin.png')} style={{height: 35, width:35 }} />
               </Marker>

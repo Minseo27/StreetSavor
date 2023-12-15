@@ -141,7 +141,7 @@ function MapScreen() {
                     longitude: Number(lon),
                     
                     }}
-                    title='Truck Location'
+                    title='You'
                     description='You are here!'>
                     <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />
                 
