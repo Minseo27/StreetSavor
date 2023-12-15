@@ -150,6 +150,7 @@ dependencies {
     //implementation 'com.facebook.react:react-native:+'
     //implementation project(path: ":@react-native-firebase_app")
 
+    implementation project(':react-native-community-geolocation')
     //implementation 'com.google.firebase:firebase-installations:17.1.4'
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";

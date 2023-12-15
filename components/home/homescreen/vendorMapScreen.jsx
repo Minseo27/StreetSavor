@@ -6,12 +6,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Circle } from 'react-native-maps';
 import { COLORS, SIZES } from '../../../constants'
 import { ScrollView } from 'react-native';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
-import * as permissions from 'react-native-permissions';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+//import * as permissions from 'react-native-permissions';
+//import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import auth, { firebase } from '@react-native-firebase/auth';
 import { ReactNativeFirebase } from '@react-native-firebase/app';
@@ -22,6 +22,7 @@ import { Image } from 'react-native';
 import { Button } from 'react-native';
 import Dialog from "react-native-dialog";
 import { Modal } from 'react-native';
+import { getDistance } from 'geolib';
 
 const Tab = createBottomTabNavigator();
 function MapScreen() {
@@ -38,6 +39,8 @@ function MapScreen() {
         {"latitude": 40.76878, "longitude": -73.96379},
         {"latitude": 40.76725, "longitude": -73.96588}
       ]
+
+
 
     useEffect(() => {
       const fetchTruckLocationFromFirestore = async () => {
@@ -84,6 +87,57 @@ function MapScreen() {
 
     const [markers, setMarkers] = useState([]);
     // Array to hold Coordinates
+
+
+
+
+    const getDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371e3; // Earth's radius in meters
+        const φ1 = (lat1 * Math.PI) / 180;
+        const φ2 = (lat2 * Math.PI) / 180;
+        const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+        const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+      
+        const a =
+          Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+          Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      
+        const distance = R * c; // Distance in meters
+        return distance;
+      };
+    
+      const renderCircles = () => {
+        const circles = [];
+        const threshold = 10; // Threshold for proximity
+      
+        mark.forEach((point1, i) => {
+          mark.slice(i + 1).forEach(point2 => {
+            const distance = getDistance(
+              point1.latitude,
+              point1.longitude,
+              point2.latitude,
+              point2.longitude
+            );
+      
+            if (distance <= threshold) {
+              const centerLatitude = (point1.latitude + point2.latitude) / 2;
+              const centerLongitude = (point1.longitude + point2.longitude) / 2;
+      
+              circles.push(
+                <Circle
+                  key={centerLatitude.toString() + centerLongitude.toString()}
+                  center={{ latitude: centerLatitude, longitude: centerLongitude }}
+                  radius={50} // Adjust the radius of the circle as needed
+                  fillColor="rgba(255, 0, 0, 0.3)" // Adjust the color and opacity
+                />
+              );
+            }
+          });
+
+        });
+        }
+
         
     useEffect (() => { 
     //const mapMarkerMaker = () => {
@@ -107,7 +161,7 @@ function MapScreen() {
             markersData.push({latitude,longitude})
            
             setMarkers(markersData); 
-            //console.warn(markersData)
+            //console.warn(markers)
             });           
         })  
        
@@ -138,25 +192,24 @@ function MapScreen() {
                 
                 }}
                 description={"You are here"}>
-                <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />
-              
-              
+                <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />              
+            
             </Marker>
-          
-          
-            {markers.map( (marker, index) => (
-              <Marker
+
+            {mark.map( (marker, index) => (
+              <Circle
                   key={index}
-                  coordinate={{
+                  center={{
                   latitude: Number(marker.latitude),
                   longitude: Number(marker.longitude),
                   }}
+                  radius={20}
+                  strokeWidth={2}
+                  strokeColor="#3399ff"
+                  fillColor="#80bfff"
               >
-                  <Image source={require('./green-pin.png')} style={{ height: 30, width: 30}} />
-              </Marker>
+              </Circle>
               ))}
-
-          
               
           </MapView>
             
