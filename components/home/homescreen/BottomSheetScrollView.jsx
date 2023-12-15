@@ -47,24 +47,40 @@ const BottomScroll = ({navigation}) => {
     sheetRef.current?.snapToIndex(2);
   }, []);
 
-  const handleItemPress2 = useCallback((item) => { 
-    if ((item.menu)) {
+  const [cartItems, setCartItems] = useState([]); 
+  const addToCart = (foodItem) => {
+    setCartItems([...cartItems, foodItem]);
+    console.log(`Added to cart: ${foodItem.item_name}`);
+  };
+
+
+  const handleItemPress2 = useCallback((item) => {
+    if (item.menu) {
       const list = [];
-      Object.keys((item.menu)).forEach((key) => { 
-        list.push(item.menu[key]); });
-        var items = list.map(food =>
+      Object.keys(item.menu).forEach((key) => {
+        list.push(item.menu[key]);
+      });
+  
+      const items = list.map(food => (
+        <TouchableOpacity
+          key={food.id} 
+          onPress={() => addToCart(food)} 
+        >
           <View style={styles.itemContainer}>
             <Image source={require('./foodicon.png')} style={styles.image} />
             <View style={styles.textContainer}>
-            <Text style={styles.titleText}>{food.item_name}</Text>
-            <Text style={styles.descriptionText}>{food.price}</Text>
+              <Text style={styles.titleText}>{food.item_name}</Text>
+              <Text style={styles.descriptionText}>{food.price}</Text>
+            </View>
           </View>
-          </View>
-        );
-        setItems2(items);
-    }  
+        </TouchableOpacity>
+      ));
+  
+      setItems2(items);
+    }
     setSelectedItem(item);
-  }, []);
+  }, [cartItems]);
+
 
   const handleDetailClose = useCallback(() => {
     setSelectedItem(null);
@@ -91,8 +107,8 @@ const BottomScroll = ({navigation}) => {
         <Image source={require('./foodtruck.jpeg')} style={styles.image} />
         <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
-        <Text style={styles.descriptionText}>description</Text>
-        <Text style={styles.moreInfoText}>moreInfo</Text>
+        <Text style={styles.descriptionText}>Description</Text>
+        <Text style={styles.moreInfoText}>More Info</Text>
     </View>
       </TouchableOpacity>
     ),

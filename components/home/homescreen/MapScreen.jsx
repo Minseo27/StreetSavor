@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View} from 'react-native';
+import { View, Text} from 'react-native';
 import styles from './homemapscreen.styles';
 import MapView, { Marker, Polyline} from 'react-native-maps';
 import auth from '@react-native-firebase/auth';
@@ -12,6 +12,7 @@ import MapViewDirections from 'react-native-maps-directions';
 //import Geolocation from 'react-native-geolocation-service';
 //import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import { TextInput } from 'react-native-gesture-handler';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 
 function MapScreen () {
     const checkLocationPermission = async () => {
@@ -167,10 +168,19 @@ function MapScreen () {
         setShowPolyline(true)
     }
 
-    console.warn(`${lat}`, `${lon}`)
+    //console.warn(`${lat}`, `${lon}`)
   
       return (
           <View style = {{flex:1}}>
+
+
+      
+                {/* <TouchableOpacity >
+                <Image 
+                  source={require('./shopping-cart.png')} 
+                  style ={ {width: 50, height: 50,position: 'absolute', top: 0, right: 0 }}/>
+                  </TouchableOpacity> */}
+
               {locationDataFetched ? (
                   //Conditional Map Render
               <MapView
@@ -232,10 +242,29 @@ function MapScreen () {
                   </View>
               
               </View>
+              
+              <View 
+              style={{justifyContent:"center", right:0, flexDirection: "row",
+                    marginTop:0,
+                    height: 50,
+                    zIndex:1,
+                    position:'absolute'}}>
+
+              <TouchableOpacity >
+                
+                  <Image 
+                  source={require('./shopping-cart.png')} 
+                  style ={ {width: 50, height: 50, }}/>
+
+              </TouchableOpacity>
+                
+              </View>
+              
+            
+          
           </View>
   
       );
   }
 
   export default MapScreen;
-  

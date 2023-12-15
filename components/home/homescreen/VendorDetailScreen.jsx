@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet , Image} from 'react-native';
 import styles from './BottomSheetScrollView.styles'; 
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
@@ -23,12 +23,29 @@ const VendorDetailScreen = ({ route }) => {
                 </TouchableOpacity>
           <Text style={styles.vendorName2}>{selectedItem.name}</Text>
           <Text style={{padding: 16,marginTop: 6, fontSize:20, fontFamily: "DMMedium"}}>Full Menu</Text>
-          {list_of_items2}
+          {/* {list_of_items2.map(item => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.itemTouchable} 
+                onPress={() => handleItemClick(item.id)}
+              >
+        
+                <View style={styles.itemContainer}>
+                <Image source={require('./foodicon.png')} style={styles.image} />
+                <Text style={styles.titleText}>{item.item_name}</Text>
+                <Text style={styles.descriptionText}>{item.price}</Text>
+                
+                </View>
+              </TouchableOpacity>
+              
+            ))} */}
+            {list_of_items2}
           </ScrollView>
-          </View>
+        </View>
       )}
     </View>
-    );
+  );
 };
+
 
 export default VendorDetailScreen;
