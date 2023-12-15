@@ -22,6 +22,7 @@ import { Image } from 'react-native';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
+
 // Screen Rotation 
 import * as ScreenOrientation from "expo-screen-orientation";
 
@@ -94,7 +95,6 @@ function App() {
                         headerTintColor: 'black'
                     }}
                 />
-
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
@@ -148,6 +148,8 @@ function App() {
                     }}
                 />
 
+                
+                
                 <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
