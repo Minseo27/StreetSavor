@@ -262,16 +262,16 @@ function MapScreen () {
                   initialRegion={{
                   //latitude:  40.7861,
                   //longitude: -73.9543,
-                  latitude:  lat,
-                  longitude: lon,
+                  latitude:  Number(lat),
+                  longitude: Number(lon),
                   latitudeDelta: 0.03,
                   longitudeDelta: 0.02,
                   }}
               >
               <Marker
                   coordinate={{
-                  latitude:  lat,
-                  longitude: lon,
+                  latitude:  Number(lat),
+                  longitude: Number(lon),
                   
                   }}
                   title="You're location"
@@ -307,8 +307,8 @@ function MapScreen () {
 
               {showPolyline && 
               (<MapViewDirections
-                origin={{ latitude: lat, longitude: lon }}
-                destination={{ latitude: latTruck, longitude: lonTruck }}
+                origin={{ latitude: Number(lat), longitude: Number(lon) }}
+                destination={{ latitude: Number(latTruck), longitude: Number(lonTruck) }}
                 apikey={"AIzaSyBLoT-2L2OzwWceQVT4VHgy3AFTXkWeqHU"} // Your API Key
                 // coordinates={[curTruckLat,curTruckLon]}
                 strokeWidth={2}
