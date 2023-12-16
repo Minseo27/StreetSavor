@@ -49,9 +49,22 @@ const BottomScroll = ({navigation}) => {
 
   const [cartItems, setCartItems] = useState([]); 
   const addToCart = (foodItem) => {
+    let cartData = []
+
+    //cartData.push(foodItem)
     setCartItems([...cartItems, foodItem]);
-    console.log(`Added to cart: ${foodItem.item_name}`);
   };
+    //setCartItems(cartData)
+
+    //console.warn(`${foodItem}`)
+
+    //
+    //console.log(`Added to cart: ${foodItem.item_name}`);
+
+    //console.warn(`${JSON.stringify(foodItem)}`);
+  
+
+  console.warn(`${JSON.stringify(cartItems)}`);
 
 
   const handleItemPress2 = useCallback((item) => {
@@ -60,11 +73,12 @@ const BottomScroll = ({navigation}) => {
       Object.keys(item.menu).forEach((key) => {
         list.push(item.menu[key]);
       });
+
   
       const items = list.map(food => (
         <TouchableOpacity
           key={food.id} 
-          onPress={() => addToCart(food)} 
+          onPress={() => addToCart({ item_name: food.item_name, price: food.price })}
         >
           <View style={styles.itemContainer}>
             <Image source={require('./foodicon.png')} style={styles.image} />
@@ -79,7 +93,7 @@ const BottomScroll = ({navigation}) => {
       setItems2(items);
     }
     setSelectedItem(item);
-  }, [cartItems]);
+  },);
 
 
   const handleDetailClose = useCallback(() => {
@@ -107,7 +121,7 @@ const BottomScroll = ({navigation}) => {
         <Image source={require('./foodtruck.jpeg')} style={styles.image} />
         <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
-        <Text style={styles.descriptionText}>Description</Text>
+        <Text style={styles.descriptionText}>{item.Description}</Text>
         <Text style={styles.moreInfoText}>More Info</Text>
     </View>
       </TouchableOpacity>
