@@ -644,8 +644,6 @@ PODS:
     - ExpoModulesCore
   - EXFont (11.4.0):
     - ExpoModulesCore
-  - EXLocation (16.3.0):
-    - ExpoModulesCore
   - Expo (49.0.16):
     - ExpoModulesCore
   - ExpoHead (0.0.11):
@@ -1222,14 +1220,14 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
-  - RNFBApp (18.7.2):
+  - RNFBApp (18.5.0):
     - Firebase/CoreOnly (= 10.15.0)
     - React-Core
-  - RNFBAuth (18.7.2):
+  - RNFBAuth (18.5.0):
     - Firebase/Auth (= 10.15.0)
     - React-Core
     - RNFBApp
-  - RNFBFirestore (18.7.2):
+  - RNFBFirestore (18.5.0):
     - Firebase/Firestore (= 10.15.0)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - React-Core
@@ -1280,7 +1278,6 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
-  - EXLocation (from `../node_modules/expo-location/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoHead (from `../node_modules/expo-head/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -1375,8 +1372,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
-  EXLocation:
-    :path: "../node_modules/expo-location/ios"
   Expo:
     :path: "../node_modules/expo"
   ExpoHead:
@@ -1500,7 +1495,6 @@ SPEC CHECKSUMS:
   EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
   EXFileSystem: 2b826a3bf1071a4b80a8457e97124783d1ac860e
   EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
-  EXLocation: e5dd52bdf61ccb6153c9e46ad4cb2686c96a35f9
   Expo: fcfd60c1ed6806dee5103b210335ae0c72f675ed
   ExpoHead: 8da645502363b53eeb99d99276a0adbe0ec8cff0
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
@@ -1565,9 +1559,9 @@ SPEC CHECKSUMS:
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
-  RNFBApp: 2a03467d0df2c4277d7a8d83d4f5e194f5963cba
-  RNFBAuth: e612ad168e4a8f7d52cb261f87c65ef81fff1e57
-  RNFBFirestore: e9bd82e70f53068775239e1b8a9b7049ded5c1cc
+  RNFBApp: 082df9f8ffba99f23f7aee3ecb64df703e7e1adb
+  RNFBAuth: b055663339aef8ce9d63cd5d03e2ea5360a3aca2
+  RNFBFirestore: a9837bc0c4d0911ade436787e995fa20a12a77b0
   RNGestureHandler: c0d04458598fcb26052494ae23dda8f8f5162b13
   RNPermissions: da377dff33a9bd6fa2ad0c1bc1128e503a0588aa
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457

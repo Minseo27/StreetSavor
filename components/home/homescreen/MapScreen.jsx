@@ -255,7 +255,7 @@ function MapScreen () {
                   <Image 
                   source={require('./shopping-cart.png')} 
                   style ={ {width: 50, height: 50, }}/>
-                  
+
 
               </TouchableOpacity>
                 
