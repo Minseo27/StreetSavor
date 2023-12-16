@@ -8,13 +8,13 @@ import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Modal } from 'react-native';
 import { Image } from 'react-native';
 import BottomScroll from './BottomSheetScrollView';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from 'react-native';
 import SecondOrderScreen from '../orderscreen/SecondOrderScreen';
-
+import { Feather } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 
 const FirstOrderScreen = ({navigation}) => {
@@ -46,34 +46,106 @@ const AccountPage = ({navigation}) => {
       if (snapshot.exists)
           setInfo(snapshot.data())
   })
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  
   return (
-      <ScrollView style={{flex:1,}}>
-          <View style={{flex:1, justifyContent:'center'}}>
-              <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('../../../assets/images/user.png')}/>
-              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left', alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                  Email: {userInfo.email}{"\n"}
-                </Text>
+    <ScrollView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <View style={{ padding: 20 }}>
+
+      <Image
+        style={{ alignSelf: 'left', width: 90, height: 90,}}
+        source={require('../../../assets/images/user.png')}
+      />
+        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>Settings</Text>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={toggleModal}
+          
+        >
+          <Feather name="user" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Account</Text>
+        </TouchableOpacity>
+          
+         {/*Start of modal*/} 
+       
+        <Modal
+          visible={isModalVisible}
+          animationType="fade"
+          transparent={true}
+          onRequestClose={toggleModal}
+        >
+          <View style={stylesModal.modalContainer}>
+            <View style={stylesModal.modalContent}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Account Details</Text>
+              <Text>Email: {userInfo.email}</Text>
+              <Text>Password: {userInfo.password}</Text>
+              <Text>Username: {userInfo.name}</Text>
+
+              <TouchableOpacity style={{ marginTop: 20 }} onPress={toggleModal}>
+                <Text style={{ color: 'blue' }}>Close</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left',alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                  Username: {userInfo.name}{"\n"}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'left',alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold' ,marginLeft: SIZES.small}}>
-                  Password: {userInfo.password}{"\n"}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => {navigation.navigate('CustomerLoginView')}} style={{marginTop:SIZES.xLarge, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
-                  Sign Out
-                </Text>
-              </TouchableOpacity>
+            </View>
           </View>
-      </ScrollView>
+        </Modal>
+       
+
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+            
+          }}
+        >
+          <Feather name="lock" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Privacy</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+            
+          }}
+        >
+          <Feather name="bell" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Notifications</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+           
+          }}
+        >
+          <Feather name="settings" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Playback and Performance</Text>
+        </TouchableOpacity>
+       
+      </View>
+    </ScrollView>
   );
 }
+
+const stylesModal = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+});
+
+
 
 const HomeMapScreen = ({navigation}) => {
 

@@ -37,8 +37,24 @@ function MapScreen() {
         {"latitude": 40.76812, "longitude": -73.96485},
         {"latitude": 40.76695, "longitude": -73.96556},
         {"latitude": 40.76878, "longitude": -73.96379},
-        {"latitude": 40.76725, "longitude": -73.96588}
-      ]
+        {"latitude": 40.76725, "longitude": -73.96588},
+        {"latitude": 40.76562, "longitude": -73.96491},
+        {"latitude": 40.76688, "longitude": -73.96573},
+        {"latitude": 40.76793, "longitude": -73.96345},
+        {"latitude": 40.76845, "longitude": -73.96622},
+        {"latitude": 40.76598, "longitude": -73.96411},
+        {"latitude": 40.76712, "longitude": -73.96658},
+        {"latitude": 40.76635, "longitude": -73.96428},
+        {"latitude": 40.76778, "longitude": -73.96597},
+        {"latitude": 40.76572, "longitude": -73.96511},
+        {"latitude": 40.76823, "longitude": -73.96462},
+        {"latitude": 40.76645, "longitude": -73.96474},
+        {"latitude": 40.76801, "longitude": -73.96536},
+        {"latitude": 40.76733, "longitude": -73.96388},
+        {"latitude": 40.76589, "longitude": -73.96604},
+        {"latitude": 40.76856, "longitude": -73.96418}
+    ];
+    
 
 
 
