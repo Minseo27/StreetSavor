@@ -111,8 +111,6 @@ const AccountPage = ({navigation}) => {
               </Pressable>
 
               </ScrollView>
-
-          
             </View>
             
           </View>
