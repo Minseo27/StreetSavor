@@ -3,8 +3,13 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from '
 import {ScrollView} from 'react-native-gesture-handler';
 
 const FirstOrderScreen = ({route}) => {
-    const { cartItems } = route.params;
-    
+  
+
+  let cartItems = "No Items"
+
+  if (route.params !== undefined ){
+    ({ cartItems } = route.params)
+  }
       return (
           <ScrollView style={{flex:1,}}>
               {cartItems && (

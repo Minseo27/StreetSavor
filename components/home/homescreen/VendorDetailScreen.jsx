@@ -29,21 +29,7 @@ const VendorDetailScreen = ({ route }) => {
     return (
     <View style={flex=1}>
 
-            <View 
-              style={{justifyContent:"center", right:10, flexDirection: "row",
-                    marginTop:0,
-                    height: 50,
-                    zIndex:1,
-                    position:'absolute'}}>
-
-              <TouchableOpacity onPress={() => console.warn(`${JSON.stringify(cart_items)}`)}>
-                  <Image 
-                  source={require('./shopping-cart.png')} 
-                  style ={ {width: 50, height: 50, }}/>
-
-              </TouchableOpacity>
-                
-              </View>
+            
 
         {selectedItem && (
             <View style={padding=16}>
@@ -57,7 +43,7 @@ const VendorDetailScreen = ({ route }) => {
                 <TouchableOpacity style={styles.itemContainer} onPress={() => addToCart(item.item_name)}>
                 <Image source={require('./foodicon.png')} style={styles.image} />
                 <Text style={styles.titleText}>{item.item_name}</Text>
-                <Text style={styles.descriptionText}>{item.price}</Text>
+                <Text style={styles.descriptionText}>  {item.price}</Text>
                 
                 </TouchableOpacity>
             )) }
@@ -66,7 +52,7 @@ const VendorDetailScreen = ({ route }) => {
         </View>
       )}
       <View 
-              style={{justifyContent:"center", right:0, flexDirection: "row",
+              style={{justifyContent:"center", right:10, flexDirection: "row",
                     marginTop:0,
                     height: 50,
                     zIndex:1,
