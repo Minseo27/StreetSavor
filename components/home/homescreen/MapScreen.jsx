@@ -10,7 +10,7 @@ import { Image } from 'react-native';
 import { DirectionsService } from 'react-native-maps-directions';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-//import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import { TextInput } from 'react-native-gesture-handler';
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
 
@@ -126,7 +126,7 @@ function MapScreen () {
     // Fetching Food Truck Based on Search Bar 
     //useEffect(() => {
         const fetchFoodTruckLocation = async () => {
-       //if(newText) {
+       //if(newText) 
            try{
                const vendorDocRef = firestore()
                .collection('Users')
@@ -239,13 +239,14 @@ function MapScreen () {
                       placeholder= "What are you looking for?"
                       placeholderTextColor="#888"
                       onSubmitEditing = { () => fetchFoodTruckLocation() }
+                      autoCapitalize="none"
                   />  
                   </View>
               
               </View>
               
               <View 
-              style={{justifyContent:"center", right:0, flexDirection: "row",
+              style={{justifyContent:"center", right:10, flexDirection: "row",
                     marginTop:0,
                     height: 50,
                     zIndex:1,

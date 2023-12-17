@@ -53,8 +53,10 @@ const BottomScroll = ({navigation}) => {
 
     //cartData.push(foodItem)
     setCartItems([...cartItems, foodItem]);
-  };
     //setCartItems(cartData)
+
+  };
+    //
 
     //console.warn(`${foodItem}`)
 
@@ -64,7 +66,7 @@ const BottomScroll = ({navigation}) => {
     //console.warn(`${JSON.stringify(foodItem)}`);
   
 
-  console.warn(`${JSON.stringify(cartItems)}`);
+  //console.warn(`${JSON.stringify(cartItems)}`);
 
 
   const handleItemPress2 = useCallback((item) => {
@@ -90,6 +92,7 @@ const BottomScroll = ({navigation}) => {
         </TouchableOpacity>
       ));
   
+
       setItems2(items);
     }
     setSelectedItem(item);
@@ -106,8 +109,10 @@ const BottomScroll = ({navigation}) => {
     handleItemPress2(item);
   }
 
+  // Passing Paramates such as list of buttons and cart items to vendor screen cartItems
   const handleNavigation = () => {
-    navigation.navigate('VendorDetailScreen', { selectedItem, list_of_items2 });
+
+    navigation.navigate('VendorDetailScreen', { selectedItem, list_of_items2,  });
   };
 
   // callbacks
@@ -131,6 +136,7 @@ const BottomScroll = ({navigation}) => {
   return (
     <View style={styles.container}>
       <MapScreen />
+    
       <BottomSheet
         ref={sheetRef}
         index={1}
@@ -155,6 +161,7 @@ const BottomScroll = ({navigation}) => {
           <TouchableOpacity
             onPress={handleNavigation} style={styles.orderButtonContainer}>
             <Text style={styles.orderButton}>Order</Text>
+
           </TouchableOpacity>
           <ScrollView horizontal contentContainerStyle={styles.scrollViewContent} showsHorizontalScrollIndicator={false}>
           {list_of_items}

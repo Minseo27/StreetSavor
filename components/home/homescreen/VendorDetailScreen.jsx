@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet , Image} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet , Image, Pressable} from 'react-native';
 import styles from './BottomSheetScrollView.styles'; 
 import { ScrollView } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 const VendorDetailScreen = ({ route }) => {
     const { selectedItem } = route.params;
     const { list_of_items2 } = route.params;
+    const { cart_items } = route.params;
+
     const navigation = useNavigation();
 
     const handleBackPress = () => {
@@ -15,6 +17,23 @@ const VendorDetailScreen = ({ route }) => {
 
     return (
     <View style={flex=1}>
+
+            <View 
+              style={{justifyContent:"center", right:10, flexDirection: "row",
+                    marginTop:0,
+                    height: 50,
+                    zIndex:1,
+                    position:'absolute'}}>
+
+              <TouchableOpacity onPress={() => console.warn(`${JSON.stringify(cart_items)}`)}>
+                  <Image 
+                  source={require('./shopping-cart.png')} 
+                  style ={ {width: 50, height: 50, }}/>
+
+              </TouchableOpacity>
+                
+              </View>
+
         {selectedItem && (
             <View style={padding=16}>
                 <ScrollView>
@@ -27,7 +46,7 @@ const VendorDetailScreen = ({ route }) => {
               <TouchableOpacity
                 key={item.id}
                 style={styles.itemTouchable} 
-                onPress={() => handleItemClick(item.id)}
+                onPress={() => console.warn(item.id.item_name)}
               >
         
                 <View style={styles.itemContainer}>
@@ -40,6 +59,7 @@ const VendorDetailScreen = ({ route }) => {
               
             ))} */}
             {list_of_items2}
+            
           </ScrollView>
         </View>
       )}
