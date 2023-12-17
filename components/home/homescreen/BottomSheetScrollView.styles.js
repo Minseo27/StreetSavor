@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     orderButton: {
         fontSize: 20,
         fontFamily: "DMBold",
-        marginTop: 5,
+        marginTop: 2,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
     },
@@ -78,14 +78,13 @@ const styles = StyleSheet.create({
       fontFamily: "DMBold"
     },
     scrollViewContent: {
-      marginTop: 50,
-      marginBottom: 50,
+      marginBottom: 20,
       flexDirection: 'row',
       borderRadius: 20,
       backgroundColor: "#eee",
     },
     foodItemContainer: {
-      marginTop: 30,
+      marginTop: 10,
       marginLeft:10,
       marginRight:10,
       padding:6,

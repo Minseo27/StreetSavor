@@ -28,7 +28,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
 //import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
-import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
+import FirstOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 
 // Application Root With Navigator
@@ -148,9 +148,7 @@ function App() {
                     }}
                 />
 
-                
-                
-                <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
+                <Stack.Screen name='FirstOrderScreen' component={FirstOrderScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,

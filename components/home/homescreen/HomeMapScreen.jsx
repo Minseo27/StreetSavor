@@ -13,32 +13,10 @@ import { Image } from 'react-native';
 import BottomScroll from './BottomSheetScrollView';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Button } from 'react-native';
-import SecondOrderScreen from '../orderscreen/SecondOrderScreen';
+import FirstOrderScreen from '../orderscreen/SecondOrderScreen';
 import { Feather } from '@expo/vector-icons';
-const Tab = createBottomTabNavigator();
 
-const FirstOrderScreen = ({navigation}) => {
-    var list_of_vendors = vendor_list.map(truck => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}} onPress={ () => navigation.navigate('SecondOrderScreen',{name: 'SecondOrderScreen'})}>
-        <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />
-        <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
-            {truck.name}
-        </Text>
-        <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
-            Email: {truck.contact[0]}
-        </Text>
-        <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
-            Phone: {truck.contact[0]}
-        </Text>
-    </Pressable>);
-    return (
-        <ScrollView style={{flex:1,}}>
-            {list_of_vendors}
-            {/* <View style={{flex:1,justifyContent:'center',}}>
-                <Text style={{textAlign:'center'}}>This will be the first order screen</Text>
-            </View> */}
-        </ScrollView>
-    );
-}
+const Tab = createBottomTabNavigator();
 
 const AccountPage = ({navigation}) => {
   const [userInfo, setInfo] = useState([]);
