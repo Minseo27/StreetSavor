@@ -51,20 +51,9 @@ const BottomScroll = ({navigation}) => {
   const addToCart = (foodItem) => {
     let cartData = []
 
-    //cartData.push(foodItem)
+    //cartData.push(foodItem);
     setCartItems([...cartItems, foodItem]);
   };
-    //setCartItems(cartData)
-
-    //console.warn(`${foodItem}`)
-
-    //
-    //console.log(`Added to cart: ${foodItem.item_name}`);
-
-    //console.warn(`${JSON.stringify(foodItem)}`);
-  
-
-  console.warn(`${JSON.stringify(cartItems)}`);
 
 
   const handleItemPress2 = useCallback((item) => {
@@ -73,24 +62,8 @@ const BottomScroll = ({navigation}) => {
       Object.keys(item.menu).forEach((key) => {
         list.push(item.menu[key]);
       });
-
-  
-      const items = list.map(food => (
-        <TouchableOpacity
-          key={food.id} 
-          onPress={() => addToCart({ item_name: food.item_name, price: food.price })}
-        >
-          <View style={styles.itemContainer}>
-            <Image source={require('./foodicon.png')} style={styles.image} />
-            <View style={styles.textContainer}>
-              <Text style={styles.titleText}>{food.item_name}</Text>
-              <Text style={styles.descriptionText}>{food.price}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      ));
-  
-      setItems2(items);
+   
+      setItems2(list);
     }
     setSelectedItem(item);
   },);

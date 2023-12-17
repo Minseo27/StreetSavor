@@ -9,13 +9,13 @@ import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+//import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import { TextInput } from 'react-native-gesture-handler';
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
 
 function MapScreen () {
     const checkLocationPermission = async () => {
-        const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+        //const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
         if (result === RESULTS.DENIED) {
           const permissionResult = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
           if (permissionResult === RESULTS.GRANTED) {
@@ -241,27 +241,7 @@ function MapScreen () {
                   </View>
               
               </View>
-              
-              <View 
-              style={{justifyContent:"center", right:0, flexDirection: "row",
-                    marginTop:0,
-                    height: 50,
-                    zIndex:1,
-                    position:'absolute'}}>
-
-              <TouchableOpacity >
-                
-                  <Image 
-                  source={require('./shopping-cart.png')} 
-                  style ={ {width: 50, height: 50, }}/>
-
-
-              </TouchableOpacity>
-                
-              </View>
-              
-            
-          
+             
           </View>
   
       );

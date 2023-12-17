@@ -638,7 +638,7 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (5.3.1):
     - ExpoModulesCore
-  - EXConstants (14.4.2):
+  - EXConstants (14.5.1):
     - ExpoModulesCore
   - EXFileSystem (15.4.4):
     - ExpoModulesCore
@@ -1492,7 +1492,7 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   EXApplication: 042aa2e3f05258a16962ea1a9914bf288db9c9a1
-  EXConstants: ce5bbea779da8031ac818c36bea41b10e14d04e1
+  EXConstants: 6cb14c7520a3538d37894fe8f0de9b8196d38455
   EXFileSystem: 2b826a3bf1071a4b80a8457e97124783d1ac860e
   EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
   Expo: fcfd60c1ed6806dee5103b210335ae0c72f675ed
