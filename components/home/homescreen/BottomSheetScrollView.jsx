@@ -93,7 +93,7 @@ const BottomScroll = ({navigation}) => {
   const renderItem = useCallback(
     (item, index) => (
       <TouchableOpacity key={index} style={styles.itemContainer} onPress={() => handlePress(item)}>
-        <Image source={require('./foodtruck.jpeg')} style={styles.image} />
+        <Image source={require('./truckicon.png')} style={styles.image} />
         <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
         <Text style={styles.descriptionText}>{item.Description}</Text>

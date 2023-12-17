@@ -35,7 +35,8 @@ import { SIZES } from '../constants';
 function App() {
     const router = useRouter()
     return (
-        <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
+
+        //<SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
         <NavigationContainer independent={true}>
            <Stack.Navigator >
             
@@ -169,7 +170,7 @@ function App() {
 
         </NavigationContainer>
 
-        </SafeAreaView>
+        //</SafeAreaView>
     )
 
                    
