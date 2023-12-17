@@ -138,11 +138,6 @@ android {
 dependencies {
   // Add the dependencies for any other desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
-<<<<<<< HEAD
-  // Add the dependencies for any other desired Firebase products
-  // https://firebase.google.com/docs/android/setup#available-libraries
-=======
->>>>>>> origin/donnie
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     // Import the Firebase BoM

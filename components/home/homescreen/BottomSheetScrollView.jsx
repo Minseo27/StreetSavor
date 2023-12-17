@@ -156,9 +156,12 @@ const BottomScroll = ({navigation}) => {
             onPress={handleNavigation} style={styles.orderButtonContainer}>
             <Text style={styles.orderButton}>Order</Text>
           </TouchableOpacity>
+          <View style={{backgroundColor:"#eee", borderRadius:20, marginTop:10}}>
+          <Text style={{marginTop:10, padding:5, marginLeft:2}}>{selectedItem.Description}</Text>
           <ScrollView horizontal contentContainerStyle={styles.scrollViewContent} showsHorizontalScrollIndicator={false}>
           {list_of_items}
           </ScrollView>
+        </View>
         </View>
       )}
     </View>

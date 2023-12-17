@@ -7,10 +7,9 @@ import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
-import { DirectionsService } from 'react-native-maps-directions';
 import MapViewDirections from 'react-native-maps-directions';
-//import Geolocation from 'react-native-geolocation-service';
-//import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import Geolocation from 'react-native-geolocation-service';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import { TextInput } from 'react-native-gesture-handler';
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
 
