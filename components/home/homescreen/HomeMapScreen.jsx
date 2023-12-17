@@ -3,7 +3,7 @@ import { View, Text, StyleSheet,Alert, Pressable, ActivityIndicatorBase } from '
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
 import { COLORS, SIZES } from '../../../constants'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -55,11 +55,11 @@ const AccountPage = ({navigation}) => {
 
   
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-      <View style={{ padding: 20 }}>
+    <ScrollView style={{flex: 1, backgroundColor: '#FFFFFF' }}>
+      <View style={{alignItems:'flex-start', padding: 20 }}>
 
       <Image
-        style={{ alignSelf: 'left', width: 90, height: 90,}}
+        style={{  width: 90, height: 90,}}
         source={require('../../../assets/images/user.png')}
       />
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>Settings</Text>
@@ -73,6 +73,9 @@ const AccountPage = ({navigation}) => {
         </TouchableOpacity>
           
          {/*Start of modal*/} 
+         
+         
+
        
         <Modal
           visible={isModalVisible}
@@ -87,14 +90,16 @@ const AccountPage = ({navigation}) => {
               <Text>Password: {userInfo.password}</Text>
               <Text>Username: {userInfo.name}</Text>
 
-              <TouchableOpacity style={{ marginTop: 20 }} onPress={toggleModal}>
+              <Pressable style={{ marginTop: 20 }} onPress={toggleModal}>
                 <Text style={{ color: 'blue' }}>Close</Text>
-              </TouchableOpacity>
+              </Pressable>
+
+          
             </View>
+            
           </View>
         </Modal>
-       
-
+      
 
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
@@ -122,6 +127,17 @@ const AccountPage = ({navigation}) => {
         >
           <Feather name="settings" size={24} color="#606060" style={{ marginRight: 15 }} />
           <Text style={{ fontSize: 16 }}>Playback and Performance</Text>
+
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {{navigation.navigate('Initial')}
+            
+          }}
+        >
+          <Feather name="log-out" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Sign Out</Text>
         </TouchableOpacity>
        
       </View>

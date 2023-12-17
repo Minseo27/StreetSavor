@@ -23,6 +23,7 @@ import { Button } from 'react-native';
 import Dialog from "react-native-dialog";
 import { Modal } from 'react-native';
 import { getDistance } from 'geolib';
+import { Feather } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 function MapScreen() {
@@ -440,35 +441,117 @@ const AccountPage = ({navigation}) => {
     firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
         if (snapshot.exists)
             setInfo(snapshot.data())
+            
     })
-    return (
-        <ScrollView style={{flex:1,}}>
-            <View style={{flex:1, justifyContent:'center'}}>
-                <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('./truckicon.png')}/>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                    Email: {userInfo.email}{"\n"}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold', marginLeft: SIZES.small}}>
-                    Username: {userInfo.name}{"\n"}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: SIZES.medium, backgroundColor: COLORS.lightWhite, justifyContent: 'center',alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold' ,marginLeft: SIZES.small}}>
-                    Password: {userInfo.password}{"\n"}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {navigation.navigate('VendorLoginView')}} style={{marginTop:SIZES.xLarge, backgroundColor: COLORS.lightWhite, justifyContent: 'center', alignContent: 'center'}}>
-                  <Text style={{textAlign: 'center', fontSize: SIZES.large, fontStyle: 'italic', fontWeight: 'bold'}}>
-                    Sign Out
-                  </Text>
-                </TouchableOpacity>
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  
+  return (
+    <ScrollView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <View style={{ padding: 20 }}>
+
+      <Image
+        style={{ alignSelf: 'left', width: 90, height: 90,}}
+        source={require('../../../assets/images/username.png')}
+      />
+        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>Settings</Text>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={toggleModal}
+          
+        >
+          <Feather name="user" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Account</Text>
+        </TouchableOpacity>
+          
+         {/*Start of modal*/} 
+       
+        <Modal
+          visible={isModalVisible}
+          animationType="fade"
+          transparent={true}
+          onRequestClose={toggleModal}
+        >
+          <View style={stylesModal.modalContainer}>
+            <View style={stylesModal.modalContent}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Account Details</Text>
+              <Text>Email: {userInfo.email}</Text>
+              <Text>Password: {userInfo.password}</Text>
+              <Text>Username: {userInfo.name}</Text>
+
+              <Pressable style={{ marginTop: 20 }} onPress={toggleModal}>
+                <Text style={{ color: 'blue' }}>Close</Text>
+              </Pressable>
+
             </View>
-        </ScrollView>
-    );
+          </View>
+        </Modal>
+      
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+            
+          }}
+        >
+          <Feather name="lock" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Privacy</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+            
+          }}
+        >
+          <Feather name="bell" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Notifications</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+           
+          }}
+        >
+          <Feather name="settings" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Playback and Performance</Text>
+
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {{navigation.navigate('Initial')}
+            
+          }}
+        >
+          <Feather name="log-out" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Sign Out</Text>
+        </TouchableOpacity>
+       
+      </View>
+    </ScrollView>
+  );
 }
+
+const stylesModal = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+});
+
   const VendorMapScreen = ({navigation}) => {
     
     return (
