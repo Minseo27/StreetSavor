@@ -449,6 +449,13 @@ const AccountPage = ({navigation}) => {
     setIsModalVisible(!isModalVisible);
   };
 
+  // Other Modal For Privacy Infor
+  const [isOtherModalVisible, setIsOtherModalVisible] = useState(false);
+  const toggleOtherModal = () => {
+    setIsOtherModalVisible(!isOtherModalVisible);
+  };
+
+
   
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
@@ -494,13 +501,45 @@ const AccountPage = ({navigation}) => {
 
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
-          onPress={() => {
-            
-          }}
+          onPress={toggleOtherModal}
         >
           <Feather name="lock" size={24} color="#606060" style={{ marginRight: 15 }} />
           <Text style={{ fontSize: 16 }}>Privacy</Text>
         </TouchableOpacity>
+        
+        <Modal
+          visible={isOtherModalVisible}
+          animationType="fade"
+          transparent={true}
+          onRequestClose={toggleOtherModal}
+        >
+          <View style={stylesModal.otherModalContainer}>
+            <View style={stylesModal.otherModalContent}>
+
+              <ScrollView>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Privacy Agreements</Text>
+              <Text>1. Location Access: Our app uses your location to find nearby food trucks. We don't share your exact location without permission.</Text> 
+              <Text>2. Anonymous Data: We collect anonymous data to improve the app. Your individual data remains private.</Text> 
+              <Text>3. Security Measures: We prioritize your data security, using industry-standard measures to protect it.</Text>
+              <Text>4. Third-Party Integration: Some features may use third-party services. Check their privacy policies for details.</Text>
+              <Text>5. Control: You can manage location and data preferences in the app settings.</Text>
+              <Text>Your privacy matters to us. For more details, refer to our Privacy Policy.</Text>
+
+              <Pressable style={{ marginTop: 20 }} onPress={toggleOtherModal}>
+                <Text style={{ color: 'blue' }}>Close</Text>
+              </Pressable>
+
+              </ScrollView>
+
+          
+            </View>
+            
+          </View>
+        </Modal>
+      
+
+
+
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
           onPress={() => {
@@ -544,6 +583,20 @@ const stylesModal = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+
+  otherModalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  otherModalContent: {
     backgroundColor: '#FFFFFF',
     padding: 20,
     borderRadius: 10,
