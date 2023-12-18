@@ -40,12 +40,12 @@ const FirstOrderScreen = ({route}) => {
 
   
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1,  backgroundColor:'#ECE5B6'}}>
       {cartItems &&  (
-      <View style={{ marginTop: 30, marginLeft: 30 }}>
+      <View style={{ marginTop: 30, marginLeft: 30, }}>
         {cartItems.map((item, index) => (
           <View key={index} style={{ marginBottom: 10 }}>
-            <Text style={{ fontFamily: "DMMedium", fontSize: 18 }}>
+            <Text style={{ fontFamily: "DMMedium", fontSize: 22 }}>
               {item[0]}: ${item[1]}
             </Text>
 
@@ -54,9 +54,9 @@ const FirstOrderScreen = ({route}) => {
         <TouchableOpacity onPress={toggleOtherModal}>
               <View style={{ width:200,flexDirection: 'row', alignItems: 'center',
                    backgroundColor: 'rgba(0,0,0,0.1)', padding: 10, 
-                   borderRadius: 8, marginTop: 10, }}>
+                   borderRadius: 8, marginTop: 10, borderBottomColor:"black",borderBottomWidth:1, marginBottom:10}}>
                     <Icon name="money" size={30} style={{ marginRight: 10 }} />
-                    <Text style={{ fontSize: 18 }}>{val}</Text> 
+                    <Text style={{ fontSize: 18 }}>${val}</Text> 
               </View> 
           </TouchableOpacity>
 
@@ -122,7 +122,33 @@ const FirstOrderScreen = ({route}) => {
             
           </View>
         </Modal>
-      
+          
+        {/* Download AS PDF */}
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20, marginTop:40 }}
+          //onPress={toggleModal} 
+        >
+          <Feather name="download" size={24} color="#606060" style={{ marginRight: 15, flexDirection:"row" }} />
+          <Text style={{ fontSize: 16 }}>Download as PDF</Text>
+        </TouchableOpacity>
+
+        {/* Send as EMAIL */}
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          //onPress={toggleModal} 
+        >
+          <Feather name="mail" size={24} color="#606060" style={{ marginRight: 15, flexDirection:"row" }} />
+          <Text style={{ fontSize: 16 }}>Resend email</Text>
+        </TouchableOpacity>
+
+        {/* Help Icon */}
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          //onPress={toggleModal} 
+        >
+          <Feather name="info" size={24} color="#606060" style={{ marginRight: 15, flexDirection:"row" }} />
+          <Text style={{ fontSize: 16 }}>Get Help</Text>
+        </TouchableOpacity>
       </View>
           
       )
