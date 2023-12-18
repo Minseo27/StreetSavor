@@ -132,7 +132,7 @@ function MapScreen () {
                .collection('Vendors')
                .doc('zNpo2OBPsA73QZJFM5ub')
                .collection('info');
-               const query = vendorDocRef.where("name", "==", newText).limit(1);
+               const query = vendorDocRef.where("email", "!=", newText).limit(1);
                const userDoc = await query.get();
 
                if (!userDoc.empty) {
@@ -189,16 +189,16 @@ function MapScreen () {
                   initialRegion={{
                   //latitude:  40.7861,
                   //longitude: -73.9543,
-                  latitude:  Number(lat),
-                  longitude: Number(lon),
+                  latitude: lat,
+                  longitude: lon,
                   latitudeDelta: 0.03,
                   longitudeDelta: 0.02,
                   }}
               >
               <Marker
                   coordinate={{
-                  latitude:  Number(lat),
-                  longitude: Number(lon),
+                  latitude:  lat,
+                  longitude: lon,
                   
                   }}
                   description={"You are here"}>
@@ -207,8 +207,8 @@ function MapScreen () {
   
               <Marker
                   coordinate ={{
-                      latitude: Number(latTruck),
-                      longitude: Number(lonTruck),
+                      latitude: latTruck,
+                      longitude: lonTruck,
                   }}
                   description={"Your Nearest Truck"}
                   onPress={getRouteLocation}
@@ -218,8 +218,8 @@ function MapScreen () {
 
               {showPolyline && 
               (<MapViewDirections
-                origin={{ latitude: Number(lat), longitude: Number(lon) }}
-                destination={{ latitude: Number(latTruck), longitude: Number(lonTruck) }}
+                origin={{ latitude: lat, longitude: lon }}
+                destination={{ latitude: latTruck, longitude: lonTruck }}
                 apikey={"AIzaSyBLoT-2L2OzwWceQVT4VHgy3AFTXkWeqHU"} // Your API Key
                 strokeWidth={2}
                 
