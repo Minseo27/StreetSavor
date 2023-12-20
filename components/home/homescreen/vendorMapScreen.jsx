@@ -6,12 +6,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { NavigationActions } from 'react-navigation';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import styles from './homemapscreen.styles';
-import MapView, { Callout, Marker } from 'react-native-maps';
+import MapView, { Marker, Circle } from 'react-native-maps';
 import { COLORS, SIZES } from '../../../constants'
 import { ScrollView } from 'react-native';
 import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
-import * as permissions from 'react-native-permissions';
-import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+//import * as permissions from 'react-native-permissions';
+//import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 import auth, { firebase } from '@react-native-firebase/auth';
 import { ReactNativeFirebase } from '@react-native-firebase/app';
@@ -21,11 +21,10 @@ import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import { Button } from 'react-native';
 import Dialog from "react-native-dialog";
-// import Modal from 'react-native-modal'
 import { Modal } from 'react-native';
-// import MapView from 'react-native-maps';
+import { getDistance } from 'geolib';
+import { Feather } from '@expo/vector-icons';
 
-// MapboxGL.setAccessToken("pk.eyJ1Ijoiam1vdG9yb2xhIiwiYSI6ImNscDN1M2kyZTExaWkyamxvdDVkbmQ5dzYifQ.fJOlBvxpmA3cDLmlQ9HrOQ")
 const Tab = createBottomTabNavigator();
 function MapScreen() {
     const [lat, setLatitude] = useState(null);
@@ -39,10 +38,27 @@ function MapScreen() {
         {"latitude": 40.76812, "longitude": -73.96485},
         {"latitude": 40.76695, "longitude": -73.96556},
         {"latitude": 40.76878, "longitude": -73.96379},
-        {"latitude": 40.76725, "longitude": -73.96588}
-      ]
-      
-  
+        {"latitude": 40.76725, "longitude": -73.96588},
+        {"latitude": 40.76562, "longitude": -73.96491},
+        {"latitude": 40.76688, "longitude": -73.96573},
+        {"latitude": 40.76793, "longitude": -73.96345},
+        {"latitude": 40.76845, "longitude": -73.96622},
+        {"latitude": 40.76598, "longitude": -73.96411},
+        {"latitude": 40.76712, "longitude": -73.96658},
+        {"latitude": 40.76635, "longitude": -73.96428},
+        {"latitude": 40.76778, "longitude": -73.96597},
+        {"latitude": 40.76572, "longitude": -73.96511},
+        {"latitude": 40.76823, "longitude": -73.96462},
+        {"latitude": 40.76645, "longitude": -73.96474},
+        {"latitude": 40.76801, "longitude": -73.96536},
+        {"latitude": 40.76733, "longitude": -73.96388},
+        {"latitude": 40.76589, "longitude": -73.96604},
+        {"latitude": 40.76856, "longitude": -73.96418}
+    ];
+    
+
+
+
     useEffect(() => {
       const fetchTruckLocationFromFirestore = async () => {
           const user = auth().currentUser;
@@ -88,6 +104,57 @@ function MapScreen() {
 
     const [markers, setMarkers] = useState([]);
     // Array to hold Coordinates
+
+
+
+
+    const getDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371e3; // Earth's radius in meters
+        const φ1 = (lat1 * Math.PI) / 180;
+        const φ2 = (lat2 * Math.PI) / 180;
+        const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+        const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+      
+        const a =
+          Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+          Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      
+        const distance = R * c; // Distance in meters
+        return distance;
+      };
+    
+      const renderCircles = () => {
+        const circles = [];
+        const threshold = 10; // Threshold for proximity
+      
+        mark.forEach((point1, i) => {
+          mark.slice(i + 1).forEach(point2 => {
+            const distance = getDistance(
+              point1.latitude,
+              point1.longitude,
+              point2.latitude,
+              point2.longitude
+            );
+      
+            if (distance <= threshold) {
+              const centerLatitude = (point1.latitude + point2.latitude) / 2;
+              const centerLongitude = (point1.longitude + point2.longitude) / 2;
+      
+              circles.push(
+                <Circle
+                  key={centerLatitude.toString() + centerLongitude.toString()}
+                  center={{ latitude: centerLatitude, longitude: centerLongitude }}
+                  radius={50} // Adjust the radius of the circle as needed
+                  fillColor="rgba(255, 0, 0, 0.3)" // Adjust the color and opacity
+                />
+              );
+            }
+          });
+
+        });
+        }
+
         
     useEffect (() => { 
     //const mapMarkerMaker = () => {
@@ -111,7 +178,7 @@ function MapScreen() {
             markersData.push({latitude,longitude})
            
             setMarkers(markersData); 
-            //console.warn(markersData)
+            //console.warn(markers)
             });           
         })  
        
@@ -134,36 +201,36 @@ function MapScreen() {
                 }}
             >
 
-                <Marker
-                    coordinate={{
-                
-                    latitude:  Number(lat),
-                    longitude: Number(lon),
-                    
-                    }}
-                    title='You'
-                    description='You are here!'>
-                    <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />
-                
-                
-                </Marker>
-            
-            
-                {markers.map( (marker, index) => {
-                return <Marker
-                    key={index}
-                    coordinate={{
-                    latitude: marker.latitude ,
-                    longitude: marker.longitude ,
-                    }}
-                >
-                    <Image source={require('./person.png')} style={{ height: 32, width: 32}} />
-                </Marker>
-                })}
-
-          
+            <Marker
+                coordinate={{
               
-            </MapView>
+                latitude:  Number(lat),
+                longitude: Number(lon),
+                
+                }}
+                description={"You are here"}>
+                <Image source={require('./truckicon.png')} style={{height: 32, width:32 }} />              
+            
+            </Marker>
+
+            {mark.map( (marker, index) => (
+              <Circle
+                  key={index}
+                  center={{
+                  latitude: Number(marker.latitude),
+                  longitude: Number(marker.longitude),
+                  }}
+                  radius={20}
+                  strokeWidth={2}
+                  strokeColor="#3399ff"
+                  fillColor="#80bfff"
+              >
+              </Circle>
+              ))}
+
+        
+              
+          </MapView>
             
 
             ) : ( <ActivityIndicator size ="large"/>)} 
@@ -178,19 +245,11 @@ function CreateMenuScreen() {
     const docRef = firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid);
     // const batch = firebase.firestore().batch();
     const [item,setItem] = useState([]);
-    const [itemEdit,setEditedItem] = useState([]);
     const [foodName,setFoodName] = useState('');
-    const [editFoodName,setEditFoodName] = useState('');
-    const [oldFoodName, setOldFoodName] = useState('');
     const [price,setPrice] = useState('');
-    const [editPrice,setEditPrice] = useState('');
-    const [oldPrice, setOldPrice] = useState('');
     const [status,setStatus] = useState('');
-    const [editStatus,setEditStatus] = useState('');
-    const [oldStatus, setOldStatus] = useState('');
     const [visible, setVisible] = useState(false);
     const [deleteVisible, setDeleteVisible] = useState(false);
-    const [editVisible,setEditVisible] = useState(false);
     const [userMenu,setInfo] = useState([]);
     const [removeName,setRemovalName] = useState('');
 
@@ -226,20 +285,6 @@ function CreateMenuScreen() {
                         console.log(list);
                         // Set the newly made array to the userMenu
                         setInfo(list);
-                    //     const list_of_vendors = list.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
-                    //     <Image source={require('./foodicon.png')} style={{height: 32, width:32 }} />
-                    //     <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
-                    //         {food.item_name}
-                    //     </Text>
-                    //     <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
-                    //         ${food.price}
-                    //     </Text>
-                    //     <Text style={{fontSize: SIZES.small, fontWeight: 'bold', fontStyle: 'italic'}}>
-                    //         {food.status}
-                    //     </Text>
-                    // </Pressable>);
-                    //     setItemList(list_of_vendors);
-                        //Setting Location Value
                     }
                 } else {
                     console.log('User document does not exist.');
@@ -251,7 +296,7 @@ function CreateMenuScreen() {
         
             fetchMenuInfo();
         }, []);
-
+    
     // We use this function to open the dialog
     const handleDialog = () => {
         setVisible(true);
@@ -292,43 +337,13 @@ function CreateMenuScreen() {
         }
         setDeleteVisible(false);
         setRemovalName('');
-    };
+    }
 
-    // Function to handle the deletion of items
-    const handleEditAccept = () => {
-        if ((editFoodName != '') && (editPrice != '')  && (editStatus != '')) {
-            if ((oldFoodName != editFoodName) || (oldPrice != editPrice) || (oldStatus != editStatus)) {
-                itemEdit.item_name = editFoodName;
-                itemEdit.price = editPrice;
-                itemEdit.status = editStatus;
-                // Set initial menu path
-                let menu_title = 'menu.$';
-                // We create a new array to store the item_names from the original userMenu array, we do not need the price or status for this
-                let checkArr = userMenu?.map((t) => t.item_name);
-                // We do a simple check to see if the removeName is included in the checkArr.
-                userMenu[checkArr.indexOf(oldFoodName)] = itemEdit;
-
-                let old_table_name = oldFoodName;
-                let new_table_name = itemEdit.item_name;
-                docRef.update({
-                    [menu_title.concat(old_table_name.toString())]: firebase.firestore.FieldValue.delete(),
-                    [menu_title.concat(new_table_name.toString())]: itemEdit,
-                });
-            }
-        }
-        setEditVisible(false);
-        setOldPrice('');
-        setOldStatus('');
-        setOldFoodName('');
-        setEditFoodName('');
-        setEditPrice('');
-        setEditStatus('');
-    };
     // Function to handle when cancel option is chosen for the delete dialog.
     const handleDeleteCancel = () => {
         setDeleteVisible(false);
         setRemovalName('');
-    };
+    }
 
     // Function to handle the accept option for creating new items
     const handleAccept = () => {
@@ -345,17 +360,6 @@ function CreateMenuScreen() {
             docRef.update({
                 [menu_title.concat(table_name.toString())]: item,
             });
-            // const list = [];
-            // const vendorDocRef = docRef.get();
-            // firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
-            //     if (snapshot.exists)
-            //         Object.keys(snapshot.data().menu).forEach((key) => {
-            //             list.push(snapshot.data().menu[key]);
-            //         })
-            // });
-            // // Object.keys(menu_list).forEach((key) => {
-            // //     list.push(menu_list[key]);
-            // // })
             userMenu.push(item);
         }
         setVisible(false);
@@ -371,27 +375,7 @@ function CreateMenuScreen() {
         setVisible(false);
     };
 
-    const handleEditDialog = () => {
-        setEditVisible(true);
-        setEditedItem(VendorItem);
-    };
-
-    const handleEditCancel = () => {
-        setEditVisible(false);
-        setOldPrice('');
-        setOldStatus('');
-        setOldFoodName('');
-        setEditFoodName('');
-        setEditPrice('');
-        setEditStatus('');
-    };
-
-    var menuItemList = userMenu.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}} onPress={() => {
-        setOldFoodName(food.item_name);
-        setOldPrice(food.price);
-        setOldStatus(food.status);
-        handleEditDialog();
-    }}>
+    var menuItemList = userMenu.map(food => <Pressable style={{height: 150,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
         <Image source={require('./foodicon.png')} style={{height: 32, width:32 }} />
         <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
             {food.item_name}
@@ -446,27 +430,6 @@ function CreateMenuScreen() {
                         </View>
                     </Modal>
                 </View>
-                <View style={modalStyles.firstViewContainer}>
-                    <Modal transparent={true} animationType="slide" visible={editVisible} style={{backgroundColor: '#efcb4e'}}>
-                        <View style={modalStyles.firstViewContainer}>
-                            <View style={modalStyles.modalViewContainer}>
-                                <Text style={modalStyles.modalTopText}>Edit your item!</Text>
-                                <Text style={modalStyles.modalText}>Edit your item name:</Text>
-                                <TextInput placeholder={oldFoodName} style={modalStyles.modalTextInput} keyboardType="default" onChangeText={setEditFoodName} value={editFoodName}/>
-                                <Text style={modalStyles.modalText}>Edit your item price:</Text>
-                                <TextInput placeholder={oldPrice} style={modalStyles.modalTextInput} keyboardType="numeric" onChangeText={setEditPrice} value={editPrice}/>
-                                <Text style={modalStyles.modalText}>Edit your item's availability status:</Text>
-                                <TextInput placeholder={oldStatus} style={modalStyles.modalTextInput} keyboardType="default" onChangeText={setEditStatus} value={editStatus}/>
-                                <View style={modalStyles.modalButtonContainer}>
-                                    <Button title="OK" color='#efcb4e' onPress={handleEditAccept}/>
-                                    <View style={modalStyles.modalButtonContainer}>
-                                        <Button title="Cancel" color='#efcb4e' onPress={handleEditCancel}/>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                </View>
             </ScrollView>
             <Button onPress={handleDeleteDialog} title="Delete Item" color="#000000"/>
         </View>
@@ -478,47 +441,170 @@ const AccountPage = ({navigation}) => {
     firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid).get().then((snapshot) => {
         if (snapshot.exists)
             setInfo(snapshot.data())
+            
     })
-    return (
-        <ScrollView style={{flex:1,}}>
-            <View style={{flex:1, justifyContent:'center'}}>
-                <Image style={{alignSelf: 'center', width: 256, height: 256, marginTop: SIZES.large}} source={require('./truckicon.png')}/>
-                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/email.png')}/>
-                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
-                    Email{"\n"}
-                </Text>
-                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.xSmall, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
-                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
-                   {userInfo.email}{"\n"}
-                  </Text>
-                </Pressable>
-                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/username.png')}/>
-                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
-                    Username{"\n"}
-                </Text>
-                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
-                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
-                    {userInfo.name}{"\n"}
-                  </Text>
-                </Pressable>
-                <Image style={{alignSelf: 'center', width: 32, height: 32, marginTop: SIZES.large}} source={require('../../../assets/images/password.png')}/>
-                <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic', justifyContent: 'center', textAlign: 'center'}}>
-                    Password{"\n"}
-                </Text>
-                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.small, marginBottom: SIZES.xLarge, alignItems: 'center', borderRadius: 50, padding: 35, margin: 20}}>
-                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
-                    {userInfo.password}{"\n"}
-                  </Text>
-                </Pressable>
-                <Pressable style={{height: 96,backgroundColor: '#efcb4e', marginTop: SIZES.large, marginBottom: SIZES.small, alignItems: 'center', borderRadius: 50, padding: 35, margin: 64}} onPress={() => navigation.navigate('VendorLoginView',{name: 'VendorLoginView'})}>
-                  <Text style={{fontSize: SIZES.large, fontWeight: 'bold', fontStyle: 'italic'}}>
-                    Sign Out
-                  </Text>
-                </Pressable>
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  // Other Modal For Privacy Infor
+  const [isOtherModalVisible, setIsOtherModalVisible] = useState(false);
+  const toggleOtherModal = () => {
+    setIsOtherModalVisible(!isOtherModalVisible);
+  };
+
+
+  
+  return (
+    <ScrollView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+      <View style={{ padding: 20 }}>
+
+      <Image
+        style={{ alignSelf: 'left', width: 90, height: 90,}}
+        source={require('../../../assets/images/username.png')}
+      />
+        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>Settings</Text>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={toggleModal}
+          
+        >
+          <Feather name="user" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Account</Text>
+        </TouchableOpacity>
+          
+         {/*Start of modal*/} 
+       
+        <Modal
+          visible={isModalVisible}
+          animationType="fade"
+          transparent={true}
+          onRequestClose={toggleModal}
+        >
+          <View style={stylesModal.modalContainer}>
+            <View style={stylesModal.modalContent}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Account Details</Text>
+              <Text>Email: {userInfo.email}</Text>
+              <Text>Password: {userInfo.password}</Text>
+              <Text>Username: {userInfo.name}</Text>
+
+              <Pressable style={{ marginTop: 20 }} onPress={toggleModal}>
+                <Text style={{ color: 'blue' }}>Close</Text>
+              </Pressable>
+
             </View>
-        </ScrollView>
-    );
+          </View>
+        </Modal>
+      
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={toggleOtherModal}
+        >
+          <Feather name="lock" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Privacy</Text>
+        </TouchableOpacity>
+        
+        <Modal
+          visible={isOtherModalVisible}
+          animationType="fade"
+          transparent={true}
+          onRequestClose={toggleOtherModal}
+        >
+          <View style={stylesModal.otherModalContainer}>
+            <View style={stylesModal.otherModalContent}>
+
+              <ScrollView>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Privacy Agreements</Text>
+              <Text>1. Location Access: Our app uses your location to find nearby food trucks. We don't share your exact location without permission.</Text> 
+              <Text>2. Anonymous Data: We collect anonymous data to improve the app. Your individual data remains private.</Text> 
+              <Text>3. Security Measures: We prioritize your data security, using industry-standard measures to protect it.</Text>
+              <Text>4. Third-Party Integration: Some features may use third-party services. Check their privacy policies for details.</Text>
+              <Text>5. Control: You can manage location and data preferences in the app settings.</Text>
+              <Text>Your privacy matters to us. For more details, refer to our Privacy Policy.</Text>
+
+              <Pressable style={{ marginTop: 20 }} onPress={toggleOtherModal}>
+                <Text style={{ color: 'blue' }}>Close</Text>
+              </Pressable>
+
+              </ScrollView>
+
+          
+            </View>
+            
+          </View>
+        </Modal>
+      
+
+
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+            
+          }}
+        >
+          <Feather name="bell" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Notifications</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {
+           
+          }}
+        >
+          <Feather name="settings" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Playback and Performance</Text>
+
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
+          onPress={() => {{navigation.navigate('Initial')}
+            
+          }}
+        >
+          <Feather name="log-out" size={24} color="#606060" style={{ marginRight: 15 }} />
+          <Text style={{ fontSize: 16 }}>Sign Out</Text>
+        </TouchableOpacity>
+       
+      </View>
+    </ScrollView>
+  );
 }
+
+const stylesModal = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+
+  otherModalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  otherModalContent: {
+    backgroundColor: '#FFFFFF',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+});
+
   const VendorMapScreen = ({navigation}) => {
     
     return (

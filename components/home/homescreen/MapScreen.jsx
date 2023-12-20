@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View} from 'react-native';
+import { View, Text} from 'react-native';
 import styles from './homemapscreen.styles';
 import MapView, { Marker, Polyline} from 'react-native-maps';
 import auth from '@react-native-firebase/auth';
@@ -7,17 +7,16 @@ import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
-import { DirectionsService } from 'react-native-maps-directions';
 import MapViewDirections from 'react-native-maps-directions';
 import Geolocation from 'react-native-geolocation-service';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import { TextInput } from 'react-native-gesture-handler';
+import { TouchableOpacity } from '@gorhom/bottom-sheet';
 
 function MapScreen () {
     const checkLocationPermission = async () => {
         const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
         if (result === RESULTS.DENIED) {
-          const permissionResult = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
           if (permissionResult === RESULTS.GRANTED) {
             getUserLocationAndStoreInFirestore();
           }
@@ -128,8 +127,8 @@ function MapScreen () {
   
     // Fetching Food Truck Based on Search Bar 
     //useEffect(() => {
-    const fetchFoodTruckLocation = async () => {
-       //if(newText) {
+        const fetchFoodTruckLocation = async () => {
+       //if(newText) 
            try{
                const vendorDocRef = firestore()
                .collection('Users')
@@ -249,10 +248,19 @@ function MapScreen () {
         setShowPolyline(true)
     }
 
-    console.warn(`${lat}`, `${lon}`)
-    console.warn(`${latTruck}`, `${lonTruck}`)
+    //console.warn(`${lat}`, `${lon}`)
+  
       return (
           <View style = {{flex:1}}>
+
+
+      
+                {/* <TouchableOpacity >
+                <Image 
+                  source={require('./shopping-cart.png')} 
+                  style ={ {width: 50, height: 50,position: 'absolute', top: 0, right: 0 }}/>
+                  </TouchableOpacity> */}
+
               {locationDataFetched ? (
                   //Conditional Map Render
               <MapView
@@ -302,8 +310,8 @@ function MapScreen () {
                   description='Your Nearest Truck'
                   onPress={getRouteLocation}
               >
-                  <Image source = {require('./truckicon.png')} style={{height:32, width:32}}/>
-              </Marker>) : null}
+                  <Image source = {require('./truckicon.png')} style={{height:35, width:35}}/>
+              </Marker>
 
               {showPolyline && 
               (<MapViewDirections
@@ -331,10 +339,10 @@ function MapScreen () {
                   </View>
               
               </View>
+             
           </View>
   
       );
   }
 
   export default MapScreen;
-  

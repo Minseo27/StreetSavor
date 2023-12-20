@@ -47,24 +47,27 @@ const BottomScroll = ({navigation}) => {
     sheetRef.current?.snapToIndex(2);
   }, []);
 
-  const handleItemPress2 = useCallback((item) => { 
-    if ((item.menu)) {
+  const [cartItems, setCartItems] = useState([]); 
+  const addToCart = (foodItem) => {
+    let cartData = []
+
+    //cartData.push(foodItem);
+    setCartItems([...cartItems, foodItem]);
+  };
+
+
+  const handleItemPress2 = useCallback((item) => {
+    if (item.menu) {
       const list = [];
-      Object.keys((item.menu)).forEach((key) => { 
-        list.push(item.menu[key]); });
-        var items = list.map(food =>
-          <View style={styles.itemContainer}>
-            <Image source={require('./foodicon.png')} style={styles.image} />
-            <View style={styles.textContainer}>
-            <Text style={styles.titleText}>{food.item_name}</Text>
-            <Text style={styles.descriptionText}>{food.price}</Text>
-          </View>
-          </View>
-        );
-        setItems2(items);
-    }  
+      Object.keys(item.menu).forEach((key) => {
+        list.push(item.menu[key]);
+      });
+   
+      setItems2(list);
+    }
     setSelectedItem(item);
-  }, []);
+  },);
+
 
   const handleDetailClose = useCallback(() => {
     setSelectedItem(null);
@@ -76,8 +79,10 @@ const BottomScroll = ({navigation}) => {
     handleItemPress2(item);
   }
 
+  // Passing Paramates such as list of buttons and cart items to vendor screen cartItems
   const handleNavigation = () => {
-    navigation.navigate('VendorDetailScreen', { selectedItem, list_of_items2 });
+
+    navigation.navigate('VendorDetailScreen', { selectedItem, list_of_items2,  });
   };
 
   // callbacks
@@ -88,11 +93,11 @@ const BottomScroll = ({navigation}) => {
   const renderItem = useCallback(
     (item, index) => (
       <TouchableOpacity key={index} style={styles.itemContainer} onPress={() => handlePress(item)}>
-        <Image source={require('./foodtruck.jpeg')} style={styles.image} />
+        <Image source={require('./truckicon.png')} style={styles.image} />
         <View style={styles.textContainer}>
         <Text style={styles.titleText}>{item.name}</Text>
-        <Text style={styles.descriptionText}>description</Text>
-        <Text style={styles.moreInfoText}>moreInfo</Text>
+        <Text style={styles.descriptionText}>{item.Description}</Text>
+        <Text style={styles.moreInfoText}>More Info</Text>
     </View>
       </TouchableOpacity>
     ),
@@ -101,6 +106,7 @@ const BottomScroll = ({navigation}) => {
   return (
     <View style={styles.container}>
       <MapScreen />
+    
       <BottomSheet
         ref={sheetRef}
         index={1}
@@ -125,10 +131,14 @@ const BottomScroll = ({navigation}) => {
           <TouchableOpacity
             onPress={handleNavigation} style={styles.orderButtonContainer}>
             <Text style={styles.orderButton}>Order</Text>
+
           </TouchableOpacity>
+          <View style={{backgroundColor:"#eee", borderRadius:20, marginTop:10}}>
+          <Text style={{marginTop:10, padding:5, marginLeft:2}}>{selectedItem.Description}</Text>
           <ScrollView horizontal contentContainerStyle={styles.scrollViewContent} showsHorizontalScrollIndicator={false}>
           {list_of_items}
           </ScrollView>
+        </View>
         </View>
       )}
     </View>

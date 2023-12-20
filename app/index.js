@@ -22,19 +22,21 @@ import { Image } from 'react-native';
 // Creating Navigator
 const Stack = createNativeStackNavigator()
 
+
 // Screen Rotation 
 import * as ScreenOrientation from "expo-screen-orientation";
 
 // Home Screen With Map
 //import HomeMapScreen from '../components/home/homescreen/HomeMapScreen';
-import SecondOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
+import FirstOrderScreen from '../components/home/orderscreen/SecondOrderScreen';
 import { SIZES } from '../constants';
 
 // Application Root With Navigator
 function App() {
     const router = useRouter()
     return (
-        <SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
+
+        //<SafeAreaView style = { {flex:1 , backgroundColor : '#efcb4e'} }>
         <NavigationContainer independent={true}>
            <Stack.Navigator >
             
@@ -94,7 +96,6 @@ function App() {
                         headerTintColor: 'black'
                     }}
                 />
-
                 <Stack.Screen name='HomeMapScreen' component={HomeMapScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
@@ -148,7 +149,7 @@ function App() {
                     }}
                 />
 
-                <Stack.Screen name='SecondOrderScreen' component={SecondOrderScreen}
+                <Stack.Screen name='FirstOrderScreen' component={FirstOrderScreen}
                     options ={ {
                         headerStyle:{backgroundColor:'#efcb4e'},
                         headerShadowVisible:false,
@@ -169,7 +170,7 @@ function App() {
 
         </NavigationContainer>
 
-        </SafeAreaView>
+        //</SafeAreaView>
     )
 
                    
