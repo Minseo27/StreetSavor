@@ -1,17 +1,11 @@
 
 import React, { useEffect } from 'react';
-import { render } from 'react-dom';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Pressable, ActivityIndicatorBase, FlatList } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { NavigationActions } from 'react-navigation';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Pressable } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import styles from './homemapscreen.styles';
 import MapView, { Marker, Circle } from 'react-native-maps';
-import { COLORS, SIZES } from '../../../constants'
+import { SIZES } from '../../../constants'
 import { ScrollView } from 'react-native';
-import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
-//import * as permissions from 'react-native-permissions';
-//import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import {VendorItem} from '../../../database_vars/vars';
 import Geolocation from 'react-native-geolocation-service';
 import auth, { firebase } from '@react-native-firebase/auth';
 import { ReactNativeFirebase } from '@react-native-firebase/app';
@@ -20,9 +14,7 @@ import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Image } from 'react-native';
 import { Button } from 'react-native';
-import Dialog from "react-native-dialog";
 import { Modal } from 'react-native';
-import { getDistance } from 'geolib';
 import { Feather } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -70,20 +62,14 @@ function MapScreen() {
               .doc('zNpo2OBPsA73QZJFM5ub')
               .collection('info')
               .doc(user.uid);
-
-          
-      
           const userDoc = await userDocRef.get();
       
           if (userDoc.exists) {
               const locationData = userDoc.data().location;
               if (locationData) {
                   const { latitude, longitude } = locationData;
-            
-                  // Setting Values
                   setLatitude(latitude); 
                   setLongitude(longitude); 
-                  //Setting Location Value
                   setLocationDataFetched(true)
               
               } else {
@@ -100,16 +86,10 @@ function MapScreen() {
       fetchTruckLocationFromFirestore();
     }, [] );
   
-    // Variables for Containing Food Truck Location
-
     const [markers, setMarkers] = useState([]);
-    // Array to hold Coordinates
-
-
-
 
     const getDistance = (lat1, lon1, lat2, lon2) => {
-        const R = 6371e3; // Earth's radius in meters
+        const R = 6371e3;
         const φ1 = (lat1 * Math.PI) / 180;
         const φ2 = (lat2 * Math.PI) / 180;
         const Δφ = ((lat2 - lat1) * Math.PI) / 180;
@@ -120,13 +100,13 @@ function MapScreen() {
           Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       
-        const distance = R * c; // Distance in meters
+        const distance = R * c; 
         return distance;
       };
     
       const renderCircles = () => {
         const circles = [];
-        const threshold = 10; // Threshold for proximity
+        const threshold = 10; 
       
         mark.forEach((point1, i) => {
           mark.slice(i + 1).forEach(point2 => {
@@ -145,8 +125,8 @@ function MapScreen() {
                 <Circle
                   key={centerLatitude.toString() + centerLongitude.toString()}
                   center={{ latitude: centerLatitude, longitude: centerLongitude }}
-                  radius={50} // Adjust the radius of the circle as needed
-                  fillColor="rgba(255, 0, 0, 0.3)" // Adjust the color and opacity
+                  radius={50} 
+                  fillColor="rgba(255, 0, 0, 0.3)" 
                 />
               );
             }
@@ -157,11 +137,9 @@ function MapScreen() {
 
         
     useEffect (() => { 
-    //const mapMarkerMaker = () => {
           const user = auth().currentUser;
           let markersData = [];
 
-            //const user = auth().currentUser;
             const vendorsCollectionRef = firestore()
                     .collection('Users')
                     .doc('dFqhRhGV5BSuqWYys6bP')
@@ -171,27 +149,20 @@ function MapScreen() {
             querySnapshot.forEach((vendorDoc) => {
             const vendorData = vendorDoc.data();
             const latName = vendorData.location.latitude
-            //const longName = vendorData.location.longitude
-            const { latitude, longitude } = vendorData.location;
 
-            //console.warn(latitude)
+            const { latitude, longitude } = vendorData.location;
             markersData.push({latitude,longitude})
            
             setMarkers(markersData); 
-            //console.warn(markers)
             });           
         })  
        
     },[]);          
-       
 
     return (
         <View style = {{flex:1,}}>
             {locationDataFetched ? (
-                //Conditional Map Render
             <MapView
-            //Hunter College Coordinates
-            
                 style={{ flex: 1 }}
                 initialRegion={{
                 latitude:  Number(lat),
@@ -243,7 +214,6 @@ function MapScreen() {
 function CreateMenuScreen() {
     const [arr,setCheckArr] = useState([]);
     const docRef = firestore().collection('Users').doc('dFqhRhGV5BSuqWYys6bP').collection('Vendors').doc('zNpo2OBPsA73QZJFM5ub').collection('info').doc(auth().currentUser.uid);
-    // const batch = firebase.firestore().batch();
     const [item,setItem] = useState([]);
     const [foodName,setFoodName] = useState('');
     const [price,setPrice] = useState('');
@@ -253,7 +223,6 @@ function CreateMenuScreen() {
     const [userMenu,setInfo] = useState([]);
     const [removeName,setRemovalName] = useState('');
 
-        // Use effect to fetch menu info from vendor
         useEffect(() => {
             const fetchMenuInfo = async () => {
                 const user = auth().currentUser;

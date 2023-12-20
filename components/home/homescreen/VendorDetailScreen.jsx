@@ -15,37 +15,20 @@ const VendorDetailScreen = ({ route }) => {
       };
 
       const handleCart = () => {
-  
-        
         let total = 0;
         cartItems.forEach(item => {
-          const price = parseFloat(item[1]); // Extract the price from the sub-array and convert it to a number
-          total += price; // Add the price to the total
+          const price = parseFloat(item[1]);
+          total += price;
         });
-        
-  
-        //console.warn(total)
-        //console.warn(`${JSON.stringify(cartItems)}`);
         navigation.navigate('FirstOrderScreen', { cartItems, total });
       };
-
-  
-
-      //[["Steak", "9.99"],["Beef", "10.99]"]]
-
   const [cartItems, setCartItems] = useState([]); 
 
   const addToCart = (foodItem) => {
-    let cartData = []
-
-    //cartData.push(foodItem);
     setCartItems([...cartItems, foodItem]);
-    
   };
     return (
     <View style={flex=1}>
-
-
         {selectedItem && (
             <View style={padding=16}>
                 <ScrollView>
@@ -82,6 +65,5 @@ const VendorDetailScreen = ({ route }) => {
     </View>
   );
 };
-
 
 export default VendorDetailScreen;

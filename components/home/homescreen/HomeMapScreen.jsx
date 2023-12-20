@@ -1,18 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet,Alert, Pressable, ActivityIndicatorBase } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import styles from './homemapscreen.styles';
-import { COLORS, SIZES } from '../../../constants'
-import { FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import {Vendor,vendor_list,VendorItem} from '../../../database_vars/vars';
+import { ScrollView } from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useState } from 'react';
-import { ActivityIndicator, Modal } from 'react-native';
+import { Modal } from 'react-native';
 import { Image } from 'react-native';
 import BottomScroll from './BottomSheetScrollView';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { Button } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import FirstOrderScreen from '../orderscreen/SecondOrderScreen';
 import { Feather } from '@expo/vector-icons';
 
@@ -25,20 +21,16 @@ const AccountPage = ({navigation}) => {
           setInfo(snapshot.data())
   })
 
-
-  // Modal For Account Info
   const [isModalVisible, setIsModalVisible] = useState(false);
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
-  // Other Modal For Privacy Infor
   const [isOtherModalVisible, setIsOtherModalVisible] = useState(false);
   const toggleOtherModal = () => {
     setIsOtherModalVisible(!isOtherModalVisible);
   };
 
-  
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#FFFFFF' }}>
       <View style={{alignItems:'flex-start', padding: 20 }}>
@@ -56,8 +48,7 @@ const AccountPage = ({navigation}) => {
           <Feather name="user" size={24} color="#606060" style={{ marginRight: 15 }} />
           <Text style={{ fontSize: 16 }}>Account</Text>
         </TouchableOpacity>
-          
-         {/*Start of modal*/} 
+
         <Modal
           visible={isModalVisible}
           animationType="fade"
@@ -87,7 +78,6 @@ const AccountPage = ({navigation}) => {
           <Text style={{ fontSize: 16 }}>Privacy</Text>
         </TouchableOpacity>
 
-        {/* Start of Privacy Modal */}
         <Modal
           visible={isOtherModalVisible}
           animationType="fade"
@@ -116,8 +106,6 @@ const AccountPage = ({navigation}) => {
           </View>
         </Modal>
       
-
-
         <TouchableOpacity
           style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}
           onPress={() => {
@@ -181,10 +169,7 @@ const stylesModal = StyleSheet.create({
     alignItems: 'center',
   },
 
-
 });
-
-
 
 const HomeMapScreen = ({navigation}) => {
 
