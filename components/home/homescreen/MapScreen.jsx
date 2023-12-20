@@ -311,7 +311,7 @@ function MapScreen () {
                   onPress={getRouteLocation}
               >
                   <Image source = {require('./truckicon.png')} style={{height:35, width:35}}/>
-              </Marker>
+              </Marker>) : null }
 
               {showPolyline && 
               (<MapViewDirections

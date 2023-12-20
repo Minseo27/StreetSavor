@@ -21,6 +21,7 @@ const FirstOrderScreen = ({route}) => {
   }
 
   const [isOtherModalVisible, setIsOtherModalVisible] = useState(false);
+
   const toggleOtherModal = () => {
     setIsOtherModalVisible(!isOtherModalVisible);
   };
