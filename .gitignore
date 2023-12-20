@@ -10,6 +10,9 @@ npm-debug.*
 *.orig.*
 web-build/
 android/app/.cxx
+android/app/google-services.json
+ios/GoogleService-Info.plist
+.env
 
 # macOS
 .DS_Store
